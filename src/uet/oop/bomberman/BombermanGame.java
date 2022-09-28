@@ -61,6 +61,14 @@ public class BombermanGame extends Application {
 
         Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         entities.add(bomberman);
+
+        scene.setOnKeyPressed(event -> {
+            KeyAction.setKey(String.valueOf(event.getCode()), true);
+        });
+
+        scene.setOnKeyReleased(event -> {
+            KeyAction.setKey(String.valueOf(event.getCode()), false);
+        });
     }
 
     public void createMap() {
