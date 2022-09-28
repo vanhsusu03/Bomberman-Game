@@ -59,7 +59,7 @@ public class BombermanGame extends Application {
 
         createMap();
 
-        Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+        Entity bomberman = new Bomber(1, 1, 1, Sprite.player_right.getFxImage());
         entities.add(bomberman);
 
         scene.setOnKeyPressed(event -> {
@@ -69,6 +69,7 @@ public class BombermanGame extends Application {
         scene.setOnKeyReleased(event -> {
             KeyAction.setKey(String.valueOf(event.getCode()), false);
         });
+
     }
 
     public void createMap() {

@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 public class KeyAction implements KeyListener {
     // Max(VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT, VK_SPACE) = 40.
-    private static boolean[] keys = new boolean[41];
+    public static boolean[] keys = new boolean[41];
 
     public static void setKey(String key, boolean isUsing) {
         switch (key) {
