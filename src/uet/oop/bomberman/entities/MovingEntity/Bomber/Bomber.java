@@ -1,7 +1,6 @@
 package uet.oop.bomberman.entities.MovingEntity.Bomber;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import uet.oop.bomberman.KeyAction;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.graphics.Sprite;
@@ -11,12 +10,16 @@ import java.awt.event.KeyEvent;
 public class Bomber extends MovingEntity {
     private boolean isDead;
 
-    public Bomber(int x, int y, int speed, Image img) {
-        super(x, y, speed, img);
+    public Bomber(int xUnit, int yUnit, int speed, Sprite sprite) {
+        super(xUnit, yUnit, speed, sprite);
     }
 
     @Override
     public void update() {
+        if (!checkCanMove()) {
+            return;
+        }
+
         if (KeyAction.keys[KeyEvent.VK_UP]) {
             y -= speed;
         } else if (KeyAction.keys[KeyEvent.VK_DOWN]) {

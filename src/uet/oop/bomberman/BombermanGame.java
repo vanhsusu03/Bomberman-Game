@@ -28,8 +28,8 @@ public class BombermanGame extends Application {
     
     private GraphicsContext gc;
     private Canvas canvas;
-    private List<MovingEntity> movingEntities = new ArrayList<>();
-    private List<StillEntity> stillEntities = new ArrayList<>();
+    public static List<MovingEntity> movingEntities = new ArrayList<>();
+    public static List<StillEntity> stillEntities = new ArrayList<>();
 
 
     public static void main(String[] args) {
@@ -86,16 +86,16 @@ public class BombermanGame extends Application {
             for (int i = 0; i < height; i++) {
                 String row = scanner.nextLine();
                 for (int j = 0; j < width; j++) {
-                    stillEntities.add(new Grass(j, i, Sprite.grass.getFxImage()));
+                    stillEntities.add(new Grass(j, i, Sprite.grass));
                     switch (row.charAt(j)) {
                         case 'p':
-                            movingEntities.add(new Bomber(j, i, 1, Sprite.player_right.getFxImage()));
+                            movingEntities.add(new Bomber(j, i, 1, Sprite.player_right));
                             break;
                         case '1':
-                            movingEntities.add(new Balloon(j, i, 0, Sprite.balloon_right1.getFxImage()));
+                            movingEntities.add(new Balloon(j, i, 0, Sprite.balloon_right1));
                             break;
                         case '2':
-                            movingEntities.add(new Oneal(j, i, 0, Sprite.oneal_right1.getFxImage()));
+                            movingEntities.add(new Oneal(j, i, 0, Sprite.oneal_right1));
                             break;
                         case 'b':
                             break;
@@ -104,13 +104,13 @@ public class BombermanGame extends Application {
                         case 's':
                             break;
                         case '#':
-                            stillEntities.add(new Wall(j, i, Sprite.wall.getFxImage()));
+                            stillEntities.add(new Wall(j, i, Sprite.wall));
                             break;
                         case '*':
-                            stillEntities.add(new Brick(j, i, Sprite.brick.getFxImage()));
+                            stillEntities.add(new Brick(j, i, Sprite.brick));
                             break;
                         case 'x':
-                            stillEntities.add(new Portal(j, i, Sprite.portal.getFxImage()));
+                            stillEntities.add(new Portal(j, i, Sprite.portal));
                             break;
                     }
                 }

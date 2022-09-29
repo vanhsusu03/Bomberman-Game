@@ -199,6 +199,14 @@ public class Sprite {
         setColor(color);
     }
 
+    public int get_realWidth() {
+        return _realWidth * SCALED_SIZE / DEFAULT_SIZE;
+    }
+
+    public int get_realHeight() {
+        return _realHeight * SCALED_SIZE / DEFAULT_SIZE;
+    }
+
     private void setColor(int color) {
         for (int i = 0; i < _pixels.length; i++) {
             _pixels[i] = color;
