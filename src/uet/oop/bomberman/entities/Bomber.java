@@ -31,20 +31,20 @@ public class Bomber extends Entity {
     public void render(GraphicsContext gc) {
         if (isDead) {
             img = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2,
-                    Sprite.player_dead3, frameCount, 30).getFxImage();
+                    Sprite.player_dead3, frameCount, 40).getFxImage();
         } else {
             if (KeyAction.keys[KeyEvent.VK_UP]) {
                 img = Sprite.movingSprite(Sprite.player_up_1, Sprite.player_up_2,
-                        frameCount, 30).getFxImage();
+                        frameCount, 40).getFxImage();
             } else if (KeyAction.keys[KeyEvent.VK_DOWN]) {
                 img = Sprite.movingSprite(Sprite.player_down_1, Sprite.player_down_2,
-                        frameCount, 30).getFxImage();
+                        frameCount, 40).getFxImage();
             } else if (KeyAction.keys[KeyEvent.VK_LEFT]) {
                 img = Sprite.movingSprite(Sprite.player_left_1, Sprite.player_left_2,
-                        frameCount, 30).getFxImage();
+                        frameCount, 40).getFxImage();
             } else if (KeyAction.keys[KeyEvent.VK_RIGHT]) {
                 img = Sprite.movingSprite(Sprite.player_right_1, Sprite.player_right_2,
-                        frameCount, 30).getFxImage();
+                        frameCount, 40).getFxImage();
             }
         }
         updateFrameCount();
