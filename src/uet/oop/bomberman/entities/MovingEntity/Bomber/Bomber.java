@@ -1,13 +1,14 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.MovingEntity.Bomber;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.KeyAction;
+import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.event.KeyEvent;
 
-public class Bomber extends Entity {
+public class Bomber extends MovingEntity {
     private boolean isDead;
 
     public Bomber(int x, int y, int speed, Image img) {

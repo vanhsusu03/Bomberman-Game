@@ -8,6 +8,11 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
+import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.Balloon;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.Oneal;
+import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
+import uet.oop.bomberman.entities.StillEntity.*;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.io.File;
@@ -23,8 +28,8 @@ public class BombermanGame extends Application {
     
     private GraphicsContext gc;
     private Canvas canvas;
-    private List<Entity> entities = new ArrayList<>();
-    private List<Entity> stillObjects = new ArrayList<>();
+    private List<MovingEntity> movingEntities = new ArrayList<>();
+    private List<StillEntity> stillEntities = new ArrayList<>();
 
 
     public static void main(String[] args) {
@@ -81,16 +86,16 @@ public class BombermanGame extends Application {
             for (int i = 0; i < height; i++) {
                 String row = scanner.nextLine();
                 for (int j = 0; j < width; j++) {
-                    stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
+                    stillEntities.add(new Grass(j, i, Sprite.grass.getFxImage()));
                     switch (row.charAt(j)) {
                         case 'p':
-                            entities.add(new Bomber(j, i, 1, Sprite.player_right.getFxImage()));
+                            movingEntities.add(new Bomber(j, i, 1, Sprite.player_right.getFxImage()));
                             break;
                         case '1':
-                            entities.add(new Balloon(j, i, 0, Sprite.balloon_right1.getFxImage()));
+                            movingEntities.add(new Balloon(j, i, 0, Sprite.balloon_right1.getFxImage()));
                             break;
                         case '2':
-                            entities.add(new Oneal(j, i, 0, Sprite.oneal_right1.getFxImage()));
+                            movingEntities.add(new Oneal(j, i, 0, Sprite.oneal_right1.getFxImage()));
                             break;
                         case 'b':
                             break;
@@ -99,13 +104,13 @@ public class BombermanGame extends Application {
                         case 's':
                             break;
                         case '#':
-                            stillObjects.add(new Wall(j, i, Sprite.wall.getFxImage()));
+                            stillEntities.add(new Wall(j, i, Sprite.wall.getFxImage()));
                             break;
                         case '*':
-                            stillObjects.add(new Brick(j, i, Sprite.brick.getFxImage()));
+                            stillEntities.add(new Brick(j, i, Sprite.brick.getFxImage()));
                             break;
                         case 'x':
-                            stillObjects.add(new Portal(j, i, Sprite.portal.getFxImage()));
+                            stillEntities.add(new Portal(j, i, Sprite.portal.getFxImage()));
                             break;
                     }
                 }
@@ -118,12 +123,12 @@ public class BombermanGame extends Application {
     }
 
     public void update() {
-        entities.forEach(Entity::update);
+        movingEntities.forEach(Entity::update);
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        stillObjects.forEach(g -> g.render(gc));
-        entities.forEach(g -> g.render(gc));
+        stillEntities.forEach(g -> g.render(gc));
+        movingEntities.forEach(g -> g.render(gc));
     }
 }
