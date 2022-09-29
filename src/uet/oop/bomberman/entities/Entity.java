@@ -37,5 +37,6 @@ public abstract class Entity {
         }
     }
 
+    //update
     public abstract void update();
 }
