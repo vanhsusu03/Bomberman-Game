@@ -13,6 +13,9 @@ import uet.oop.bomberman.entities.MovingEntity.Enemy.Balloon;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Oneal;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.*;
+import uet.oop.bomberman.entities.StillEntity.Item.BombItem;
+import uet.oop.bomberman.entities.StillEntity.Item.FlameItem;
+import uet.oop.bomberman.entities.StillEntity.Item.SpeedItem;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.io.File;
@@ -98,10 +101,13 @@ public class BombermanGame extends Application {
                             movingEntities.add(new Oneal(j, i, 0, Sprite.oneal_right1));
                             break;
                         case 'b':
+                            stillEntities.add(new BombItem(j, i, Sprite.powerup_bombs));
                             break;
                         case 'f':
+                            stillEntities.add(new FlameItem(j, i, Sprite.powerup_flames));
                             break;
                         case 's':
+                            stillEntities.add(new SpeedItem(j, i, Sprite.powerup_speed));
                             break;
                         case '#':
                             stillEntities.add(new Wall(j, i, Sprite.wall));
