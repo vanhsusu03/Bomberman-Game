@@ -9,7 +9,7 @@ public abstract class Entity {
     protected int x;
     //Tọa độ Y tính từ góc trái trên trong Canvas
     protected int y;
-    private final static int MAX_FRAME_COUNT = (int) 1e5;
+    private final static int MAX_FRAME_COUNT = (int) 1e9;
     protected int speed;
     protected int frameCount;
     protected Sprite sprite;

@@ -1,17 +1,31 @@
 package uet.oop.bomberman.entities.MovingEntity.Bomber;
 
 import javafx.scene.canvas.GraphicsContext;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.KeyAction;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
+import uet.oop.bomberman.entities.StillEntity.Bomb;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Bomber extends MovingEntity {
     private boolean isDead;
+    public static int maxNumberOfBombs;
+    public static List<Bomb> bombs = new ArrayList<>();
 
     public Bomber(int xUnit, int yUnit, int speed, Sprite sprite) {
         super(xUnit, yUnit, speed, sprite);
+        maxNumberOfBombs = 1;
+    }
+
+    private void putBomb() {
+        if (bombs.size() < maxNumberOfBombs) {
+            bombs.add(new Bomb(x / Sprite.SCALED_SIZE,
+                    y / Sprite.SCALED_SIZE, Sprite.bomb));
+        }
     }
 
     @Override
@@ -26,6 +40,8 @@ public class Bomber extends MovingEntity {
             x -= speed;
         } else if (KeyAction.keys[KeyEvent.VK_RIGHT]) {
             x += speed;
+        } else if (KeyAction.keys[KeyEvent.VK_SPACE]) {
+            putBomb();
         }
 
         if (!checkCanMove()) {
@@ -54,6 +70,7 @@ public class Bomber extends MovingEntity {
                         frameCount, 40).getFxImage();
             }
         }
+
         updateFrameCount();
         gc.drawImage(img, x, y);
     }

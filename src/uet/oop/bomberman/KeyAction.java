@@ -17,6 +17,8 @@ public class KeyAction implements KeyListener {
                 keys[KeyEvent.VK_LEFT] = isUsing;
             case "RIGHT":
                 keys[KeyEvent.VK_RIGHT] = isUsing;
+            case "SPACE":
+                keys[KeyEvent.VK_SPACE] = isUsing;
         }
     }
 

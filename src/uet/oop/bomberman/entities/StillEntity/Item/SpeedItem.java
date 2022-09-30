@@ -6,4 +6,8 @@ public class SpeedItem extends Item {
     public SpeedItem(int xUnit, int yUnit, Sprite sprite) {
         super(xUnit, yUnit, sprite);
     }
+
+    @Override
+    public void update() {
+    }
 }

@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities.MovingEntity;
 
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.BombItem;
 import uet.oop.bomberman.entities.StillEntity.Item.FlameItem;
@@ -39,6 +40,7 @@ public abstract class MovingEntity extends Entity {
                 } else if (stillEntity instanceof FlameItem) {
                     BombermanGame.stillEntities.remove(stillEntity);
                 } else if (stillEntity instanceof BombItem) {
+                    Bomber.maxNumberOfBombs++;
                     BombermanGame.stillEntities.remove(stillEntity);
                 }
                 return false;
