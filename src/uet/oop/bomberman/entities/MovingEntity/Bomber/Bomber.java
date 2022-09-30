@@ -16,9 +16,7 @@ public class Bomber extends MovingEntity {
 
     @Override
     public void update() {
-        if (!checkCanMove()) {
-            return;
-        }
+        int _x = x, _y = y;
 
         if (KeyAction.keys[KeyEvent.VK_UP]) {
             y -= speed;
@@ -28,6 +26,11 @@ public class Bomber extends MovingEntity {
             x -= speed;
         } else if (KeyAction.keys[KeyEvent.VK_RIGHT]) {
             x += speed;
+        }
+
+        if (!checkCanMove()) {
+            x = _x;
+            y = _y;
         }
     }
 

@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities.MovingEntity;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.StillEntity.Grass;
+import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.entities.StillEntity.StillEntity;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -12,7 +13,7 @@ public abstract class MovingEntity extends Entity {
     }
 
     private boolean checkIntersection(int x1, int y1, int x2, int y2) {
-        return (x < x2) && (y < y2)
+        return (x + 5 < x2) && (y + 12 < y2)
                 && (x + sprite.get_realWidth() > x1)
                 && (y + sprite.get_realHeight() > y1);
     }
@@ -26,6 +27,9 @@ public abstract class MovingEntity extends Entity {
             if (checkIntersection(xStillEntity, yStillEntity,
                     xStillEntity + stillEntity.getSprite().get_realWidth(),
                     yStillEntity + stillEntity.getSprite().get_realHeight())) {
+                if (stillEntity instanceof Portal) {
+                    System.out.println("Vao` portal cmnr!!!");
+                }
                 return false;
             }
         }
