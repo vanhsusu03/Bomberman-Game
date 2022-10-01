@@ -11,14 +11,19 @@ public class KeyAction implements KeyListener {
         switch (key) {
             case "UP":
                 keys[KeyEvent.VK_UP] = isUsing;
+                break;
             case "DOWN":
                 keys[KeyEvent.VK_DOWN] = isUsing;
+                break;
             case "LEFT":
                 keys[KeyEvent.VK_LEFT] = isUsing;
+                break;
             case "RIGHT":
                 keys[KeyEvent.VK_RIGHT] = isUsing;
+                break;
             case "SPACE":
                 keys[KeyEvent.VK_SPACE] = isUsing;
+                break;
         }
     }
 
