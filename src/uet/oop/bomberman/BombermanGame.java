@@ -14,6 +14,7 @@ import uet.oop.bomberman.entities.MovingEntity.Enemy.Oneal;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.*;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.map.MapLoadFile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,8 +29,18 @@ public class BombermanGame extends Application {
     
     private GraphicsContext gc;
     private Canvas canvas;
-    private List<MovingEntity> movingEntities = new ArrayList<>();
-    private List<StillEntity> stillEntities = new ArrayList<>();
+    MapLoadFile mapLoadFile;
+
+    {
+        try {
+            mapLoadFile = new MapLoadFile(1);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<MovingEntity> movingEntities = new ArrayList<>();
+    public static List<StillEntity> stillEntities = new ArrayList<>();
 
 
     public static void main(String[] args) {
@@ -62,7 +73,7 @@ public class BombermanGame extends Application {
         };
         timer.start();
 
-        createMap();
+        mapLoadFile.createMap();
 
         scene.setOnKeyPressed(event -> {
             KeyAction.setKey(String.valueOf(event.getCode()), true);
@@ -73,7 +84,7 @@ public class BombermanGame extends Application {
         });
     }
 
-    public void createMap() {
+    /*public void createMap() {
         int level, width, height;
         try {
             File file = new File("res/levels/Level1.txt");
@@ -120,7 +131,7 @@ public class BombermanGame extends Application {
             System.out.println("Map file was not found.");
             e.printStackTrace();
         }
-    }
+    }*/
 
     public void update() {
         movingEntities.forEach(Entity::update);
