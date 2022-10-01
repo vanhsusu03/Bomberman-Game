@@ -1,10 +1,10 @@
 package uet.oop.bomberman.entities.MovingEntity.Enemy;
 
-import javafx.scene.image.Image;
+import uet.oop.bomberman.graphics.Sprite;
 
 public class Oneal extends Enemy {
-    public Oneal(int x, int y, int speed, Image img) {
-        super(x, y, speed, img);
+    public Oneal(int xUnit, int yUnit, int speed, Sprite sprite) {
+        super(xUnit, yUnit, speed, sprite);
     }
 
     @Override

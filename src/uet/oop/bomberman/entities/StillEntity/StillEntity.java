@@ -1,10 +1,10 @@
 package uet.oop.bomberman.entities.StillEntity;
 
-import javafx.scene.image.Image;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.graphics.Sprite;
 
 public abstract class StillEntity extends Entity {
-    public StillEntity(int x, int y, Image img) {
-        super(x, y, 0, img);
+    public StillEntity(int xUnit, int yUnit, Sprite sprite) {
+        super(xUnit, yUnit, 0, sprite);
     }
 }
