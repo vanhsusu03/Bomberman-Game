@@ -1,10 +1,7 @@
 package uet.oop.bomberman.entities.StillEntity;
 
 import javafx.scene.canvas.GraphicsContext;
-import uet.oop.bomberman.KeyAction;
 import uet.oop.bomberman.graphics.Sprite;
-
-import java.awt.event.KeyEvent;
 
 public class Bomb extends StillEntity {
     public Bomb(int xUnit, int yUnit, Sprite sprite) {

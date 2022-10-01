@@ -68,11 +68,15 @@ public class BombermanGame extends Application {
         createMap();
 
         scene.setOnKeyPressed(event -> {
-            KeyAction.setKey(String.valueOf(event.getCode()), true);
+            KeyAction.setKeptKey(String.valueOf(event.getCode()), true);
         });
 
         scene.setOnKeyReleased(event -> {
-            KeyAction.setKey(String.valueOf(event.getCode()), false);
+            KeyAction.setKeptKey(String.valueOf(event.getCode()), false);
+        });
+
+        scene.setOnKeyTyped(event -> {
+            KeyAction.setTypedKey(event.getCharacter(), true);
         });
     }
 
