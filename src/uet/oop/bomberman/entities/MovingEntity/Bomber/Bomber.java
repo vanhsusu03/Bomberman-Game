@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities.MovingEntity.Bomber;
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.KeyAction;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Bomb;
 import uet.oop.bomberman.entities.StillEntity.Item.BombItem;
@@ -54,6 +55,10 @@ public class Bomber extends MovingEntity {
 
     @Override
     public void update() {
+        if (isDead) {
+            return;
+        }
+
         int _x = x, _y = y;
 
         if (KeyAction.keys[KeyEvent.VK_UP]) {
@@ -82,6 +87,16 @@ public class Bomber extends MovingEntity {
                     usePortal((Portal) stillEntity);
                     i--;
                 }
+            }
+        }
+
+        for (MovingEntity movingEntity : BombermanGame.movingEntities) {
+            if (!(movingEntity instanceof Enemy)) continue;
+            int xMovingEntity = movingEntity.getX(), yMovingEntity = movingEntity.getY();
+            if (checkIntersection(xMovingEntity, yMovingEntity,
+                    xMovingEntity + movingEntity.getSprite().get_realWidth(),
+                    yMovingEntity + movingEntity.getSprite().get_realHeight())) {
+                isDead = true;
             }
         }
 
