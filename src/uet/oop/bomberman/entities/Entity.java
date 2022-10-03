@@ -21,7 +21,9 @@ public abstract class Entity {
         this.y = yUnit * Sprite.SCALED_SIZE;
         this.speed = speed;
         this.sprite = sprite;
-        img = sprite.getFxImage();
+        if (sprite != null) {
+            img = sprite.getFxImage();
+        }
     }
 
     public void setX(int x) {

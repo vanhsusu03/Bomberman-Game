@@ -33,6 +33,7 @@ public class BombermanGame extends Application {
     private Canvas canvas;
     public static List<MovingEntity> movingEntities = new ArrayList<>();
     public static List<StillEntity> stillEntities = new ArrayList<>();
+    public static List<Flame> flames = new ArrayList<>();
 
 
     public static void main(String[] args) {
@@ -134,12 +135,56 @@ public class BombermanGame extends Application {
 
     public void update() {
         movingEntities.forEach(Entity::update);
+        flames.forEach(Flame::update);
+        int n = Bomber.bombs.size();
+        for (int i = 0; i < Bomber.bombs.size(); i++) {
+            Bomber.bombs.get(i).update();
+            if (n > Bomber.bombs.size()) {
+                i--;
+                n = Bomber.bombs.size();
+            }
+        }
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        stillEntities.forEach(g -> g.render(gc));
-        movingEntities.forEach(g -> g.render(gc));
+
+        for (StillEntity stillEntity : stillEntities) {
+            if (stillEntity instanceof Grass) {
+                stillEntity.render(gc);
+            }
+        }
+
+        int n = flames.size();
+        for (int i = 0; i < flames.size(); i++) {
+            flames.get(i).render(gc);;
+            if (n > flames.size()) {
+                i--;
+                n = flames.size();
+            }
+        }
+
+        n = stillEntities.size();
+        for (int i = 0; i < stillEntities.size(); i++) {
+            if (stillEntities.get(i) instanceof Grass) {
+                continue;
+            }
+            stillEntities.get(i).render(gc);;
+            if (n > stillEntities.size()) {
+                i--;
+                n = stillEntities.size();
+            }
+        }
+
+        n = movingEntities.size();
+        for (int i = 0; i < movingEntities.size(); i++) {
+            movingEntities.get(i).render(gc);;
+            if (n >  movingEntities.size()) {
+                i--;
+                n =  movingEntities.size();
+            }
+        }
+
         Bomber.bombs.forEach(g -> g.render(gc));
     }
 }

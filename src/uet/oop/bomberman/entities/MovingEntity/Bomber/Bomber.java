@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bomber extends MovingEntity {
-    private boolean isDead;
     private int numberOfBombs;
+    public static int flameLength = 1;
     public static List<Boolean> passBomb = new ArrayList<>();
     public static List<Bomb> bombs = new ArrayList<>();
 
@@ -42,6 +42,7 @@ public class Bomber extends MovingEntity {
             speed++;
             BombermanGame.stillEntities.remove(item);
         } else if (item instanceof FlameItem) {
+            flameLength++;
             BombermanGame.stillEntities.remove(item);
         } else if (item instanceof BombItem) {
             numberOfBombs++;
@@ -110,7 +111,7 @@ public class Bomber extends MovingEntity {
     public void render(GraphicsContext gc) {
         if (isDead) {
             img = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2,
-                    Sprite.player_dead3, frameCount, 40).getFxImage();
+                    Sprite.player_dead3, frameCount, 60).getFxImage();
         } else {
             if (KeyAction.keys[KeyEvent.VK_UP]) {
                 img = Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1,

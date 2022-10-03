@@ -9,8 +9,14 @@ import uet.oop.bomberman.entities.StillEntity.StillEntity;
 import uet.oop.bomberman.graphics.Sprite;
 
 public abstract class MovingEntity extends Entity {
+    protected boolean isDead;
+
     public MovingEntity(int xUnit, int yUnit, int speed, Sprite sprite) {
         super(xUnit, yUnit, speed, sprite);
+    }
+
+    public void setDead(boolean dead) {
+        isDead = dead;
     }
 
     protected boolean checkIntersection(int x1, int y1, int x2, int y2) {
