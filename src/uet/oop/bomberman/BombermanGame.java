@@ -33,8 +33,6 @@ public class BombermanGame extends Application {
     private Canvas canvas;
     public static List<MovingEntity> movingEntities = new ArrayList<>();
     public static List<StillEntity> stillEntities = new ArrayList<>();
-    public static List<Flame> flames = new ArrayList<>();
-
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -135,7 +133,6 @@ public class BombermanGame extends Application {
 
     public void update() {
         movingEntities.forEach(Entity::update);
-        flames.forEach(Flame::update);
         int n = Bomber.bombs.size();
         for (int i = 0; i < Bomber.bombs.size(); i++) {
             Bomber.bombs.get(i).update();
@@ -155,12 +152,16 @@ public class BombermanGame extends Application {
             }
         }
 
-        int n = flames.size();
-        for (int i = 0; i < flames.size(); i++) {
-            flames.get(i).render(gc);;
-            if (n > flames.size()) {
+
+
+
+
+        int n = Bomber.bombs.size();
+        for (int i = 0; i < Bomber.bombs.size(); i++) {
+            Bomber.bombs.get(i).render(gc);;
+            if (n >  Bomber.bombs.size()) {
                 i--;
-                n = flames.size();
+                n =  Bomber.bombs.size();
             }
         }
 
@@ -184,7 +185,5 @@ public class BombermanGame extends Application {
                 n =  movingEntities.size();
             }
         }
-
-        Bomber.bombs.forEach(g -> g.render(gc));
     }
 }

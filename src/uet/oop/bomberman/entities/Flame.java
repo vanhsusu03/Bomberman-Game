@@ -6,6 +6,7 @@ import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Brick;
+import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.Item;
 import uet.oop.bomberman.entities.StillEntity.StillEntity;
 import uet.oop.bomberman.graphics.Sprite;
@@ -22,10 +23,23 @@ public class Flame extends Entity {
     }
 
     private FlameType flameType;
+    private boolean isCollided;
 
     public Flame(int xUnit, int yUnit, FlameType flameType) {
         super(xUnit, yUnit, 0, null);
         this.flameType = flameType;
+    }
+
+    public FlameType getFlameType() {
+        return flameType;
+    }
+
+    public void setFlameType(FlameType flameType) {
+        this.flameType = flameType;
+    }
+
+    public boolean isCollided() {
+        return isCollided;
     }
 
     @Override
@@ -35,6 +49,7 @@ public class Flame extends Entity {
                     && movingEntity.getX() / Sprite.SCALED_SIZE == x / Sprite.SCALED_SIZE
                     && movingEntity.getY() / Sprite.SCALED_SIZE == y / Sprite.SCALED_SIZE) {
                 movingEntity.setDead(true);
+                isCollided = true;
             }
         }
 
@@ -48,7 +63,9 @@ public class Flame extends Entity {
                     BombermanGame.stillEntities.remove(i);
                     i--;
                 }
-
+                if (!(stillEntity instanceof Grass)) {
+                    isCollided = true;
+                }
 
 
 //                if (flameType == HORIZONTAL) {
@@ -116,17 +133,16 @@ public class Flame extends Entity {
                 img = sprite.getFxImage();
                 break;
         }
-
         updateFrameCount();
         gc.drawImage(img, x, y);
+    }
 
-        if (sprite.equals(Sprite.bomb_exploded2) || sprite.equals(Sprite.explosion_horizontal2)
+    public boolean checkFinishedFlame() {
+        return sprite.equals(Sprite.bomb_exploded2) || sprite.equals(Sprite.explosion_horizontal2)
                 || sprite.equals(Sprite.explosion_horizontal_left_last2)
                 || sprite.equals(Sprite.explosion_horizontal_right_last2)
                 || sprite.equals(Sprite.explosion_vertical2)
                 || sprite.equals(Sprite.explosion_vertical_down_last2)
-                || sprite.equals(Sprite.explosion_vertical_top_last2)) {
-            BombermanGame.flames.remove(this);
-        }
+                || sprite.equals(Sprite.explosion_vertical_top_last2);
     }
 }
