@@ -152,10 +152,6 @@ public class BombermanGame extends Application {
             }
         }
 
-
-
-
-
         int n = Bomber.bombs.size();
         for (int i = 0; i < Bomber.bombs.size(); i++) {
             Bomber.bombs.get(i).render(gc);;
@@ -182,7 +178,7 @@ public class BombermanGame extends Application {
             movingEntities.get(i).render(gc);;
             if (n >  movingEntities.size()) {
                 i--;
-                n =  movingEntities.size();
+                n = movingEntities.size();
             }
         }
     }

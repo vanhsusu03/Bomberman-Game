@@ -25,6 +25,12 @@ public abstract class MovingEntity extends Entity {
                 && (y + sprite.get_realHeight() > y1);
     }
 
+    public boolean checkTightIntersection(int x1, int y1, int x2, int y2) {
+        return x < x2 && y < y2
+                && (x + sprite.get_realWidth() > x1)
+                && (y + sprite.get_realHeight() > y1);
+    }
+
     protected boolean checkCanMove() {
         for (StillEntity stillEntity : BombermanGame.stillEntities) {
             if (stillEntity instanceof Grass) {

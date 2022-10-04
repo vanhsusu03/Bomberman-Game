@@ -45,9 +45,11 @@ public class Flame extends Entity {
     @Override
     public void update() {
         for (MovingEntity movingEntity : BombermanGame.movingEntities) {
+//            if ((movingEntity instanceof Bomber || movingEntity instanceof Enemy)
+//                    && movingEntity.getX() / Sprite.SCALED_SIZE == x / Sprite.SCALED_SIZE
+//                    && movingEntity.getY() / Sprite.SCALED_SIZE == y / Sprite.SCALED_SIZE) {
             if ((movingEntity instanceof Bomber || movingEntity instanceof Enemy)
-                    && movingEntity.getX() / Sprite.SCALED_SIZE == x / Sprite.SCALED_SIZE
-                    && movingEntity.getY() / Sprite.SCALED_SIZE == y / Sprite.SCALED_SIZE) {
+                    && movingEntity.checkTightIntersection(x, y, x + Sprite.DEFAULT_SIZE, y + Sprite.DEFAULT_SIZE)) {
                 movingEntity.setDead(true);
                 isCollided = true;
             }
@@ -59,9 +61,6 @@ public class Flame extends Entity {
                     && stillEntity.getY() / Sprite.SCALED_SIZE == y / Sprite.SCALED_SIZE) {
                 if (stillEntity instanceof Brick) {
                     ((Brick) stillEntity).setDestroyed(true);
-                } else if (stillEntity instanceof Item) {
-                    BombermanGame.stillEntities.remove(i);
-                    i--;
                 }
                 if (!(stillEntity instanceof Grass)) {
                     isCollided = true;
