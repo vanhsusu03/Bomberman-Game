@@ -225,11 +225,11 @@ public class Sprite {
         int calc = animate % time;
         int diff = time / 4;
 
-        if(calc < diff) {
+        if (calc < diff) {
             return normal;
         }
 
-        if(calc < diff * 2) {
+        if (calc < diff * 2) {
             return x1;
         }
 
@@ -244,11 +244,11 @@ public class Sprite {
         int calc = animate % time;
         int diff = time / 3;
 
-        if(calc < diff) {
+        if (calc < diff) {
             return normal;
         }
 
-        if(calc < diff * 2) {
+        if (calc < diff * 2) {
             return x1;
         }
 

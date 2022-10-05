@@ -10,6 +10,5 @@ public class Wall extends StillEntity {
 
     @Override
     public void update() {
-
     }
 }

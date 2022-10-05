@@ -6,12 +6,12 @@ import uet.oop.bomberman.KeyAction;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Bomb;
+import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.BombItem;
 import uet.oop.bomberman.entities.StillEntity.Item.FlameItem;
 import uet.oop.bomberman.entities.StillEntity.Item.Item;
 import uet.oop.bomberman.entities.StillEntity.Item.SpeedItem;
 import uet.oop.bomberman.entities.StillEntity.Portal;
-import uet.oop.bomberman.entities.StillEntity.StillEntity;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.event.KeyEvent;
@@ -19,49 +19,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bomber extends MovingEntity {
-    private int numberOfBombs;
     public static int flameLength = 1;
-    public static List<Boolean> passBomb = new ArrayList<>();
     public static List<Bomb> bombs = new ArrayList<>();
+    private int maxNumberOfBombs;
 
     public Bomber(int xUnit, int yUnit, int speed, Sprite sprite) {
         super(xUnit, yUnit, speed, sprite);
-        numberOfBombs = 1;
+        maxNumberOfBombs = 1;
     }
 
     private void putBomb() {
-        if (bombs.size() < numberOfBombs) {
-            passBomb.add(true);
+        if (bombs.size() < maxNumberOfBombs) {
             bombs.add(new Bomb((int) Math.round((double) x / Sprite.SCALED_SIZE),
                     (int) Math.round((double) y / Sprite.SCALED_SIZE), Sprite.bomb));
         }
     }
 
-    private void eatItems(Item item) {
-        if (item instanceof SpeedItem) {
+    private void eatItem(int i, int j) {
+        if (BombermanGame.map[i][j] instanceof SpeedItem) {
             speed++;
-            BombermanGame.stillEntities.remove(item);
-        } else if (item instanceof FlameItem) {
+        } else if (BombermanGame.map[i][j] instanceof FlameItem) {
             flameLength++;
-            BombermanGame.stillEntities.remove(item);
-        } else if (item instanceof BombItem) {
-            numberOfBombs++;
-            BombermanGame.stillEntities.remove(item);
+        } else if (BombermanGame.map[i][j] instanceof BombItem) {
+            maxNumberOfBombs++;
         }
+        BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
     }
 
-    private void usePortal(Portal portal) {
-        BombermanGame.stillEntities.remove(portal);
+    private void usePortal(int i, int j) {
+        BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
     }
 
     @Override
-    public void update() {
-        if (isDead) {
-            return;
-        }
-
-        int _x = x, _y = y;
-
+    public void move() {
         if (KeyAction.keys[KeyEvent.VK_UP]) {
             y -= speed;
         } else if (KeyAction.keys[KeyEvent.VK_DOWN]) {
@@ -74,57 +64,116 @@ public class Bomber extends MovingEntity {
             putBomb();
             KeyAction.keys[KeyEvent.VK_SPACE] = false;
         }
+    }
 
-        for (int i = 0; i < BombermanGame.stillEntities.size(); i++) {
-            StillEntity stillEntity = BombermanGame.stillEntities.get(i);
-            int xStillEntity = stillEntity.getX(), yStillEntity = stillEntity.getY();
-            if (checkIntersection(xStillEntity, yStillEntity,
-                    xStillEntity + stillEntity.getSprite().get_realWidth(),
-                    yStillEntity + stillEntity.getSprite().get_realHeight())) {
-                if (stillEntity instanceof Item) {
-                    eatItems((Item) stillEntity);
-                    i--;
-                } else if (stillEntity instanceof Portal) {
-                    usePortal((Portal) stillEntity);
-                    i--;
-                }
-            }
+    private void handleCollisionWithItem(int xUnit1, int yUnit1,
+                                         int xUnit2, int yUnit2) {
+        if (BombermanGame.map[yUnit1][xUnit1] instanceof Item) {
+            eatItem(yUnit1, xUnit1);
         }
 
-        for (MovingEntity movingEntity : BombermanGame.movingEntities) {
-            if (!(movingEntity instanceof Enemy)) continue;
-            int xMovingEntity = movingEntity.getX(), yMovingEntity = movingEntity.getY();
-            if (checkIntersection(xMovingEntity, yMovingEntity,
-                    xMovingEntity + movingEntity.getSprite().get_realWidth(),
-                    yMovingEntity + movingEntity.getSprite().get_realHeight())) {
-                isDead = true;
-            }
+        if (BombermanGame.map[yUnit1][xUnit2] instanceof Item) {
+            eatItem(yUnit1, xUnit2);
         }
 
-        if (!checkCanMove()) {
+        if (BombermanGame.map[yUnit2][xUnit1] instanceof Item) {
+            eatItem(yUnit2, xUnit1);
+        }
+
+        if (BombermanGame.map[yUnit2][xUnit2] instanceof Item) {
+            eatItem(yUnit2, xUnit2);
+        }
+    }
+
+    private void handleCollisionWithPortal(int xUnit1, int yUnit1,
+                                           int xUnit2, int yUnit2) {
+        if (BombermanGame.map[yUnit1][xUnit1] instanceof Portal) {
+            usePortal(yUnit1, xUnit1);
+        }
+
+        if (BombermanGame.map[yUnit1][xUnit2] instanceof Portal) {
+            usePortal(yUnit1, xUnit2);
+        }
+
+        if (BombermanGame.map[yUnit2][xUnit1] instanceof Portal) {
+            usePortal(yUnit2, xUnit1);
+        }
+
+        if (BombermanGame.map[yUnit2][xUnit2] instanceof Portal) {
+            usePortal(yUnit2, xUnit2);
+        }
+    }
+
+    private void handleCollisionWithEnemy(int xUnit1, int yUnit1,
+                                          int xUnit2, int yUnit2) {
+        if (BombermanGame.map[yUnit1][xUnit1] instanceof Enemy
+                || BombermanGame.map[yUnit1][xUnit2] instanceof Enemy
+                || BombermanGame.map[yUnit2][xUnit1] instanceof Enemy
+                || BombermanGame.map[yUnit2][xUnit2] instanceof Enemy) {
+            isDead = true;
+        }
+    }
+
+    private void handleBombPass(int xUnit1, int yUnit1,
+                                int xUnit2, int yUnit2) {
+        if (!bombs.isEmpty() && bombs.get(bombs.size() - 1).isBomberCanPass()) {
+            if (!(BombermanGame.map[yUnit1][xUnit1] instanceof Bomb)
+                    && !(BombermanGame.map[yUnit1][xUnit2] instanceof Bomb)
+                    && !(BombermanGame.map[yUnit2][xUnit1] instanceof Bomb)
+                    && !(BombermanGame.map[yUnit2][xUnit2] instanceof Bomb)) {
+                bombs.get(bombs.size() - 1).setBomberCanPass(false);
+            }
+        }
+    }
+
+    @Override
+    public void update() {
+        if (isDead) {
+            return;
+        }
+
+        int _x = x, _y = y;
+        move();
+
+        int xUnit1 = (x + 5) / Sprite.SCALED_SIZE;
+        int yUnit1 = (y + 12) / Sprite.SCALED_SIZE;
+        int xUnit2 = (x + sprite.get_realWidth()) / Sprite.SCALED_SIZE;
+        int yUnit2 = (y + sprite.get_realHeight()) / Sprite.SCALED_SIZE;
+
+        if (!checkCanMove(xUnit1, yUnit1, xUnit2, yUnit2)) {
             x = _x;
             y = _y;
+        } else {
+            handleCollisionWithItem(xUnit1, yUnit1, xUnit2, yUnit2);
+            handleCollisionWithPortal(xUnit1, yUnit1, xUnit2, yUnit2);
+            handleCollisionWithEnemy(xUnit1, yUnit1, xUnit2, yUnit2);
+            handleBombPass(xUnit1, yUnit1, xUnit2, yUnit2);
         }
     }
 
     @Override
     public void render(GraphicsContext gc) {
         if (isDead) {
-            img = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2,
-                    Sprite.player_dead3, frameCount, 60).getFxImage();
+            sprite = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2,
+                    Sprite.player_dead3, frameCount, 60);
+            img = sprite.getFxImage();
         } else {
             if (KeyAction.keys[KeyEvent.VK_UP]) {
-                img = Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1,
-                        Sprite.player_up_2, frameCount, 40).getFxImage();
+                sprite = Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1,
+                        Sprite.player_up_2, frameCount, 40);
+                img = sprite.getFxImage();
             } else if (KeyAction.keys[KeyEvent.VK_DOWN]) {
-                img = Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1,
-                        Sprite.player_down_2, frameCount, 40).getFxImage();
+                sprite = Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1,
+                        Sprite.player_down_2, frameCount, 40);
+                img = sprite.getFxImage();
             } else if (KeyAction.keys[KeyEvent.VK_LEFT]) {
-                img = Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1,
-                        Sprite.player_left_2, frameCount, 40).getFxImage();
+                sprite = Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1,
+                        Sprite.player_left_2, frameCount, 40);
+                img = sprite.getFxImage();
             } else if (KeyAction.keys[KeyEvent.VK_RIGHT]) {
-                img = Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1,
-                        Sprite.player_right_2, frameCount, 40).getFxImage();
+                sprite = Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1,
+                        Sprite.player_right_2, frameCount, 40);
+                img = sprite.getFxImage();
             }
         }
 

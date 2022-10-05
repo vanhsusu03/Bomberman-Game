@@ -10,6 +10,10 @@ public class Oneal extends Enemy {
     }
 
     @Override
+    public void move() {
+    }
+
+    @Override
     public void update() {
     }
 
@@ -17,14 +21,15 @@ public class Oneal extends Enemy {
     public void render(GraphicsContext gc) {
         if (isDead) {
             sprite = Sprite.movingSprite(Sprite.oneal_dead, Sprite.mob_dead1,
-                    Sprite.mob_dead2, Sprite.mob_dead3, frameCount, 100);
+                    Sprite.mob_dead2, Sprite.mob_dead3,
+                    frameCount, TIME_MOVING_DEAD_SPRITE);
             img = sprite.getFxImage();
             updateFrameCount();
         }
 
         gc.drawImage(img, x, y);
 
-        if (sprite.equals(Sprite.mob_dead3)) {
+        if (frameCount % TIME_MOVING_DEAD_SPRITE == TIME_MOVING_DEAD_SPRITE - 1) {
             BombermanGame.movingEntities.remove(this);
         }
     }

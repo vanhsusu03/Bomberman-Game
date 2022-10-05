@@ -4,9 +4,6 @@ import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Flame;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
-import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
-import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
-import uet.oop.bomberman.entities.StillEntity.Item.Item;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
@@ -15,177 +12,138 @@ import java.util.List;
 public class Bomb extends StillEntity {
     private static final int DURATION_BOMB_EXPLOSION = (int) 2e9;
     private long startTime;
+    private boolean isBomberCanPass;
     private List<Flame> horizontalFlames = new ArrayList<>();
     private List<Flame> verticalFlames = new ArrayList<>();
 
     public Bomb(int xUnit, int yUnit, Sprite sprite) {
         super(xUnit, yUnit, sprite);
+        isBomberCanPass = true;
         startTime = System.nanoTime();
     }
 
+    public boolean isBomberCanPass() {
+        return isBomberCanPass;
+    }
+
+    public void setBomberCanPass(boolean bomberCanPass) {
+        isBomberCanPass = bomberCanPass;
+    }
+
     public void createFlame() {
-        if (horizontalFlames.isEmpty() && System.nanoTime() - startTime >= DURATION_BOMB_EXPLOSION) {
-            for (int i = -Bomber.flameLength; i <= Bomber.flameLength; i++) {
-                int xFlame = x / Sprite.SCALED_SIZE;
-                int yFlame = y / Sprite.SCALED_SIZE;
-
-                Flame.FlameType horizontalFlame, verticalFlame;
-                if (i == 0) {
-                    horizontalFlame = Flame.FlameType.CENTER;
-                    verticalFlame = null;
-                } else if (i == -Bomber.flameLength) {
-                    horizontalFlame = Flame.FlameType.HORIZONTAL_LEFT_LAST;
-                    verticalFlame = Flame.FlameType.VERTICAL_TOP_LAST;
-                } else if (i == Bomber.flameLength) {
-                    horizontalFlame = Flame.FlameType.HORIZONTAL_RIGHT_LAST;
-                    verticalFlame = Flame.FlameType.VERTICAL_DOWN_LAST;
-                } else {
-                    horizontalFlame = Flame.FlameType.HORIZONTAL;
-                    verticalFlame = Flame.FlameType.VERTICAL;
-                }
-                horizontalFlames.add(new Flame(xFlame + i, yFlame, horizontalFlame));
-                if (i != 0) {
-                    verticalFlames.add(new Flame(xFlame, yFlame + i, verticalFlame));
-                }
+        for (int i = -Bomber.flameLength; i <= Bomber.flameLength; i++) {
+            Flame.FlameType horizontalFlame, verticalFlame;
+            if (i == 0) {
+                horizontalFlame = Flame.FlameType.CENTER;
+                verticalFlame = null;
+            } else if (i == -Bomber.flameLength) {
+                horizontalFlame = Flame.FlameType.HORIZONTAL_LEFT_LAST;
+                verticalFlame = Flame.FlameType.VERTICAL_TOP_LAST;
+            } else if (i == Bomber.flameLength) {
+                horizontalFlame = Flame.FlameType.HORIZONTAL_RIGHT_LAST;
+                verticalFlame = Flame.FlameType.VERTICAL_DOWN_LAST;
+            } else {
+                horizontalFlame = Flame.FlameType.HORIZONTAL;
+                verticalFlame = Flame.FlameType.VERTICAL;
             }
 
-            int n = horizontalFlames.size();
-            for (int i = horizontalFlames.size() - 1; i >= 0; i--) {
-                Flame flame = horizontalFlames.get(i);
+            int xFlame = getXUnit();
+            int yFlame = getYUnit();
 
-                boolean abcxyz = true;
+            horizontalFlames.add(new Flame(xFlame + i, yFlame, horizontalFlame));
+            if (i != 0) {
+                verticalFlames.add(new Flame(xFlame, yFlame + i, verticalFlame));
+            }
+        }
+    }
 
-//                for (MovingEntity movingEntity : BombermanGame.movingEntities) {
-//                    if ((movingEntity instanceof Bomber || movingEntity instanceof Enemy)
-//                            && movingEntity.checkTightIntersection(flame.getX(), flame.getY(),
-//                            flame.getX() + Sprite.DEFAULT_SIZE,
-//                            flame.getY() + Sprite.DEFAULT_SIZE)) {
-//                        abcxyz = false;
-//                    }
-//                }
-
-                for (int j = 0; j < BombermanGame.stillEntities.size(); j++) {
-                    StillEntity stillEntity = BombermanGame.stillEntities.get(j);
-                    if (stillEntity.getX() / Sprite.SCALED_SIZE == flame.getX() / Sprite.SCALED_SIZE
-                            && stillEntity.getY() / Sprite.SCALED_SIZE == flame.getY() / Sprite.SCALED_SIZE) {
-                        if (!(stillEntity instanceof Grass)) {
-                            abcxyz = false;
-                        }
-                    }
-                }
-
-                if (abcxyz) continue;
-
-                if (i > n / 2) {
-                    for (int j = i + 1; j < horizontalFlames.size(); j++) {
-                        horizontalFlames.remove(j--);
-                    }
-                } else {
-                    for (int j = 0; j < i; j++) {
-                        horizontalFlames.remove(j--);
-                        i--;
-                    }
-                }
+    private void removeExcessHorizontalFlame() {
+        int n = horizontalFlames.size();
+        for (int i = horizontalFlames.size() - 1; i >= 0; i--) {
+            Flame flame = horizontalFlames.get(i);
+            if (BombermanGame.map[flame.getYUnit()][flame.getXUnit()] instanceof Grass) {
+                continue;
             }
 
-            n = verticalFlames.size();
-            for (int i = verticalFlames.size() - 1; i >= 0; i--) {
-                Flame flame = verticalFlames.get(i);
-
-                boolean abcxyz = true;
-
-//                for (MovingEntity movingEntity : BombermanGame.movingEntities) {
-//                    if ((movingEntity instanceof Bomber || movingEntity instanceof Enemy)
-//                            && movingEntity.checkTightIntersection(flame.getX(), flame.getY(),
-//                            flame.getX() + Sprite.DEFAULT_SIZE,
-//                            flame.getY() + Sprite.DEFAULT_SIZE)) {
-//                        abcxyz = false;
-//                    }
-//                }
-
-                for (int j = 0; j < BombermanGame.stillEntities.size(); j++) {
-                    StillEntity stillEntity = BombermanGame.stillEntities.get(j);
-                    if (stillEntity.getX() / Sprite.SCALED_SIZE == flame.getX() / Sprite.SCALED_SIZE
-                            && stillEntity.getY() / Sprite.SCALED_SIZE == flame.getY() / Sprite.SCALED_SIZE) {
-                        if (!(stillEntity instanceof Grass)) {
-                            abcxyz = false;
-                        }
-                    }
+            if (i > n / 2) {
+                for (int j = i + 1; j < horizontalFlames.size(); j++) {
+                    horizontalFlames.remove(j--);
                 }
+            } else {
+                for (int j = 0; j < i; ) {
+                    horizontalFlames.remove(j);
+                    i--;
+                }
+                break;
+            }
+        }
+    }
 
-                if (abcxyz) continue;
+    private void removeExcessVerticalFlame() {
+        int n = verticalFlames.size();
+        for (int i = verticalFlames.size() - 1; i >= 0; i--) {
+            Flame flame = verticalFlames.get(i);
+            if (BombermanGame.map[flame.getYUnit()][flame.getXUnit()] instanceof Grass) {
+                continue;
+            }
 
-                if (i >= n / 2) {
-                    for (int j = i + 1; j < verticalFlames.size(); j++) {
-                        verticalFlames.remove(j--);
-                    }
-                } else {
-                    for (int j = 0; j < i; j++) {
-                        verticalFlames.remove(j--);
-                        i--;
-                    }
+            if (i >= n / 2) {
+                for (int j = i + 1; j < verticalFlames.size(); j++) {
+                    verticalFlames.remove(j--);
+                }
+            } else {
+                for (int j = 0; j < i; ) {
+                    verticalFlames.remove(j);
+                    i--;
                 }
             }
-            horizontalFlames.forEach(Flame::update);
-            verticalFlames.forEach(Flame::update);
+        }
+    }
 
-            for (int i = horizontalFlames.size() - 1; i >= 0; i--) {
-                Flame flame = horizontalFlames.get(i);
-
-                boolean abcxyz = true;
-
-
-
-                for (int j = 0; j < BombermanGame.stillEntities.size(); j++) {
-                    StillEntity stillEntity = BombermanGame.stillEntities.get(j);
-                    if (stillEntity.getX() / Sprite.SCALED_SIZE == flame.getX() / Sprite.SCALED_SIZE
-                            && stillEntity.getY() / Sprite.SCALED_SIZE == flame.getY() / Sprite.SCALED_SIZE) {
-                        if (!(stillEntity instanceof Grass)) {
-                            abcxyz = false;
-                            if (stillEntity instanceof Item) {
-                                BombermanGame.stillEntities.remove(j);
-                                j--;
-                            }
-                        }
-                    }
-                }
-
-                if (abcxyz) continue;
-
+    private void removeCollidedHorizontalFlame() {
+        for (int i = horizontalFlames.size() - 1; i >= 0; i--) {
+            Flame flame = horizontalFlames.get(i);
+            if (!(BombermanGame.map[flame.getYUnit()][flame.getXUnit()] instanceof Grass)) {
                 horizontalFlames.remove(i);
             }
+        }
+    }
 
-            for (int i = verticalFlames.size() - 1; i >= 0; i--) {
-                Flame flame = verticalFlames.get(i);
-
-                boolean abcxyz = true;
-
-
-                for (int j = 0; j < BombermanGame.stillEntities.size(); j++) {
-                    StillEntity stillEntity = BombermanGame.stillEntities.get(j);
-
-                    if (stillEntity.getX() / Sprite.SCALED_SIZE == flame.getX() / Sprite.SCALED_SIZE
-                            && stillEntity.getY() / Sprite.SCALED_SIZE == flame.getY() / Sprite.SCALED_SIZE) {
-                        if (!(stillEntity instanceof Grass)) {
-                            abcxyz = false;
-                            if (stillEntity instanceof Item) {
-                                BombermanGame.stillEntities.remove(j);
-                                j--;
-                            }
-                        }
-                    }
-                }
-
-                if (abcxyz) continue;
-
+    private void removeCollidedVerticalFlame() {
+        for (int i = verticalFlames.size() - 1; i >= 0; i--) {
+            Flame flame = verticalFlames.get(i);
+            if (!(BombermanGame.map[flame.getYUnit()][flame.getXUnit()] instanceof Grass)) {
                 verticalFlames.remove(i);
             }
         }
     }
 
+    private void removeExcessFlame() {
+        removeExcessHorizontalFlame();
+        removeExcessVerticalFlame();
+    }
+
+    private void removeCollidedFlame() {
+        removeCollidedHorizontalFlame();
+        removeCollidedVerticalFlame();
+    }
+
     @Override
     public void update() {
-        createFlame();
+        if (horizontalFlames.isEmpty() && System.nanoTime() - startTime >= DURATION_BOMB_EXPLOSION) {
+            createFlame();
+            removeExcessFlame();
+            horizontalFlames.forEach(Flame::destroyAndKill);
+            verticalFlames.forEach(Flame::destroyAndKill);
+            removeCollidedFlame();
+        }
+
+        for (int i = 0; i < horizontalFlames.size(); i++) {
+            if (horizontalFlames.get(i).checkFinishedFlame()) {
+                Bomber.bombs.remove(this);
+                break;
+            }
+        }
     }
 
     @Override
@@ -197,15 +155,7 @@ public class Bomb extends StillEntity {
             gc.drawImage(img, x, y);
         }
 
-        horizontalFlames.forEach(g -> g.render(gc));
-        verticalFlames.forEach(g -> g.render(gc));
-
-        for (int i = 0; i < horizontalFlames.size(); i++) {
-            if (horizontalFlames.get(i).checkFinishedFlame()) {
-                Bomber.passBomb.remove(0);
-                Bomber.bombs.remove(0);
-                return;
-            }
-        }
+        horizontalFlames.forEach(flame -> flame.render(gc));
+        verticalFlames.forEach(flame -> flame.render(gc));
     }
 }

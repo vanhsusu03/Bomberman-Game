@@ -5,11 +5,11 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.graphics.Sprite;
 
 public abstract class Entity {
+    private final static int MAX_FRAME_COUNT = (int) 1e9;
     //Tọa độ X tính từ góc trái trên trong Canvas
     protected int x;
     //Tọa độ Y tính từ góc trái trên trong Canvas
     protected int y;
-    private final static int MAX_FRAME_COUNT = (int) 1e9;
     protected int speed;
     protected int frameCount;
     protected Sprite sprite;
@@ -26,20 +26,28 @@ public abstract class Entity {
         }
     }
 
+    public int getX() {
+        return x;
+    }
+
     public void setX(int x) {
         this.x = x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public void setY(int y) {
         this.y = y;
     }
 
-    public int getX() {
-        return x;
+    public int getXUnit() {
+        return x / Sprite.SCALED_SIZE;
     }
 
-    public int getY() {
-        return y;
+    public int getYUnit() {
+        return y / Sprite.SCALED_SIZE;
     }
 
     public Sprite getSprite() {
