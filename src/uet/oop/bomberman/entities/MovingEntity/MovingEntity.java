@@ -22,18 +22,28 @@ public abstract class MovingEntity extends Entity {
 
     protected abstract void move();
 
-    public boolean checkTightIntersection(int x1, int y1, int x2, int y2) {
-        return x < x2 && y < y2
-                && (x + sprite.get_realWidth() > x1)
-                && (y + sprite.get_realHeight() > y1);
+    private boolean WithBomb(int xUnit, int yUnit) {
+        for (Bomb bomb : Bomber.bombs) {
+            if (bomb.getXUnit() == xUnit && bomb.getYUnit() == yUnit
+                    && !bomb.isBomberCanPass()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isCellCanCome(int xUnit, int yUnit) {
+        if (this instanceof Bomber) {
+            for (Bomb bomb : Bomber.bombs) {
+                if (bomb.getXUnit() == xUnit && bomb.getYUnit() == yUnit
+                        && !bomb.isBomberCanPass()) {
+                    return false;
+                }
+            }
+        }
+
         return !(map[yUnit][xUnit] instanceof Brick)
-                && !(map[yUnit][xUnit] instanceof Wall)
-                && (!(map[yUnit][xUnit] instanceof Bomb)
-                || (this instanceof Bomber
-                && ((Bomb) map[yUnit][xUnit]).isBomberCanPass()));
+                && !(map[yUnit][xUnit] instanceof Wall);
     }
 
     protected boolean checkCanMove(int xUnit1, int yUnit1,

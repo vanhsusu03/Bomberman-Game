@@ -54,6 +54,14 @@ public abstract class Entity {
         return sprite;
     }
 
+    protected boolean checkBothInACell(int xUnit, int yUnit) {
+        return xUnit == getXUnit() && yUnit == getYUnit();
+    }
+
+    protected boolean checkBothInACell(int xUnit1, int yUnit1, int xUnit2, int yUnit2) {
+        return xUnit1 == xUnit2 && yUnit1 == yUnit2;
+    }
+
     public void render(GraphicsContext gc) {
         gc.drawImage(img, x, y);
     }

@@ -117,10 +117,12 @@ public class Bomber extends MovingEntity {
     private void handleBombPass(int xUnit1, int yUnit1,
                                 int xUnit2, int yUnit2) {
         if (!bombs.isEmpty() && bombs.get(bombs.size() - 1).isBomberCanPass()) {
-            if (!(BombermanGame.map[yUnit1][xUnit1] instanceof Bomb)
-                    && !(BombermanGame.map[yUnit1][xUnit2] instanceof Bomb)
-                    && !(BombermanGame.map[yUnit2][xUnit1] instanceof Bomb)
-                    && !(BombermanGame.map[yUnit2][xUnit2] instanceof Bomb)) {
+            int xUnitBomb = bombs.get(bombs.size() - 1).getXUnit();
+            int yUnitBomb = bombs.get(bombs.size() - 1).getYUnit();
+            if (!checkBothInACell(xUnitBomb, yUnitBomb, xUnit1, yUnit1)
+                    && !checkBothInACell(xUnitBomb, yUnitBomb, xUnit1, yUnit2)
+                    && !checkBothInACell(xUnitBomb, yUnitBomb, xUnit2, yUnit1)
+                    && !checkBothInACell(xUnitBomb, yUnitBomb, xUnit2, yUnit2)) {
                 bombs.get(bombs.size() - 1).setBomberCanPass(false);
             }
         }

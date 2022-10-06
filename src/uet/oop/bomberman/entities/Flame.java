@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Grass;
@@ -34,12 +35,35 @@ public class Flame extends Entity {
         this.flameType = flameType;
     }
 
+    private boolean checkIntersectionWithMovingEntity(MovingEntity movingEntity) {
+        int xUnit1 = (movingEntity.getX() + 5) / Sprite.SCALED_SIZE;
+        int yUnit1 = (movingEntity.getY() + 12) / Sprite.SCALED_SIZE;
+        int xUnit2 = (movingEntity.getX() + movingEntity.getSprite().get_realWidth()) / Sprite.SCALED_SIZE;
+        int yUnit2 = (movingEntity.getY() + movingEntity.getSprite().get_realHeight()) / Sprite.SCALED_SIZE;
+
+        return checkBothInACell(xUnit1, yUnit1)
+                || checkBothInACell(xUnit1, yUnit2)
+                || checkBothInACell(xUnit2, yUnit1)
+                || checkBothInACell(xUnit2, yUnit2);
+    }
+
     private void killMovingEntity() {
         for (MovingEntity movingEntity : BombermanGame.movingEntities) {
-            if (movingEntity.checkTightIntersection(x, y,
-                    x + Sprite.SCALED_SIZE, y + Sprite.SCALED_SIZE)) {
+            if (checkIntersectionWithMovingEntity(movingEntity)) {
                 movingEntity.setDead(true);
             }
+        }
+    }
+
+    private void changeFlameTypeToLast(int xUnit, int yUnit) {
+        if (Bomber.bombs.get(0).getXUnit() < xUnit) {
+            flameType = FlameType.HORIZONTAL_RIGHT_LAST;
+        } else if (Bomber.bombs.get(0).getXUnit() > xUnit) {
+            flameType = FlameType.HORIZONTAL_LEFT_LAST;
+        } else if (Bomber.bombs.get(0).getYUnit() < yUnit) {
+            flameType = FlameType.VERTICAL_DOWN_LAST;
+        } else if (Bomber.bombs.get(0).getXUnit() < xUnit) {
+            flameType = FlameType.VERTICAL_TOP_LAST;
         }
     }
 
@@ -50,6 +74,7 @@ public class Flame extends Entity {
             ((Brick) BombermanGame.map[yUnit][xUnit]).setDestroyed(true);
         } else if (BombermanGame.map[yUnit][xUnit] instanceof Item) {
             BombermanGame.map[yUnit][xUnit] = new Grass(xUnit, yUnit, Sprite.grass);
+            changeFlameTypeToLast(xUnit, yUnit);
         }
     }
 
