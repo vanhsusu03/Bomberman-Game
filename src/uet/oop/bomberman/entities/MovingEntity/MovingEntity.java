@@ -22,16 +22,6 @@ public abstract class MovingEntity extends Entity {
 
     protected abstract void move();
 
-    private boolean WithBomb(int xUnit, int yUnit) {
-        for (Bomb bomb : Bomber.bombs) {
-            if (bomb.getXUnit() == xUnit && bomb.getYUnit() == yUnit
-                    && !bomb.isBomberCanPass()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private boolean isCellCanCome(int xUnit, int yUnit) {
         if (this instanceof Bomber) {
             for (Bomb bomb : Bomber.bombs) {

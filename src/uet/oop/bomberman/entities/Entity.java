@@ -30,16 +30,8 @@ public abstract class Entity {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public int getXUnit() {
@@ -58,7 +50,8 @@ public abstract class Entity {
         return xUnit == getXUnit() && yUnit == getYUnit();
     }
 
-    protected boolean checkBothInACell(int xUnit1, int yUnit1, int xUnit2, int yUnit2) {
+    protected boolean checkBothInACell(int xUnit1, int yUnit1,
+                                       int xUnit2, int yUnit2) {
         return xUnit1 == xUnit2 && yUnit1 == yUnit2;
     }
 

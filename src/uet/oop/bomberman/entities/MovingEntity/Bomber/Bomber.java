@@ -66,42 +66,32 @@ public class Bomber extends MovingEntity {
         }
     }
 
-    private void handleCollisionWithItem(int xUnit1, int yUnit1,
-                                         int xUnit2, int yUnit2) {
-        if (BombermanGame.map[yUnit1][xUnit1] instanceof Item) {
-            eatItem(yUnit1, xUnit1);
-        }
-
-        if (BombermanGame.map[yUnit1][xUnit2] instanceof Item) {
-            eatItem(yUnit1, xUnit2);
-        }
-
-        if (BombermanGame.map[yUnit2][xUnit1] instanceof Item) {
-            eatItem(yUnit2, xUnit1);
-        }
-
-        if (BombermanGame.map[yUnit2][xUnit2] instanceof Item) {
-            eatItem(yUnit2, xUnit2);
+    private void handleCollisionWithItemIn1Cell(int i, int j) {
+        if (BombermanGame.map[i][j] instanceof Item) {
+            eatItem(i, j);
         }
     }
 
-    private void handleCollisionWithPortal(int xUnit1, int yUnit1,
-                                           int xUnit2, int yUnit2) {
-        if (BombermanGame.map[yUnit1][xUnit1] instanceof Portal) {
-            usePortal(yUnit1, xUnit1);
-        }
+    private void handleCollisionWithItemIn4Cells(int xUnit1, int yUnit1,
+                                                 int xUnit2, int yUnit2) {
+        handleCollisionWithItemIn1Cell(yUnit1, xUnit1);
+        handleCollisionWithItemIn1Cell(yUnit1, xUnit2);
+        handleCollisionWithItemIn1Cell(yUnit2, xUnit1);
+        handleCollisionWithItemIn1Cell(yUnit2, xUnit2);
+    }
 
-        if (BombermanGame.map[yUnit1][xUnit2] instanceof Portal) {
-            usePortal(yUnit1, xUnit2);
+    private void handleCollisionWithPortalIn1Cell(int i, int j) {
+        if (BombermanGame.map[i][j] instanceof Portal) {
+            usePortal(i, j);
         }
+    }
 
-        if (BombermanGame.map[yUnit2][xUnit1] instanceof Portal) {
-            usePortal(yUnit2, xUnit1);
-        }
-
-        if (BombermanGame.map[yUnit2][xUnit2] instanceof Portal) {
-            usePortal(yUnit2, xUnit2);
-        }
+    private void handleCollisionWithPortalIn4Cells(int xUnit1, int yUnit1,
+                                                   int xUnit2, int yUnit2) {
+        handleCollisionWithPortalIn1Cell(yUnit1, xUnit1);
+        handleCollisionWithPortalIn1Cell(yUnit1, xUnit2);
+        handleCollisionWithPortalIn1Cell(yUnit2, xUnit1);
+        handleCollisionWithPortalIn1Cell(yUnit2, xUnit2);
     }
 
     private void handleCollisionWithEnemy(int xUnit1, int yUnit1,
@@ -119,6 +109,7 @@ public class Bomber extends MovingEntity {
         if (!bombs.isEmpty() && bombs.get(bombs.size() - 1).isBomberCanPass()) {
             int xUnitBomb = bombs.get(bombs.size() - 1).getXUnit();
             int yUnitBomb = bombs.get(bombs.size() - 1).getYUnit();
+
             if (!checkBothInACell(xUnitBomb, yUnitBomb, xUnit1, yUnit1)
                     && !checkBothInACell(xUnitBomb, yUnitBomb, xUnit1, yUnit2)
                     && !checkBothInACell(xUnitBomb, yUnitBomb, xUnit2, yUnit1)
@@ -146,8 +137,8 @@ public class Bomber extends MovingEntity {
             x = _x;
             y = _y;
         } else {
-            handleCollisionWithItem(xUnit1, yUnit1, xUnit2, yUnit2);
-            handleCollisionWithPortal(xUnit1, yUnit1, xUnit2, yUnit2);
+            handleCollisionWithItemIn4Cells(xUnit1, yUnit1, xUnit2, yUnit2);
+            handleCollisionWithPortalIn4Cells(xUnit1, yUnit1, xUnit2, yUnit2);
             handleCollisionWithEnemy(xUnit1, yUnit1, xUnit2, yUnit2);
             handleBombPass(xUnit1, yUnit1, xUnit2, yUnit2);
         }

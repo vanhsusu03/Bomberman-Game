@@ -12,10 +12,13 @@ import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Balloon;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Oneal;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
-import uet.oop.bomberman.entities.StillEntity.*;
+import uet.oop.bomberman.entities.StillEntity.Brick;
+import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.BombItem;
 import uet.oop.bomberman.entities.StillEntity.Item.FlameItem;
 import uet.oop.bomberman.entities.StillEntity.Item.SpeedItem;
+import uet.oop.bomberman.entities.StillEntity.Portal;
+import uet.oop.bomberman.entities.StillEntity.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.io.File;

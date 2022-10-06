@@ -10,16 +10,6 @@ import uet.oop.bomberman.entities.StillEntity.Item.Item;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Flame extends Entity {
-    public enum FlameType {
-        CENTER,
-        HORIZONTAL,
-        HORIZONTAL_LEFT_LAST,
-        HORIZONTAL_RIGHT_LAST,
-        VERTICAL,
-        VERTICAL_DOWN_LAST,
-        VERTICAL_TOP_LAST
-    }
-
     private FlameType flameType;
 
     public Flame(int xUnit, int yUnit, FlameType flameType) {
@@ -27,19 +17,13 @@ public class Flame extends Entity {
         this.flameType = flameType;
     }
 
-    public FlameType getFlameType() {
-        return flameType;
-    }
-
-    public void setFlameType(FlameType flameType) {
-        this.flameType = flameType;
-    }
-
     private boolean checkIntersectionWithMovingEntity(MovingEntity movingEntity) {
         int xUnit1 = (movingEntity.getX() + 5) / Sprite.SCALED_SIZE;
         int yUnit1 = (movingEntity.getY() + 12) / Sprite.SCALED_SIZE;
-        int xUnit2 = (movingEntity.getX() + movingEntity.getSprite().get_realWidth()) / Sprite.SCALED_SIZE;
-        int yUnit2 = (movingEntity.getY() + movingEntity.getSprite().get_realHeight()) / Sprite.SCALED_SIZE;
+        int xUnit2 = (movingEntity.getX() + movingEntity.getSprite().get_realWidth())
+                / Sprite.SCALED_SIZE;
+        int yUnit2 = (movingEntity.getY() + movingEntity.getSprite().get_realHeight())
+                / Sprite.SCALED_SIZE;
 
         return checkBothInACell(xUnit1, yUnit1)
                 || checkBothInACell(xUnit1, yUnit2)
@@ -70,6 +54,7 @@ public class Flame extends Entity {
     private void destroyBrickAndItem() {
         int xUnit = x / Sprite.SCALED_SIZE;
         int yUnit = y / Sprite.SCALED_SIZE;
+
         if (BombermanGame.map[yUnit][xUnit] instanceof Brick) {
             ((Brick) BombermanGame.map[yUnit][xUnit]).setDestroyed(true);
         } else if (BombermanGame.map[yUnit][xUnit] instanceof Item) {
@@ -150,7 +135,18 @@ public class Flame extends Entity {
                 img = sprite.getFxImage();
                 break;
         }
+
         updateFrameCount();
         gc.drawImage(img, x, y);
+    }
+
+    public enum FlameType {
+        CENTER,
+        HORIZONTAL,
+        HORIZONTAL_LEFT_LAST,
+        HORIZONTAL_RIGHT_LAST,
+        VERTICAL,
+        VERTICAL_DOWN_LAST,
+        VERTICAL_TOP_LAST
     }
 }

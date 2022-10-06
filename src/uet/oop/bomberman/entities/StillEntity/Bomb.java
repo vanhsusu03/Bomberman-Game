@@ -57,21 +57,21 @@ public class Bomb extends StillEntity {
         }
     }
 
-    private void removeExcessHorizontalFlame() {
-        int n = horizontalFlames.size();
-        for (int i = horizontalFlames.size() - 1; i >= 0; i--) {
-            Flame flame = horizontalFlames.get(i);
+    private void removeExcessFlame(List<Flame> flames) {
+        int n = flames.size();
+        for (int i = flames.size() - 1; i >= 0; i--) {
+            Flame flame = flames.get(i);
             if (BombermanGame.map[flame.getYUnit()][flame.getXUnit()] instanceof Grass) {
                 continue;
             }
 
-            if (i > n / 2) {
-                for (int j = i + 1; j < horizontalFlames.size(); j++) {
-                    horizontalFlames.remove(j--);
+            if (i >= n / 2) {
+                for (int j = i + 1; j < flames.size(); j++) {
+                    flames.remove(j--);
                 }
             } else {
                 for (int j = 0; j < i; ) {
-                    horizontalFlames.remove(j);
+                    flames.remove(j);
                     i--;
                 }
                 break;
@@ -79,63 +79,28 @@ public class Bomb extends StillEntity {
         }
     }
 
-    private void removeExcessVerticalFlame() {
-        int n = verticalFlames.size();
-        for (int i = verticalFlames.size() - 1; i >= 0; i--) {
-            Flame flame = verticalFlames.get(i);
-            if (BombermanGame.map[flame.getYUnit()][flame.getXUnit()] instanceof Grass) {
-                continue;
-            }
-
-            if (i >= n / 2) {
-                for (int j = i + 1; j < verticalFlames.size(); j++) {
-                    verticalFlames.remove(j--);
-                }
-            } else {
-                for (int j = 0; j < i; ) {
-                    verticalFlames.remove(j);
-                    i--;
-                }
-            }
-        }
-    }
-
-    private void removeCollidedHorizontalFlame() {
-        for (int i = horizontalFlames.size() - 1; i >= 0; i--) {
-            Flame flame = horizontalFlames.get(i);
+    private void removeCollidedFlame(List<Flame> flames) {
+        for (int i = flames.size() - 1; i >= 0; i--) {
+            Flame flame = flames.get(i);
             if (!(BombermanGame.map[flame.getYUnit()][flame.getXUnit()] instanceof Grass)) {
-                horizontalFlames.remove(i);
+                flames.remove(i);
             }
         }
-    }
-
-    private void removeCollidedVerticalFlame() {
-        for (int i = verticalFlames.size() - 1; i >= 0; i--) {
-            Flame flame = verticalFlames.get(i);
-            if (!(BombermanGame.map[flame.getYUnit()][flame.getXUnit()] instanceof Grass)) {
-                verticalFlames.remove(i);
-            }
-        }
-    }
-
-    private void removeExcessFlame() {
-        removeExcessHorizontalFlame();
-        removeExcessVerticalFlame();
-    }
-
-    private void removeCollidedFlame() {
-        removeCollidedHorizontalFlame();
-        removeCollidedVerticalFlame();
     }
 
     @Override
     public void update() {
         if (horizontalFlames.isEmpty() && System.nanoTime() - startTime >= DURATION_BOMB_EXPLOSION) {
             createFlame();
-            removeExcessFlame();
+
+            removeExcessFlame(horizontalFlames);
+            removeExcessFlame(verticalFlames);
+
             horizontalFlames.forEach(Flame::destroyAndKill);
             verticalFlames.forEach(Flame::destroyAndKill);
-            removeCollidedFlame();
+
+            removeCollidedFlame(horizontalFlames);
+            removeCollidedFlame(verticalFlames);
         }
 
         for (int i = 0; i < horizontalFlames.size(); i++) {

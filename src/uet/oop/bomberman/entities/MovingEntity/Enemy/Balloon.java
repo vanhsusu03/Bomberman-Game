@@ -25,12 +25,11 @@ public class Balloon extends Enemy {
                     frameCount, TIME_MOVING_DEAD_SPRITE);
             img = sprite.getFxImage();
             updateFrameCount();
+        } else {
         }
 
         gc.drawImage(img, x, y);
 
-        if (frameCount % TIME_MOVING_DEAD_SPRITE == TIME_MOVING_DEAD_SPRITE - 1) {
-            BombermanGame.movingEntities.remove(this);
-        }
+        removeEnemyIfDeathAnimationEnds();
     }
 }
