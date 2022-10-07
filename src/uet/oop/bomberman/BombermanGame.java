@@ -31,6 +31,7 @@ public class BombermanGame extends Application {
     public static final int WIDTH = 31;
     public static final int HEIGHT = 13;
     public static Entity[][] map = new Entity[HEIGHT][WIDTH];
+    public static Entity[][] hiddenEntities = new Entity[HEIGHT][WIDTH];
     public static List<MovingEntity> movingEntities = new ArrayList<>();
     private GraphicsContext gc;
     private Canvas canvas;
@@ -81,6 +82,7 @@ public class BombermanGame extends Application {
     }
 
     public void createMap() {
+        // Con` thieu' lam` moi' moi. thu' (dua ve` rong~)
         int level, width, height;
         try {
             File file = new File("res/levels/Level1.txt");
@@ -108,13 +110,16 @@ public class BombermanGame extends Application {
                             map[i][j] = new Grass(j, i, Sprite.grass);
                             break;
                         case 'b':
-                            map[i][j] = new BombItem(j, i, Sprite.powerup_bombs);
+                            hiddenEntities[i][j] = new BombItem(j, i, Sprite.powerup_bombs);
+                            map[i][j] = new Brick(j, i, Sprite.brick);
                             break;
                         case 'f':
-                            map[i][j] = new FlameItem(j, i, Sprite.powerup_flames);
+                            hiddenEntities[i][j] = new FlameItem(j, i, Sprite.powerup_flames);
+                            map[i][j] = new Brick(j, i, Sprite.brick);
                             break;
                         case 's':
-                            map[i][j] = new SpeedItem(j, i, Sprite.powerup_speed);
+                            hiddenEntities[i][j] = new SpeedItem(j, i, Sprite.powerup_speed);
+                            map[i][j] = new Brick(j, i, Sprite.brick);
                             break;
                         case '#':
                             map[i][j] = new Wall(j, i, Sprite.wall);
@@ -123,7 +128,8 @@ public class BombermanGame extends Application {
                             map[i][j] = new Brick(j, i, Sprite.brick);
                             break;
                         case 'x':
-                            map[i][j] = new Portal(j, i, Sprite.portal);
+                            hiddenEntities[i][j] = new Portal(j, i, Sprite.portal);
+                            map[i][j] = new Brick(j, i, Sprite.brick);
                             break;
                         default:
                             map[i][j] = new Grass(j, i, Sprite.grass);

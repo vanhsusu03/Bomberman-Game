@@ -22,6 +22,15 @@ public class Brick extends StillEntity {
 
     @Override
     public void render(GraphicsContext gc) {
+        int xUnit = getXUnit();
+        int yUnit = getYUnit();
+
+        if (isDestroyed && BombermanGame.hiddenEntities[yUnit][xUnit] != null) {
+            BombermanGame.map[getYUnit()][getXUnit()] = BombermanGame.hiddenEntities[yUnit][xUnit];
+            BombermanGame.hiddenEntities[yUnit][xUnit] = null;
+            return;
+        }
+
         if (isDestroyed) {
             sprite = Sprite.movingSprite(Sprite.brick_exploded, Sprite.brick_exploded1,
                     Sprite.brick_exploded2, frameCount, TIME_MOVING_DESTROYED_SPRITE);
@@ -32,9 +41,8 @@ public class Brick extends StillEntity {
         gc.drawImage(img, x, y);
 
         if (frameCount % TIME_MOVING_DESTROYED_SPRITE == TIME_MOVING_DESTROYED_SPRITE - 1) {
-            int xUnit = x / Sprite.SCALED_SIZE;
-            int yUnit = y / Sprite.SCALED_SIZE;
-            BombermanGame.map[yUnit][xUnit] = new Grass(xUnit, yUnit, Sprite.grass);
+            BombermanGame.map[yUnit][xUnit] = new Grass(xUnit,
+                    yUnit, Sprite.grass);
         }
     }
 }

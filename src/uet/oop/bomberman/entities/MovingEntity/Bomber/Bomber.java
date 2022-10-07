@@ -47,7 +47,7 @@ public class Bomber extends MovingEntity {
     }
 
     private void usePortal(int i, int j) {
-        BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
+        System.out.println("Vao` portal cmnr!!!");
     }
 
     @Override
