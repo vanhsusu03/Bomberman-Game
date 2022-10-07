@@ -47,7 +47,12 @@ public class Bomber extends MovingEntity {
     }
 
     private void usePortal(int i, int j) {
-        System.out.println("Vao` portal cmnr!!!");
+        for (MovingEntity movingEntity : BombermanGame.movingEntities) {
+            if (movingEntity instanceof Enemy) {
+                return;
+            }
+        }
+        System.out.println("Game la` de~!!!");
     }
 
     @Override
@@ -96,7 +101,7 @@ public class Bomber extends MovingEntity {
 
     private void handleCollisionWithEnemy() {
         for (MovingEntity movingEntity : BombermanGame.movingEntities) {
-            if (!(movingEntity instanceof Enemy)) {
+            if (!(movingEntity instanceof Enemy) || movingEntity.isDead()) {
                 continue;
             }
             if (checkIntersectionWithOtherMovingEntity(movingEntity.getX(), movingEntity.getY(),

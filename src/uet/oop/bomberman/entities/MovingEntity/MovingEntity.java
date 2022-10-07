@@ -16,6 +16,10 @@ public abstract class MovingEntity extends Entity {
         super(xUnit, yUnit, speed, sprite);
     }
 
+    public boolean isDead() {
+        return isDead;
+    }
+
     public void setDead(boolean dead) {
         isDead = dead;
     }
