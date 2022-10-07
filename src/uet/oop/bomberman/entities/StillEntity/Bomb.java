@@ -30,6 +30,10 @@ public class Bomb extends StillEntity {
         isBomberCanPass = bomberCanPass;
     }
 
+    public void setExplosion() {
+        startTime = System.nanoTime() - DURATION_BOMB_EXPLOSION + (int) 4e7;
+    }
+
     public void createFlame() {
         for (int i = -Bomber.flameLength; i <= Bomber.flameLength; i++) {
             Flame.FlameType horizontalFlame, verticalFlame;
@@ -61,8 +65,13 @@ public class Bomb extends StillEntity {
         int n = flames.size();
         for (int i = flames.size() - 1; i >= 0; i--) {
             Flame flame = flames.get(i);
-            if (BombermanGame.map[flame.getYUnit()][flame.getXUnit()] instanceof Grass) {
-                continue;
+
+            if (!flame.checkIntersectionWithBombs(this)) {
+                if (flame.getYUnit() >= BombermanGame.map.length
+                        || flame.getXUnit() >= BombermanGame.map[0].length
+                        || BombermanGame.map[flame.getYUnit()][flame.getXUnit()] instanceof Grass) {
+                    continue;
+                }
             }
 
             if (i >= n / 2) {
@@ -82,7 +91,8 @@ public class Bomb extends StillEntity {
     private void removeCollidedFlame(List<Flame> flames) {
         for (int i = flames.size() - 1; i >= 0; i--) {
             Flame flame = flames.get(i);
-            if (!(BombermanGame.map[flame.getYUnit()][flame.getXUnit()] instanceof Grass)) {
+            if (!(BombermanGame.map[flame.getYUnit()][flame.getXUnit()] instanceof Grass)
+                    || flame.checkIntersectionWithBombs(this)) {
                 flames.remove(i);
             }
         }

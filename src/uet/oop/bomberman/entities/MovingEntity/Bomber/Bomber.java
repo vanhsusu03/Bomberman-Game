@@ -94,13 +94,17 @@ public class Bomber extends MovingEntity {
         handleCollisionWithPortalIn1Cell(yUnit2, xUnit2);
     }
 
-    private void handleCollisionWithEnemy(int xUnit1, int yUnit1,
-                                          int xUnit2, int yUnit2) {
-        if (BombermanGame.map[yUnit1][xUnit1] instanceof Enemy
-                || BombermanGame.map[yUnit1][xUnit2] instanceof Enemy
-                || BombermanGame.map[yUnit2][xUnit1] instanceof Enemy
-                || BombermanGame.map[yUnit2][xUnit2] instanceof Enemy) {
-            isDead = true;
+    private void handleCollisionWithEnemy() {
+        for (MovingEntity movingEntity : BombermanGame.movingEntities) {
+            if (!(movingEntity instanceof Enemy)) {
+                continue;
+            }
+            if (checkIntersectionWithOtherMovingEntity(movingEntity.getX(), movingEntity.getY(),
+                    movingEntity.getX() + movingEntity.getSprite().get_realWidth(),
+                    movingEntity.getY() + movingEntity.getSprite().get_realHeight())) {
+                isDead = true;
+                return;
+            }
         }
     }
 
@@ -139,7 +143,7 @@ public class Bomber extends MovingEntity {
         } else {
             handleCollisionWithItemIn4Cells(xUnit1, yUnit1, xUnit2, yUnit2);
             handleCollisionWithPortalIn4Cells(xUnit1, yUnit1, xUnit2, yUnit2);
-            handleCollisionWithEnemy(xUnit1, yUnit1, xUnit2, yUnit2);
+            handleCollisionWithEnemy();
             handleBombPass(xUnit1, yUnit1, xUnit2, yUnit2);
         }
     }

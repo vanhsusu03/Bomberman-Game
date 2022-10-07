@@ -22,6 +22,13 @@ public abstract class MovingEntity extends Entity {
 
     protected abstract void move();
 
+    protected boolean checkIntersectionWithOtherMovingEntity(int x1, int y1,
+                                                             int x2, int y2) {
+        return x < x2 && y < y2
+                && (x + sprite.get_realWidth() > x1)
+                && (y + sprite.get_realHeight() > y1);
+    }
+
     private boolean isCellCanCome(int xUnit, int yUnit) {
         if (this instanceof Bomber) {
             for (Bomb bomb : Bomber.bombs) {
