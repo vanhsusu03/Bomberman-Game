@@ -23,17 +23,23 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.locks.StampedLock;
 
 public class BombermanGame extends Application {
     
     public static final int WIDTH = 31;
     public static final int HEIGHT = 13;
     
-    private GraphicsContext gc;
+    public static GraphicsContext gc;
     private Canvas canvas;
     public static List<MovingEntity> movingEntities = new ArrayList<>();
-    public static List<StillEntity> stillEntities = new ArrayList<>();
+    //public static List<StillEntity> stillEntities = new ArrayList<>();
 
+    //public static List<List<MovingEntity>> movingEntities = new ArrayList<List<MovingEntity>>();
+
+    public static List<List<StillEntity>> stillEntities = new ArrayList<List<StillEntity>>();
+
+    int level, width, height;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -81,7 +87,6 @@ public class BombermanGame extends Application {
     }
 
     public void createMap() {
-        int level, width, height;
         try {
             File file = new File("res/levels/Level1.txt");
             Scanner scanner = new Scanner(file);
@@ -92,35 +97,36 @@ public class BombermanGame extends Application {
 
             for (int i = 0; i < height; i++) {
                 String row = scanner.nextLine();
+                stillEntities.add(new ArrayList<>());
                 for (int j = 0; j < width; j++) {
-                    stillEntities.add(new Grass(j, i, Sprite.grass));
+                    stillEntities.get(i).add(j,new Grass(j, i, Sprite.grass));
                     switch (row.charAt(j)) {
                         case 'p':
                             movingEntities.add(new Bomber(j, i, 1, Sprite.player_right));
                             break;
                         case '1':
-                            movingEntities.add(new Balloon(j, i, 0, Sprite.balloon_right1));
+                            movingEntities.add(new Balloon(j, i, 1, Sprite.balloon_right1));
                             break;
                         case '2':
-                            movingEntities.add(new Oneal(j, i, 0, Sprite.oneal_right1));
+                            movingEntities.add(new Oneal(j, i, 1, Sprite.oneal_right1));
                             break;
                         case 'b':
-                            stillEntities.add(new BombItem(j, i, Sprite.powerup_bombs));
+                            stillEntities.get(i).add(j,new BombItem(j, i, Sprite.powerup_bombs));
                             break;
                         case 'f':
-                            stillEntities.add(new FlameItem(j, i, Sprite.powerup_flames));
+                            stillEntities.get(i).add(j,new FlameItem(j, i, Sprite.powerup_flames));
                             break;
                         case 's':
-                            stillEntities.add(new SpeedItem(j, i, Sprite.powerup_speed));
+                            stillEntities.get(i).add(j,new SpeedItem(j, i, Sprite.powerup_speed));
                             break;
                         case '#':
-                            stillEntities.add(new Wall(j, i, Sprite.wall));
+                            stillEntities.get(i).add(j, new Wall(j, i, Sprite.wall));
                             break;
                         case '*':
-                            stillEntities.add(new Brick(j, i, Sprite.brick));
+                            stillEntities.get(i).add(j,new Brick(j, i, Sprite.brick));
                             break;
                         case 'x':
-                            stillEntities.add(new Portal(j, i, Sprite.portal));
+                            stillEntities.get(i).add(j,new Portal(j, i, Sprite.portal));
                             break;
                     }
                 }
@@ -138,8 +144,13 @@ public class BombermanGame extends Application {
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        stillEntities.forEach(g -> g.render(gc));
-        movingEntities.forEach(g -> g.render(gc));
+        for(int i=0;i < HEIGHT; i++) {
+            for(int j=0;j < WIDTH; j++) {
+                if(stillEntities.get(i).get(j) != null) stillEntities.get(i).get(j).render(gc);
+            }
+        }
+        movingEntities.forEach(g->g.render(gc));
         Bomber.bombs.forEach(g -> g.render(gc));
     }
+
 }

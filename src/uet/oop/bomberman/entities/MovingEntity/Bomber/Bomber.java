@@ -6,6 +6,7 @@ import uet.oop.bomberman.KeyAction;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Bomb;
+import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.BombItem;
 import uet.oop.bomberman.entities.StillEntity.Item.FlameItem;
 import uet.oop.bomberman.entities.StillEntity.Item.Item;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bomber extends MovingEntity {
+
+    public static int xBomber, yBomber;
     private boolean isDead;
     private int numberOfBombs;
     public static List<Boolean> passBomb = new ArrayList<>();
@@ -26,7 +29,32 @@ public class Bomber extends MovingEntity {
 
     public Bomber(int xUnit, int yUnit, int speed, Sprite sprite) {
         super(xUnit, yUnit, speed, sprite);
+        xBomber = xUnit * Sprite.SCALED_SIZE;
+        yBomber = yUnit * Sprite.SCALED_SIZE;
         numberOfBombs = 1;
+    }
+
+    public static int getxBomber() {
+        return xBomber;
+    }
+    public static int getyBomber() {
+        return yBomber;
+    }
+
+    public static void setxBomber(int x) {
+        xBomber = x;
+    }
+    public static void setyBomber(int y) {
+        yBomber = y;
+    }
+    @Override
+    public int getX() {
+        return super.getX();
+    }
+
+    @Override
+    public int getY() {
+        return super.getY();
     }
 
     private void putBomb() {
@@ -74,18 +102,20 @@ public class Bomber extends MovingEntity {
             KeyAction.keys[KeyEvent.VK_SPACE] = false;
         }
 
-        for (int i = 0; i < BombermanGame.stillEntities.size(); i++) {
-            StillEntity stillEntity = BombermanGame.stillEntities.get(i);
-            int xStillEntity = stillEntity.getX(), yStillEntity = stillEntity.getY();
-            if (checkIntersection(xStillEntity, yStillEntity,
-                    xStillEntity + stillEntity.getSprite().get_realWidth(),
-                    yStillEntity + stillEntity.getSprite().get_realHeight())) {
-                if (stillEntity instanceof Item) {
-                    eatItems((Item) stillEntity);
-                    i--;
-                } else if (stillEntity instanceof Portal) {
-                    usePortal((Portal) stillEntity);
-                    i--;
+        for(int i=0;i < BombermanGame.HEIGHT;i++) {
+            for (int j = 0; j < BombermanGame.WIDTH; j++) {
+                StillEntity stillEntity = BombermanGame.stillEntities.get(i).get(j);
+                int xStillEntity = stillEntity.getX(), yStillEntity = stillEntity.getY();
+                if (checkIntersection(xStillEntity, yStillEntity,
+                        xStillEntity + stillEntity.getSprite().get_realWidth(),
+                        yStillEntity + stillEntity.getSprite().get_realHeight())) {
+                    if (stillEntity instanceof Item) {
+                        eatItems((Item) stillEntity);
+                        BombermanGame.stillEntities.get(i).set(j,new Grass(j,i,Sprite.grass));
+                    } else if (stillEntity instanceof Portal) {
+                        usePortal((Portal) stillEntity);
+                        i--;
+                    }
                 }
             }
         }
@@ -104,6 +134,8 @@ public class Bomber extends MovingEntity {
             x = _x;
             y = _y;
         }
+        setxBomber(this.x);
+        setyBomber(this.y);
     }
 
     @Override
@@ -125,6 +157,10 @@ public class Bomber extends MovingEntity {
                 img = Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1,
                         Sprite.player_right_2, frameCount, 40).getFxImage();
             }
+//            else {
+//                img = Sprite.movingSprite(Sprite.player_right,Sprite.player_right,
+//                        Sprite.player_right,frameCount,40).getFxImage();
+//            }
         }
 
         updateFrameCount();

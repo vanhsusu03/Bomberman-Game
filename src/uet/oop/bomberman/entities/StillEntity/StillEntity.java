@@ -7,4 +7,6 @@ public abstract class StillEntity extends Entity {
     public StillEntity(int xUnit, int yUnit, Sprite sprite) {
         super(xUnit, yUnit, 0, sprite);
     }
+
+
 }

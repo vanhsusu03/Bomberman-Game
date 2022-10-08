@@ -5,6 +5,7 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.StillEntity.Bomb;
 import uet.oop.bomberman.entities.StillEntity.Grass;
+import uet.oop.bomberman.entities.StillEntity.Item.Item;
 import uet.oop.bomberman.entities.StillEntity.StillEntity;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -20,15 +21,18 @@ public abstract class MovingEntity extends Entity {
     }
 
     protected boolean checkCanMove() {
-        for (StillEntity stillEntity : BombermanGame.stillEntities) {
-            if (stillEntity instanceof Grass) {
-                continue;
-            }
-            int xStillEntity = stillEntity.getX(), yStillEntity = stillEntity.getY();
-            if (checkIntersection(xStillEntity, yStillEntity,
-                    xStillEntity + stillEntity.getSprite().get_realWidth(),
-                    yStillEntity + stillEntity.getSprite().get_realHeight())) {
-                return false;
+        for(int i=0; i < BombermanGame.HEIGHT;i++) {
+            for(int j=0; j < BombermanGame.WIDTH; j++) {
+                StillEntity stillTmp = BombermanGame.stillEntities.get(i).get(j);
+                if (stillTmp instanceof Grass) {
+                    continue;
+                }
+                int xStillEntities = stillTmp.getX();
+                int yStillEntities = stillTmp.getY();
+                if(checkIntersection(xStillEntities,yStillEntities,xStillEntities + stillTmp.getSprite().get_realWidth(),
+                        yStillEntities + stillTmp.getSprite().get_realHeight())) {
+                    return false;
+                }
             }
         }
 
