@@ -5,11 +5,11 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.graphics.Sprite;
 
 public abstract class Entity {
+    private final static int MAX_FRAME_COUNT = (int) 1e9;
     //Tọa độ X tính từ góc trái trên trong Canvas
     protected int x;
     //Tọa độ Y tính từ góc trái trên trong Canvas
     protected int y;
-    private final static int MAX_FRAME_COUNT = (int) 1e9;
     protected int speed;
     protected int frameCount;
     protected Sprite sprite;
@@ -21,15 +21,9 @@ public abstract class Entity {
         this.y = yUnit * Sprite.SCALED_SIZE;
         this.speed = speed;
         this.sprite = sprite;
-        img = sprite.getFxImage();
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
+        if (sprite != null) {
+            img = sprite.getFxImage();
+        }
     }
 
     public int getX() {
@@ -40,8 +34,25 @@ public abstract class Entity {
         return y;
     }
 
+    public int getXUnit() {
+        return x / Sprite.SCALED_SIZE;
+    }
+
+    public int getYUnit() {
+        return y / Sprite.SCALED_SIZE;
+    }
+
     public Sprite getSprite() {
         return sprite;
+    }
+
+    protected boolean checkBothInACell(int xUnit, int yUnit) {
+        return xUnit == getXUnit() && yUnit == getYUnit();
+    }
+
+    protected boolean checkBothInACell(int xUnit1, int yUnit1,
+                                       int xUnit2, int yUnit2) {
+        return xUnit1 == xUnit2 && yUnit1 == yUnit2;
     }
 
     public void render(GraphicsContext gc) {

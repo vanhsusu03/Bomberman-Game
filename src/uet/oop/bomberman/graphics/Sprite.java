@@ -221,15 +221,34 @@ public class Sprite {
         }
     }
 
+    public static Sprite movingSprite(Sprite normal, Sprite x1, Sprite x2, Sprite x3, int animate, int time) {
+        int calc = animate % time;
+        int diff = time / 4;
+
+        if (calc < diff) {
+            return normal;
+        }
+
+        if (calc < diff * 2) {
+            return x1;
+        }
+
+        if (calc < diff * 3) {
+            return x2;
+        }
+
+        return x3;
+    }
+
     public static Sprite movingSprite(Sprite normal, Sprite x1, Sprite x2, int animate, int time) {
         int calc = animate % time;
         int diff = time / 3;
 
-        if(calc < diff) {
+        if (calc < diff) {
             return normal;
         }
 
-        if(calc < diff * 2) {
+        if (calc < diff * 2) {
             return x1;
         }
 
