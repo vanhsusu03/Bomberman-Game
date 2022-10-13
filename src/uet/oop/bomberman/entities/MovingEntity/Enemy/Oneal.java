@@ -22,7 +22,6 @@ public class Oneal extends Enemy {
 
     @Override
     public void render(GraphicsContext gc) {
-        update();
         gc.drawImage(img, chasingBomberlv1.getX(), chasingBomberlv1.getY());
     }
 }

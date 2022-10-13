@@ -42,6 +42,7 @@ public class BombermanGame extends Application {
     int level, width, height;
 
     public static void main(String[] args) {
+        System.setProperty("quantum.multithreaded", "false");
         Application.launch(BombermanGame.class);
     }
 
@@ -102,7 +103,7 @@ public class BombermanGame extends Application {
                     stillEntities.get(i).add(j,new Grass(j, i, Sprite.grass));
                     switch (row.charAt(j)) {
                         case 'p':
-                            movingEntities.add(new Bomber(j, i, 1, Sprite.player_right));
+                            movingEntities.add(new Bomber(j, i, 2, Sprite.player_right));
                             break;
                         case '1':
                             movingEntities.add(new Balloon(j, i, 1, Sprite.balloon_right1));
@@ -152,5 +153,4 @@ public class BombermanGame extends Application {
         movingEntities.forEach(g->g.render(gc));
         Bomber.bombs.forEach(g -> g.render(gc));
     }
-
 }

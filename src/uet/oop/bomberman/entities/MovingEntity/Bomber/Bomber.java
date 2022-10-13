@@ -83,9 +83,9 @@ public class Bomber extends MovingEntity {
 
     @Override
     public void update() {
-        if (isDead) {
-            return;
-        }
+//        if (isDead) {
+//
+//        }
 
         int _x = x, _y = y;
 
@@ -126,7 +126,7 @@ public class Bomber extends MovingEntity {
             if (checkIntersection(xMovingEntity, yMovingEntity,
                     xMovingEntity + movingEntity.getSprite().get_realWidth(),
                     yMovingEntity + movingEntity.getSprite().get_realHeight())) {
-                isDead = true;
+                //isDead = true;
             }
         }
 

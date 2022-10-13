@@ -47,7 +47,6 @@ public class Balloon extends Enemy {
 
     @Override
     public void render(GraphicsContext gc) {
-        update();
         gc.drawImage(img, moveRandom.getX(), moveRandom.getY());
     }
 }
