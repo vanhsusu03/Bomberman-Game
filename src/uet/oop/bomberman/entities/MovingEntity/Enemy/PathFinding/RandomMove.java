@@ -33,6 +33,14 @@ public class RandomMove  {
         return this.y;
     }
 
+    public int getGridX() {
+        return this.x/Sprite.SCALED_SIZE;
+    }
+
+    public int getGridY() {
+        return this.y/Sprite.SCALED_SIZE;
+    }
+
     public double getSpeed() {
         return this.speed;
     }

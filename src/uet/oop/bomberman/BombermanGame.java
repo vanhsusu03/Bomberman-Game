@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Balloon;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.Kondoria;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Oneal;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.*;
@@ -33,13 +34,19 @@ public class BombermanGame extends Application {
     public static GraphicsContext gc;
     private Canvas canvas;
     public static List<MovingEntity> movingEntities = new ArrayList<>();
-    //public static List<StillEntity> stillEntities = new ArrayList<>();
-
-    //public static List<List<MovingEntity>> movingEntities = new ArrayList<List<MovingEntity>>();
 
     public static List<List<StillEntity>> stillEntities = new ArrayList<List<StillEntity>>();
 
+    public static int[][] mapParsed = new int[HEIGHT][WIDTH];
     int level, width, height;
+
+    public static List<MovingEntity> getMovingEntities() {
+        return movingEntities;
+    }
+
+    public static List<List<StillEntity>> getStillEntities() {
+        return stillEntities;
+    }
 
     public static void main(String[] args) {
         System.setProperty("quantum.multithreaded", "false");
@@ -63,6 +70,7 @@ public class BombermanGame extends Application {
         stage.setScene(scene);
         stage.show();
 
+
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
@@ -71,6 +79,7 @@ public class BombermanGame extends Application {
             }
         };
         timer.start();
+
 
         createMap();
 
@@ -111,6 +120,8 @@ public class BombermanGame extends Application {
                         case '2':
                             movingEntities.add(new Oneal(j, i, 1, Sprite.oneal_right1));
                             break;
+                        case '3':
+                            movingEntities.add(new Kondoria(j,i,1,Sprite.kondoria_right1));
                         case 'b':
                             stillEntities.get(i).add(j,new BombItem(j, i, Sprite.powerup_bombs));
                             break;
@@ -138,6 +149,8 @@ public class BombermanGame extends Application {
             e.printStackTrace();
         }
     }
+
+
 
     public void update() {
         movingEntities.forEach(Entity::update);

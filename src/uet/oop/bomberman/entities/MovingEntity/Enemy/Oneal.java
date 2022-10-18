@@ -20,8 +20,8 @@ public class Oneal extends Enemy {
         updateFrameCount();
     }
 
-    @Override
-    public void render(GraphicsContext gc) {
-        gc.drawImage(img, chasingBomberlv1.getX(), chasingBomberlv1.getY());
-    }
+//    @Override
+//    public void render(GraphicsContext gc) {
+//        gc.drawImage(img, chasingBomberlv1.getX(), chasingBomberlv1.getY());
+//    }
 }

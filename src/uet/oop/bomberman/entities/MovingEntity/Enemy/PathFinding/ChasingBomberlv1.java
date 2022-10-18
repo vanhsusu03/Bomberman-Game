@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding;
 
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
+import uet.oop.bomberman.graphics.Sprite;
 
 import javax.sql.XADataSource;
 
@@ -13,17 +14,17 @@ public class ChasingBomberlv1 extends RandomMove {
     public ChasingBomberlv1(int x, int y, int speed) {
         super(x, y, speed);
     }
-    @Override
-     public int getX() {
-       return super.getX();
-     }
-     @Override
-     public int getY() {
-        return super.getY();
-     }
+//    @Override
+//     public int getX() {
+//       return super.getX();
+//     }
+//     @Override
+//     public int getY() {
+//        return super.getY();
+//     }
     //Chasing player in the range of a square has length 50 (canvas ratio)
-    private int XrangeofChasing = 70;
-    private int YrangeofChasing = 70;
+    private int XrangeofChasing = 5;
+    private int YrangeofChasing = 5;
 
     /**
      * RETURN 0: Can't navigate - player is out of range
@@ -37,19 +38,20 @@ public class ChasingBomberlv1 extends RandomMove {
      * RETURN 8: Player in the same y - x right
      */
     private int directFollowChasing() {
-        int Xdistance = x - Bomber.getxBomber();
-        int Ydistance = y - Bomber.getyBomber();
+        int Xdistance = x/Sprite.SCALED_SIZE - Bomber.getxBomber()/Sprite.SCALED_SIZE;
+        int Ydistance = y/Sprite.SCALED_SIZE - Bomber.getyBomber()/Sprite.SCALED_SIZE;
+        //System.out.println("Xdis = " + Xdistance + " Ydis = " + Ydistance);
         if ( Xdistance == 0) {
-            if ( Ydistance > 0 && Ydistance <= YrangeofChasing) {
+            if ( Ydistance >= 0 && Ydistance <= YrangeofChasing) {
                 return 5;
-            } else if (Ydistance < 0 && -Ydistance <= YrangeofChasing) {
+            } else if (Ydistance <= 0 && -Ydistance <= YrangeofChasing) {
                 return 6;
             }
         }
         if (Ydistance == 0 ) {
-            if (Xdistance > 0 && Xdistance <= XrangeofChasing) {
+            if (Xdistance >= 0 && Xdistance <= XrangeofChasing) {
                 return 7;
-            } else if (Xdistance < 0 && -Xdistance <= XrangeofChasing) {
+            } else if (Xdistance <= 0 && -Xdistance <= XrangeofChasing) {
                 return 8;
             }
         }

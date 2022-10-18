@@ -47,6 +47,13 @@ public class Bomber extends MovingEntity {
     public static void setyBomber(int y) {
         yBomber = y;
     }
+
+    public static int getxGridBomber() {
+        return xBomber/Sprite.SCALED_SIZE;
+    }
+    public static int getyGridBomber() {
+        return yBomber/Sprite.SCALED_SIZE;
+    }
     @Override
     public int getX() {
         return super.getX();
