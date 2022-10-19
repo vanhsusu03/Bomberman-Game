@@ -23,6 +23,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -33,6 +34,7 @@ public class BombermanGame extends Application {
     public static Entity[][] map = new Entity[HEIGHT][WIDTH];
     public static Entity[][] hiddenEntities = new Entity[HEIGHT][WIDTH];
     public static List<MovingEntity> movingEntities = new ArrayList<>();
+    Pvp pvp;
     private GraphicsContext gc;
     private Canvas canvas;
 
@@ -65,6 +67,20 @@ public class BombermanGame extends Application {
             }
         };
         timer.start();
+
+
+
+
+        Scanner sc = new Scanner(System.in);
+        if (sc.nextInt() == 0) {
+            pvp = new Pvp();
+        } else {
+            pvp = new Pvp("192.168.23.104");
+        }
+
+
+
+
 
         createMap();
 
