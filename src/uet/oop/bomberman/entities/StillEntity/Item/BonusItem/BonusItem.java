@@ -14,6 +14,7 @@ public abstract class BonusItem extends Item {
 
     public BonusItem(Sprite sprite) {
         this.sprite = sprite;
+        img = sprite.getFxImage();
     }
 
     public BonusItem(int xUnit, int yUnit, Sprite sprite) {
@@ -51,8 +52,9 @@ public abstract class BonusItem extends Item {
             for (int j = 0; j < BombermanGame.WIDTH; j++) {
                 if (BombermanGame.map[i][j] instanceof Grass) {
                     if (posRand <= 0) {
-                        BombermanGame.map[i][j] = new BonusTarget(j,
-                                i, this.sprite);
+                        x = j * Sprite.SCALED_SIZE;
+                        y = i * Sprite.SCALED_SIZE;
+                        BombermanGame.map[i][j] = this;
                         return;
                     }
                     posRand--;

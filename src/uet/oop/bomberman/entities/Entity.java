@@ -12,7 +12,7 @@ public abstract class Entity {
     protected int y;
     protected int speed;
     protected int frameCount;
-    protected Sprite sprite;
+    protected Sprite sprite = null;
     protected Image img;
 
     public Entity() {

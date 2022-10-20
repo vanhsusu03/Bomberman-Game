@@ -9,6 +9,7 @@ import uet.oop.bomberman.entities.StillEntity.Bomb;
 import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.*;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusTarget;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.NakamotoSan;
 import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.*;
@@ -94,8 +95,7 @@ public class Bomber extends MovingEntity {
             isCanDetonateOldestBomb = true;
         } else if (BombermanGame.map[i][j] instanceof MysteryItem) {
             useMysteryItem();
-        } else if (BombermanGame.map[i][j] instanceof BonusTarget
-                || BombermanGame.map[i][j] instanceof NakamotoSan) {
+        } else if (BombermanGame.map[i][j] instanceof BonusItem) {
             BombermanGame.score += BombermanGame.bonusItem.getPoint();
         }
         BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
