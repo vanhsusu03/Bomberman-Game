@@ -9,6 +9,7 @@ import uet.oop.bomberman.entities.StillEntity.Bomb;
 import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.*;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusTarget;
 import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.*;
 import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.graphics.Sprite;
@@ -92,16 +93,24 @@ public class Bomber extends MovingEntity {
             isCanDetonateOldestBomb = true;
         } else if (BombermanGame.map[i][j] instanceof MysteryItem) {
             useMysteryItem();
+        } else if (BombermanGame.map[i][j] instanceof BonusTarget) {
+            BombermanGame.score += BombermanGame.bonusItem.getPoint();
         }
         BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
     }
 
     private void usePortal(int i, int j) {
+        if (!Enemy.isAnyoneKilled && BombermanGame.bonusItem.isActivated()) {
+            BombermanGame.bonusItem.createRandomOnGrass();
+            BombermanGame.bonusItem.setActivated(false);
+        }
+
         for (MovingEntity movingEntity : BombermanGame.movingEntities) {
             if (movingEntity instanceof Enemy) {
                 return;
             }
         }
+
         System.out.println("Game la` de~!!!");
     }
 
