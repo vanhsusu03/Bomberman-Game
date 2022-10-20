@@ -10,6 +10,7 @@ import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.*;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusTarget;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.NakamotoSan;
 import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.*;
 import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.graphics.Sprite;
@@ -93,7 +94,8 @@ public class Bomber extends MovingEntity {
             isCanDetonateOldestBomb = true;
         } else if (BombermanGame.map[i][j] instanceof MysteryItem) {
             useMysteryItem();
-        } else if (BombermanGame.map[i][j] instanceof BonusTarget) {
+        } else if (BombermanGame.map[i][j] instanceof BonusTarget
+                || BombermanGame.map[i][j] instanceof NakamotoSan) {
             BombermanGame.score += BombermanGame.bonusItem.getPoint();
         }
         BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
@@ -203,6 +205,13 @@ public class Bomber extends MovingEntity {
         if (KeyAction.keys[KeyEvent.VK_D]) {
             detonateOldestBomb();
             KeyAction.keys[KeyEvent.VK_D] = false;
+        }
+
+        if (BombermanGame.movingEntities.size() == 1
+                && BombermanGame.bonusItem.isActivated()
+                && !Brick.isAnythingDestroyed) {
+            BombermanGame.bonusItem.createRandomOnGrass();
+            BombermanGame.bonusItem.setActivated(false);
         }
 
         int _x = x, _y = y;

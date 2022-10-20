@@ -17,6 +17,7 @@ import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.*;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusTarget;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.NakamotoSan;
 import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.*;
 import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.entities.StillEntity.Wall;
@@ -97,7 +98,8 @@ public class BombermanGame extends Application {
             scanner.nextLine();
 
             Grass.grassImg = Sprite.grass.getFxImage();
-            bonusItem = new BonusTarget(Sprite.bonus_item_bonus_target);
+//            bonusItem = new BonusTarget(Sprite.bonus_item_bonus_target);
+            bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
             for (int i = 0; i < height; i++) {
                 String row = scanner.nextLine();
                 for (int j = 0; j < width; j++) {
@@ -186,7 +188,8 @@ public class BombermanGame extends Application {
 
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
-                if (map[i][j] instanceof Portal || map[i][j] instanceof Brick) {
+                if (map[i][j] instanceof Portal || map[i][j] instanceof Brick
+                        || map[i][j] instanceof BonusItem) {
                     gc.drawImage(Grass.grassImg,
                             j * Sprite.SCALED_SIZE, i * Sprite.SCALED_SIZE);
                 }

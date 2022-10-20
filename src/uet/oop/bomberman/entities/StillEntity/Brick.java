@@ -6,6 +6,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class Brick extends StillEntity {
     private static final int TIME_MOVING_DESTROYED_SPRITE = 40;
+    public static boolean isAnythingDestroyed = false;
     private boolean isDestroyed;
 
     public Brick(int xUnit, int yUnit, Sprite sprite) {
@@ -14,6 +15,9 @@ public class Brick extends StillEntity {
 
     public void setDestroyed(boolean destroyed) {
         isDestroyed = destroyed;
+        if (destroyed) {
+            isAnythingDestroyed = true;
+        }
     }
 
     @Override
