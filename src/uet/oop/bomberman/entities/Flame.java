@@ -46,7 +46,8 @@ public class Flame extends Entity {
 
     private void killMovingEntity() {
         for (MovingEntity movingEntity : BombermanGame.movingEntities) {
-            if (checkIntersectionWithMovingEntity(movingEntity)) {
+            if (checkIntersectionWithMovingEntity(movingEntity)
+                    && !movingEntity.isCanPassFlames()) {
                 movingEntity.setDead(true);
             }
         }

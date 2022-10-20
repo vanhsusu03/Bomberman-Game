@@ -11,6 +11,9 @@ import static uet.oop.bomberman.BombermanGame.map;
 
 public abstract class MovingEntity extends Entity {
     protected boolean isDead;
+    protected boolean isCanPassFlames = false;
+    protected boolean isCanPassBombs = false;
+    protected boolean isCanPassBrick = false;
 
     public MovingEntity(int xUnit, int yUnit, int speed, Sprite sprite) {
         super(xUnit, yUnit, speed, sprite);
@@ -22,6 +25,10 @@ public abstract class MovingEntity extends Entity {
 
     public void setDead(boolean dead) {
         isDead = dead;
+    }
+
+    public boolean isCanPassFlames() {
+        return isCanPassFlames;
     }
 
     protected abstract void move();
@@ -43,7 +50,7 @@ public abstract class MovingEntity extends Entity {
             }
         }
 
-        return !(map[yUnit][xUnit] instanceof Brick)
+        return (!(map[yUnit][xUnit] instanceof Brick) || isCanPassBrick)
                 && !(map[yUnit][xUnit] instanceof Wall);
     }
 

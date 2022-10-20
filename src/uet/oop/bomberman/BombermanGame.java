@@ -14,9 +14,7 @@ import uet.oop.bomberman.entities.MovingEntity.Enemy.Oneal;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Grass;
-import uet.oop.bomberman.entities.StillEntity.Item.BombItem;
-import uet.oop.bomberman.entities.StillEntity.Item.FlameItem;
-import uet.oop.bomberman.entities.StillEntity.Item.SpeedItem;
+import uet.oop.bomberman.entities.StillEntity.Item.*;
 import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.entities.StillEntity.Wall;
 import uet.oop.bomberman.graphics.Sprite;
@@ -119,6 +117,26 @@ public class BombermanGame extends Application {
                             break;
                         case 's':
                             hiddenEntities[i][j] = new SpeedItem(j, i, Sprite.powerup_speed);
+                            map[i][j] = new Brick(j, i, Sprite.brick);
+                            break;
+                        case 'l':
+                            hiddenEntities[i][j] = new FlamepassItem(j, i, Sprite.powerup_flamepass);
+                            map[i][j] = new Brick(j, i, Sprite.brick);
+                            break;
+                        case 'o':
+                            hiddenEntities[i][j] = new BombpassItem(j, i, Sprite.powerup_bombpass);
+                            map[i][j] = new Brick(j, i, Sprite.brick);
+                            break;
+                        case 'r':
+                            hiddenEntities[i][j] = new BrickpassItem(j, i, Sprite.powerup_brickpass);
+                            map[i][j] = new Brick(j, i, Sprite.brick);
+                            break;
+                        case 'd':
+                            hiddenEntities[i][j] = new DetonatorItem(j, i, Sprite.powerup_detonator);
+                            map[i][j] = new Brick(j, i, Sprite.brick);
+                            break;
+                        case 'm':
+                            hiddenEntities[i][j] = new MysteryItem(j, i, Sprite.powerup_mystery);
                             map[i][j] = new Brick(j, i, Sprite.brick);
                             break;
                         case '#':
