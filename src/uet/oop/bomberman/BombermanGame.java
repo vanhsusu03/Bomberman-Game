@@ -15,6 +15,11 @@ import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.*;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusTarget;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.DezenimanSan;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.NakamotoSan;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.*;
 import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.entities.StillEntity.Wall;
 import uet.oop.bomberman.graphics.Sprite;
@@ -28,9 +33,11 @@ import java.util.Scanner;
 public class BombermanGame extends Application {
     public static final int WIDTH = 31;
     public static final int HEIGHT = 13;
+    public static long score = 0;
     public static Entity[][] map = new Entity[HEIGHT][WIDTH];
     public static Entity[][] hiddenEntities = new Entity[HEIGHT][WIDTH];
     public static List<MovingEntity> movingEntities = new ArrayList<>();
+    public static BonusItem bonusItem = null;
     private GraphicsContext gc;
     private Canvas canvas;
 
@@ -60,6 +67,7 @@ public class BombermanGame extends Application {
             public void handle(long l) {
                 render();
                 update();
+//                System.out.println(score);
             }
         };
         timer.start();
@@ -91,6 +99,9 @@ public class BombermanGame extends Application {
             scanner.nextLine();
 
             Grass.grassImg = Sprite.grass.getFxImage();
+//            bonusItem = new BonusTarget(Sprite.bonus_item_bonus_target);
+//            bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
+            bonusItem = new DezenimanSan(Sprite.bonus_item_dezeniman_san);
             for (int i = 0; i < height; i++) {
                 String row = scanner.nextLine();
                 for (int j = 0; j < width; j++) {
@@ -179,7 +190,8 @@ public class BombermanGame extends Application {
 
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
-                if (map[i][j] instanceof Portal || map[i][j] instanceof Brick) {
+                if (map[i][j] instanceof Portal || map[i][j] instanceof Brick
+                        || map[i][j] instanceof BonusItem) {
                     gc.drawImage(Grass.grassImg,
                             j * Sprite.SCALED_SIZE, i * Sprite.SCALED_SIZE);
                 }

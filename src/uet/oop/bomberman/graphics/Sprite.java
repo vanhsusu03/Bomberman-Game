@@ -183,6 +183,15 @@ public class Sprite {
     public static Sprite powerup_flamepass = new Sprite(DEFAULT_SIZE, 6, 10, SpriteSheet.tiles, 16, 16);
     public static Sprite powerup_mystery = new Sprite(DEFAULT_SIZE, 7, 10, SpriteSheet.tiles, 16, 16);
 
+    /*
+    |--------------------------------------------------------------------------
+    | Bonus Items
+    |--------------------------------------------------------------------------
+     */
+    public static Sprite bonus_item_bonus_target = new Sprite(DEFAULT_SIZE, 0, 11, SpriteSheet.tiles, 16, 16);
+    public static Sprite bonus_item_nakamoto_san = new Sprite(DEFAULT_SIZE, 2, 11, SpriteSheet.tiles, 16, 16);
+    public static Sprite bonus_item_dezeniman_san = new Sprite(DEFAULT_SIZE, 5, 11, SpriteSheet.tiles, 16, 16);
+
     public Sprite(int size, int x, int y, SpriteSheet sheet, int rw, int rh) {
         SIZE = size;
         _pixels = new int[SIZE * SIZE];

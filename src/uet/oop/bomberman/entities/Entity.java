@@ -12,8 +12,11 @@ public abstract class Entity {
     protected int y;
     protected int speed;
     protected int frameCount;
-    protected Sprite sprite;
+    protected Sprite sprite = null;
     protected Image img;
+
+    public Entity() {
+    }
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
     public Entity(int xUnit, int yUnit, int speed, Sprite sprite) {
