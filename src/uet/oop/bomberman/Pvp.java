@@ -2,6 +2,7 @@ package uet.oop.bomberman;
 
 import uet.oop.bomberman.LocalAreaNetwork.Client;
 import uet.oop.bomberman.LocalAreaNetwork.Server;
+import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 
 public class Pvp {
     public enum PlayerType {
@@ -10,9 +11,11 @@ public class Pvp {
     }
 
     public static PlayerType playerType;
-    public static Server server;
+    public static Server server = null;
     public static Client client;
     public static boolean isRunning = false;
+    public static Bomber bomber1;
+    public static boolean[] keys = new boolean[41];
 
     public Pvp() {
         isRunning = true;

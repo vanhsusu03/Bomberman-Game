@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
+import org.json.JSONObject;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Balloon;
@@ -21,9 +22,12 @@ import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.entities.StillEntity.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -81,19 +85,27 @@ public class BombermanGame extends Application {
 
 
 
-
         createMap();
 
         scene.setOnKeyPressed(event -> {
             KeyAction.setKeptKey(String.valueOf(event.getCode()), true);
+            if (Pvp.server == null) {
+                Pvp.client.sendKeyData();
+            }
         });
 
         scene.setOnKeyReleased(event -> {
             KeyAction.setKeptKey(String.valueOf(event.getCode()), false);
+            if (Pvp.server == null) {
+                Pvp.client.sendKeyData();
+            }
         });
 
         scene.setOnKeyTyped(event -> {
             KeyAction.setTypedKey(event.getCharacter(), true);
+            if (Pvp.server == null) {
+                Pvp.client.sendKeyData();
+            }
         });
     }
 
@@ -115,6 +127,10 @@ public class BombermanGame extends Application {
                     switch (row.charAt(j)) {
                         case 'p':
                             movingEntities.add(new Bomber(j, i, 1, Sprite.player_right));
+                            map[i][j] = new Grass(j, i, Sprite.grass);
+                            break;
+                        case 'q':
+                            Pvp.bomber1 = new Bomber(j, i, 1, Sprite.player_left);
                             map[i][j] = new Grass(j, i, Sprite.grass);
                             break;
                         case '1':
@@ -160,6 +176,18 @@ public class BombermanGame extends Application {
     }
 
     public void update() {
+        if (Pvp.server != null) {
+            Pvp.server.getData();
+        } else {
+            JSONObject obj = new JSONObject();
+            obj.put("none", "none");
+            Pvp.client.sendData(obj);
+        }
+
+
+        if (Pvp.isRunning) {
+            Pvp.bomber1.update();
+        }
         movingEntities.forEach(Entity::update);
 
         int n = Bomber.bombs.size();
@@ -194,6 +222,9 @@ public class BombermanGame extends Application {
                 i--;
                 n = movingEntities.size();
             }
+        }
+        if (Pvp.isRunning) {
+            Pvp.bomber1.render(gc);
         }
     }
 }
