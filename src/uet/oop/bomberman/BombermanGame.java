@@ -39,6 +39,9 @@ public class BombermanGame extends Application {
 
     public static int[][] mapParsed = new int[HEIGHT][WIDTH];
     int level, width, height;
+    private final long[] frameTimes = new long[100];
+    private int frameTimeIndex = 0 ;
+    private boolean arrayFilled = false ;
 
     public static List<MovingEntity> getMovingEntities() {
         return movingEntities;
@@ -71,6 +74,25 @@ public class BombermanGame extends Application {
         stage.show();
 
 
+
+        AnimationTimer frameRateMeter = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                long oldFrameTime = frameTimes[frameTimeIndex];
+                frameTimes[frameTimeIndex] = now;
+                frameTimeIndex = (frameTimeIndex + 1) % frameTimes.length;
+                if (frameTimeIndex == 0) {
+                    arrayFilled = true;
+                }
+                if (arrayFilled) {
+                    long elapsedNanos = now - oldFrameTime;
+                    long elapsedNanosPerFrame = elapsedNanos / frameTimes.length;
+                    double frameRate = 1_000_000_000.0 / elapsedNanosPerFrame;
+                    System.out.println(String.format("Current frame rate: %.3f" + ", Random number:" + Math.random(), frameRate));
+                }
+            }
+        };
+
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
@@ -79,6 +101,7 @@ public class BombermanGame extends Application {
             }
         };
         timer.start();
+        frameRateMeter.start();
 
 
         createMap();
