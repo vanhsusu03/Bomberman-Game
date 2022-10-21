@@ -2,8 +2,9 @@ package uet.oop.bomberman.entities.MovingEntity.Enemy;
 
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.Astar_FindingPath;
-import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.ChasingBomberlv2;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.ChasingBomberAStar;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -12,14 +13,14 @@ public class Kondoria extends Enemy {
         super(xUnit, yUnit, speed, sprite);
         img = sprite.getFxImage();
     }
-    ChasingBomberlv2 chasingBomberlv2 = new ChasingBomberlv2(x,y,speed);
+    ChasingBomberAStar chasingBomberAStar = new ChasingBomberAStar(x,y,1);
 
     @Override
     public void update() {
-        chasingBomberlv2.updateChasingmoveLv2();
-        setX(chasingBomberlv2.getX());
-        setY(chasingBomberlv2.getY());
-        switch (chasingBomberlv2.getDirection()) {
+        chasingBomberAStar.updateChasingmoveAStar();
+        setX(chasingBomberAStar.getX());
+        setY(chasingBomberAStar.getY());
+        switch (chasingBomberAStar.getDirection()) {
             case 0:
                 img = Sprite.movingSprite(Sprite.kondoria_left1,Sprite.kondoria_left2,Sprite.kondoria_left3,frameCount,80).getFxImage();
                 break;
@@ -36,4 +37,9 @@ public class Kondoria extends Enemy {
         updateFrameCount();
     }
 
+    @Override
+    public void render(GraphicsContext gc) {
+        //System.out.println(chasingBomberAStar.getX() + " "+chasingBomberAStar.getY());
+        gc.drawImage(img,chasingBomberAStar.getX(),chasingBomberAStar.getY());
+    }
 }

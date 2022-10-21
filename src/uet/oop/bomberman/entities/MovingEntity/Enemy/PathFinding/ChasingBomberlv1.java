@@ -7,64 +7,41 @@ import uet.oop.bomberman.graphics.Sprite;
 import javax.sql.XADataSource;
 
 /**
- * Chasing bomberman lv1 - Smart: Normal
+ * Chasing bomberman lv1 - Smart: Low- a bit of Normal.
  */
 public class ChasingBomberlv1 extends RandomMove {
 
     public ChasingBomberlv1(int x, int y, int speed) {
         super(x, y, speed);
     }
-//    @Override
-//     public int getX() {
-//       return super.getX();
-//     }
-//     @Override
-//     public int getY() {
-//        return super.getY();
-//     }
-    //Chasing player in the range of a square has length 50 (canvas ratio)
-    private int XrangeofChasing = 5;
-    private int YrangeofChasing = 5;
+
+    private final int rangetoChase = 5;
 
     /**
-     * RETURN 0: Can't navigate - player is out of range
-     * RETURN 1: Player up - left
-     * RETURN 2: PLayer up - right
-     * RETURN 3: Player down - left
-     * RETURN 4: Player down - right
-     * RETURN 5: Player in the same x - y up
-     * RETURN 6: PLayer in the same x - y down
-     * RETURN 7: Player in the same y - x left
-     * RETURN 8: Player in the same y - x right
+     * RETURN 0: Can't navigate - player is out of range.
+     * RETURN 1: Player left.
+     * RETURN 2: PLayer right.
+     * RETURN 3: Player up.
+     * RETURN 4: Player down.
      */
     private int directFollowChasing() {
         int Xdistance = x/Sprite.SCALED_SIZE - Bomber.getxBomber()/Sprite.SCALED_SIZE;
         int Ydistance = y/Sprite.SCALED_SIZE - Bomber.getyBomber()/Sprite.SCALED_SIZE;
-        //System.out.println("Xdis = " + Xdistance + " Ydis = " + Ydistance);
-        if ( Xdistance == 0) {
-            if ( Ydistance >= 0 && Ydistance <= YrangeofChasing) {
-                return 5;
-            } else if (Ydistance <= 0 && -Ydistance <= YrangeofChasing) {
-                return 6;
-            }
-        }
-        if (Ydistance == 0 ) {
-            if (Xdistance >= 0 && Xdistance <= XrangeofChasing) {
-                return 7;
-            } else if (Xdistance <= 0 && -Xdistance <= XrangeofChasing) {
-                return 8;
-            }
-        }
-        if( Xdistance > 0 && Xdistance < XrangeofChasing && Ydistance > 0 && Ydistance < YrangeofChasing ) {
+        //System.out.println("XDIS= " + Xdistance + " YDIS= " + Ydistance);
+        //Player on the left
+        if( Xdistance > 0 && Xdistance < rangetoChase && Ydistance == 0) {
             return 1;
         }
-        if ( Xdistance > 0 && Xdistance < XrangeofChasing && -Ydistance > 0 && -Ydistance < YrangeofChasing) {
-            return 3;
-        }
-        if ( -Xdistance > 0 && -Xdistance < XrangeofChasing && Ydistance > 0 && Ydistance < YrangeofChasing) {
+        //PLayer on the right
+        if ( -Xdistance > 0 && -Xdistance < rangetoChase && Ydistance == 0 ) {
             return 2;
         }
-        if (-Xdistance > 0 && -Xdistance < XrangeofChasing && -Ydistance > 0 && -Ydistance < YrangeofChasing) {
+        //Player is up
+        if ( Xdistance == 0 && Ydistance > 0 && Ydistance < rangetoChase) {
+            return 3;
+        }
+        //Player is down
+        if (Xdistance == 0  && -Ydistance > 0 && -Ydistance < rangetoChase) {
             return 4;
         }
         return 0;
@@ -72,78 +49,36 @@ public class ChasingBomberlv1 extends RandomMove {
 
     int chasedirection = 0;
 
-    public void moveChasingChanges() {
+    public void moveChasingChangeslv1() {
         chasedirection = directFollowChasing();
-        if(chasedirection == 0) {
-            updateRandomMove();
-        } else {
+        //ystem.out.println(chasedirection);
             switch (chasedirection) {
-                case 1: // Top-Left
-                    // Left
+                case 1: //Left
                     if(canMoveleft()) {
                         x -= speed;
                         break;
-                    }else {
-                        break;
                     }
-                case 2: // Top - Right
-                    //Up
-                    if(canMoveup()) {
-                         y-=speed;
+                case 2: //Right
+                    if(canMoveright()) {
+                         x+=speed;
                          break;
-                    } else {
-                        break;
                     }
-                case 3: // Left - Down
-                    //DOWN
-                    if (canMovedown()) {
-                        y+=speed;
-                        break;
-                    } else {
-                        break;
-                    }
-                case 4: // Right - Down
-                    if (canMoveright()) {
-                        x += speed;
-                        break;
-                    } else {
-                        break;
-                    }
-                case 5: // same x, y up
+                case 3: //Up
                     if (canMoveup()) {
                         y-=speed;
                         break;
-                    } else {
-                        break;
                     }
-                case 6: // same x, y down
+                case 4: //Down
                     if (canMovedown()) {
-                        y+=speed;
-                        break;
-                    } else {
-                        break;
-                    }
-                case 7: // same y, x left
-                    if(canMoveleft()) {
-                        x-=speed;
-                        break;
-                    } else {
-                        break;
-                    }
-                case 8: //same y, x right
-                    if(canMoveright()) {
-                        x+=speed;
-                        break;
-                    } else {
+                        y += speed;
                         break;
                     }
                 default:
-                    break;
+                    updateRandomMove();
             }
         }
-    }
 
     public void updateChasingmoveLv1() {
-        moveChasingChanges();
+        moveChasingChangeslv1();
     }
 }

@@ -59,10 +59,7 @@ public class Astar_FindingPath {
 
     public List<Node> AStar_PathFinding(Node startNode, Node endNode) {
         int [][] mapParsed = mapParsed();
-        Comparator<Node> compare = (Node a, Node b) -> {
-            return a.getFcost() < b.getFcost() ? 1 : -1;
-        };
-        PriorityQueue<Node> futureNode = new PriorityQueue<>(compare);
+        PriorityQueue<Node> futureNode = new PriorityQueue<>();
         List<Node> passedNode = new ArrayList<>();
         futureNode.offer(startNode);
 

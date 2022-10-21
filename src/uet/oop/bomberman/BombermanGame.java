@@ -49,7 +49,7 @@ public class BombermanGame extends Application {
     }
 
     public static void main(String[] args) {
-        System.setProperty("quantum.multithreaded", "false");
+        //System.setProperty("quantum.multithreaded", "false");
         Application.launch(BombermanGame.class);
     }
 
