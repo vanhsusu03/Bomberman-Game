@@ -5,7 +5,7 @@ import uet.oop.bomberman.graphics.Sprite;
 public class DezenimanSan extends BonusItem {
     public DezenimanSan(Sprite sprite) {
         super(sprite);
-        point = (int) 8e5;
+        point = (int) 5e6;
         isActivated = true;
     }
 
