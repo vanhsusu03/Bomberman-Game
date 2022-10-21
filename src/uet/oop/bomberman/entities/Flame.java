@@ -24,6 +24,7 @@ public class Flame extends Entity {
             if (bomb != bombSpawnsThisFlame && bomb.getXUnit() == getXUnit()
                     && bomb.getYUnit() == getYUnit()) {
                 isIntersected = true;
+                bomb.setExplodedByChainReaction(true);
                 bomb.setExplosion();
             }
         }

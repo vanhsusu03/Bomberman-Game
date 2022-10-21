@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities.StillEntity;
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.DezenimanSan;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Brick extends StillEntity {
@@ -60,7 +61,8 @@ public class Brick extends StillEntity {
             BombermanGame.map[yUnit][xUnit] = new Grass(xUnit,
                     yUnit, Sprite.grass);
 
-            if (BombermanGame.bonusItem.isActivated()
+            if (BombermanGame.bonusItem instanceof DezenimanSan
+                    && BombermanGame.bonusItem.isActivated()
                     && !Enemy.isAnyoneKilled
                     && !isHavingBrickOnMap()) {
                 BombermanGame.bonusItem.createRandomOnGrass();

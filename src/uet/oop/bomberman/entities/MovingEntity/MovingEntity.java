@@ -10,6 +10,8 @@ import uet.oop.bomberman.graphics.Sprite;
 import static uet.oop.bomberman.BombermanGame.map;
 
 public abstract class MovingEntity extends Entity {
+    protected int centerX;
+    protected int centerY;
     protected boolean isDead;
     protected boolean isCanPassFlames = false;
     protected boolean isCanPassBombs = false;

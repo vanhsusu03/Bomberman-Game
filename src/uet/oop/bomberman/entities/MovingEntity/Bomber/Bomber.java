@@ -9,17 +9,13 @@ import uet.oop.bomberman.entities.StillEntity.Bomb;
 import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.*;
-import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
-import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusTarget;
-import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.NakamotoSan;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.*;
 import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.*;
 import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static uet.oop.bomberman.BombermanGame.map;
 
@@ -28,6 +24,7 @@ public class Bomber extends MovingEntity {
     public static List<Bomb> bombs = new ArrayList<>();
     private int maxNumberOfBombs;
     private boolean isCanDetonateOldestBomb = false;
+    private Set<String> outerCirclePositions = new HashSet<>();
 
     public Bomber(int xUnit, int yUnit, int speed, Sprite sprite) {
         super(xUnit, yUnit, speed, sprite);
@@ -38,7 +35,7 @@ public class Bomber extends MovingEntity {
         int xBomb = (int) Math.round((double) x / Sprite.SCALED_SIZE);
         int yBomb = (int) Math.round((double) y / Sprite.SCALED_SIZE);
 
-        if (bombs.size() < maxNumberOfBombs && !(map[yBomb][xBomb] instanceof Brick)) {
+        if (bombs.size() < maxNumberOfBombs && map[yBomb][xBomb] instanceof Grass) {
             bombs.add(new Bomb(xBomb, yBomb, Sprite.bomb));
         }
     }
@@ -102,7 +99,9 @@ public class Bomber extends MovingEntity {
     }
 
     private void usePortal(int i, int j) {
-        if (!Enemy.isAnyoneKilled && BombermanGame.bonusItem.isActivated()) {
+        if (BombermanGame.bonusItem instanceof BonusTarget
+                && BombermanGame.bonusItem.isActivated()
+                && !Enemy.isAnyoneKilled) {
             BombermanGame.bonusItem.createRandomOnGrass();
             BombermanGame.bonusItem.setActivated(false);
         }
@@ -196,10 +195,37 @@ public class Bomber extends MovingEntity {
         }
     }
 
+    private void updateCenterPosition() {
+        centerX = x + sprite.get_realWidth() / 2;
+        centerY = y + sprite.get_realHeight() / 2;
+    }
+
     @Override
     public void update() {
         if (isDead) {
             return;
+        }
+
+        if (BombermanGame.bonusItem instanceof GoddessMask
+                && BombermanGame.bonusItem.isActivated()
+                && BombermanGame.movingEntities.size() == 1
+                && BombermanGame.movingEntities.get(0) instanceof Bomber) {
+            updateCenterPosition();
+            int centerXUnit = centerX / Sprite.SCALED_SIZE;
+            int centerYUnit = centerY / Sprite.SCALED_SIZE;
+            if (centerXUnit == 1 || centerYUnit == 1
+                    || centerXUnit == BombermanGame.WIDTH - 2
+                    || centerYUnit == BombermanGame.HEIGHT - 2) {
+                outerCirclePositions.add(centerXUnit + " " + centerYUnit);
+            } else {
+                outerCirclePositions.clear();
+            }
+
+            if (outerCirclePositions.size()
+                    >= 2 * ((BombermanGame.WIDTH - 2) + (BombermanGame.HEIGHT - 2)) - 4) {
+                BombermanGame.bonusItem.createRandomOnGrass();
+                BombermanGame.bonusItem.setActivated(false);
+            }
         }
 
         if (KeyAction.keys[KeyEvent.VK_D]) {
@@ -207,8 +233,10 @@ public class Bomber extends MovingEntity {
             KeyAction.keys[KeyEvent.VK_D] = false;
         }
 
-        if (BombermanGame.movingEntities.size() == 1
+        if (BombermanGame.bonusItem instanceof NakamotoSan
                 && BombermanGame.bonusItem.isActivated()
+                && BombermanGame.movingEntities.size() == 1
+                && BombermanGame.movingEntities.get(0) instanceof Bomber
                 && !Brick.isAnythingDestroyed) {
             BombermanGame.bonusItem.createRandomOnGrass();
             BombermanGame.bonusItem.setActivated(false);
