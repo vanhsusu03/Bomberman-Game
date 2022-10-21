@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Flame;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.Famicom;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
@@ -13,12 +14,14 @@ public class Bomb extends StillEntity {
     private static final int DURATION_BOMB_EXPLOSION = (int) 2e9;
     private long startTime;
     private boolean isBomberCanPass;
+    private boolean isExplodedByChainReaction;
     private List<Flame> horizontalFlames = new ArrayList<>();
     private List<Flame> verticalFlames = new ArrayList<>();
 
     public Bomb(int xUnit, int yUnit, Sprite sprite) {
         super(xUnit, yUnit, sprite);
         isBomberCanPass = true;
+        isExplodedByChainReaction = false;
         startTime = System.nanoTime();
     }
 
@@ -32,6 +35,10 @@ public class Bomb extends StillEntity {
 
     public void setExplosion() {
         startTime = System.nanoTime() - DURATION_BOMB_EXPLOSION + (int) 4e7;
+    }
+
+    public void setExplodedByChainReaction(boolean explodedByChainReaction) {
+        isExplodedByChainReaction = explodedByChainReaction;
     }
 
     public void createFlame() {
@@ -115,6 +122,17 @@ public class Bomb extends StillEntity {
 
         for (int i = 0; i < horizontalFlames.size(); i++) {
             if (horizontalFlames.get(i).checkFinishedFlame()) {
+                if (BombermanGame.bonusItem instanceof Famicom
+                        && BombermanGame.bonusItem.isActivated()
+                        && isExplodedByChainReaction
+                        && BombermanGame.movingEntities.size() == 1
+                        && BombermanGame.movingEntities.get(0) instanceof Bomber) {
+                    Famicom.numberRemainBombsToGetItem--;
+                    if (Famicom.numberRemainBombsToGetItem <= 0) {
+                        BombermanGame.bonusItem.createRandomOnGrass();
+                        BombermanGame.bonusItem.setActivated(false);
+                    }
+                }
                 Bomber.bombs.remove(this);
                 break;
             }

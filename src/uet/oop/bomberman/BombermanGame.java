@@ -15,10 +15,7 @@ import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.*;
-import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
-import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusTarget;
-import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.DezenimanSan;
-import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.NakamotoSan;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.*;
 import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.*;
 import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.entities.StillEntity.Wall;
@@ -101,7 +98,9 @@ public class BombermanGame extends Application {
             Grass.grassImg = Sprite.grass.getFxImage();
 //            bonusItem = new BonusTarget(Sprite.bonus_item_bonus_target);
 //            bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
-            bonusItem = new DezenimanSan(Sprite.bonus_item_dezeniman_san);
+//            bonusItem = new DezenimanSan(Sprite.bonus_item_dezeniman_san);
+//            bonusItem = new Famicom(Sprite.bonus_item_famicom);
+            bonusItem = new GoddessMask(Sprite.bonus_item_goddess_mask);
             for (int i = 0; i < height; i++) {
                 String row = scanner.nextLine();
                 for (int j = 0; j < width; j++) {
