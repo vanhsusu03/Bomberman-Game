@@ -1,7 +1,10 @@
 package uet.oop.bomberman.entities.MovingEntity.Enemy;
 
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
+import uet.oop.bomberman.entities.StillEntity.Brick;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.NakamotoSan;
 import uet.oop.bomberman.graphics.Sprite;
 
 public abstract class Enemy extends MovingEntity {
@@ -12,10 +15,19 @@ public abstract class Enemy extends MovingEntity {
         super(xUnit, yUnit, speed, sprite);
     }
 
+    private void handleIfNakamotoSanIsActivated() {
+        if (BombermanGame.bonusItem instanceof NakamotoSan
+                && BombermanGame.bonusItem.checkConditionToSpawn()) {
+            BombermanGame.bonusItem.spawn();
+        }
+    }
+
     protected void removeEnemyIfDeathAnimationEnds() {
         if (frameCount % TIME_MOVING_DEAD_SPRITE == TIME_MOVING_DEAD_SPRITE - 1) {
             BombermanGame.movingEntities.remove(this);
             isAnyoneKilled = true;
+
+            handleIfNakamotoSanIsActivated();
         }
     }
 }

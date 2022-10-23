@@ -34,6 +34,7 @@ public class BombermanGame extends Application {
     public static Entity[][] map = new Entity[HEIGHT][WIDTH];
     public static Entity[][] hiddenEntities = new Entity[HEIGHT][WIDTH];
     public static List<MovingEntity> movingEntities = new ArrayList<>();
+    public static Bomber bomber;
     public static BonusItem bonusItem = null;
     private GraphicsContext gc;
     private Canvas canvas;
@@ -97,16 +98,17 @@ public class BombermanGame extends Application {
 
             Grass.grassImg = Sprite.grass.getFxImage();
 //            bonusItem = new BonusTarget(Sprite.bonus_item_bonus_target);
-//            bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
+            bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
 //            bonusItem = new DezenimanSan(Sprite.bonus_item_dezeniman_san);
 //            bonusItem = new Famicom(Sprite.bonus_item_famicom);
-            bonusItem = new GoddessMask(Sprite.bonus_item_goddess_mask);
+//            bonusItem = new GoddessMask(Sprite.bonus_item_goddess_mask);
             for (int i = 0; i < height; i++) {
                 String row = scanner.nextLine();
                 for (int j = 0; j < width; j++) {
                     switch (row.charAt(j)) {
                         case 'p':
-                            movingEntities.add(new Bomber(j, i, 1, Sprite.player_right));
+                            bomber = new Bomber(j, i, 1, Sprite.player_right);
+                            movingEntities.add(bomber);
                             map[i][j] = new Grass(j, i, Sprite.grass);
                             break;
                         case '1':

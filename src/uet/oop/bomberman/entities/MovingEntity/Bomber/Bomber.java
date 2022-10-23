@@ -75,6 +75,11 @@ public class Bomber extends MovingEntity {
         }
     }
 
+    public boolean isAloneInMap() {
+        return BombermanGame.movingEntities.size() == 1
+                && BombermanGame.movingEntities.get(0) instanceof Bomber;
+    }
+
     private void eatItem(int i, int j) {
         if (BombermanGame.map[i][j] instanceof SpeedItem) {
             speed++;
@@ -98,13 +103,15 @@ public class Bomber extends MovingEntity {
         BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
     }
 
-    private void usePortal(int i, int j) {
+    private void handleIfBonusTargetIsActivated() {
         if (BombermanGame.bonusItem instanceof BonusTarget
-                && BombermanGame.bonusItem.isActivated()
-                && !Enemy.isAnyoneKilled) {
-            BombermanGame.bonusItem.createRandomOnGrass();
-            BombermanGame.bonusItem.setActivated(false);
+                && BombermanGame.bonusItem.checkConditionToSpawn()) {
+            BombermanGame.bonusItem.spawn();
         }
+    }
+
+    private void usePortal(int i, int j) {
+        handleIfBonusTargetIsActivated();
 
         for (MovingEntity movingEntity : BombermanGame.movingEntities) {
             if (movingEntity instanceof Enemy) {
@@ -195,21 +202,14 @@ public class Bomber extends MovingEntity {
         }
     }
 
-    private void updateCenterPosition() {
-        centerX = x + sprite.get_realWidth() / 2;
-        centerY = y + sprite.get_realHeight() / 2;
+    private boolean isWentOuterCircle() {
+        return outerCirclePositions.size()
+                >= 2 * ((BombermanGame.WIDTH - 2) + (BombermanGame.HEIGHT - 2)) - 4;
     }
 
-    @Override
-    public void update() {
-        if (isDead) {
-            return;
-        }
-
+    private void handleIfGoddessMaskIsActivated() {
         if (BombermanGame.bonusItem instanceof GoddessMask
-                && BombermanGame.bonusItem.isActivated()
-                && BombermanGame.movingEntities.size() == 1
-                && BombermanGame.movingEntities.get(0) instanceof Bomber) {
+                && BombermanGame.bonusItem.checkConditionToSpawn()) {
             updateCenterPosition();
             int centerXUnit = centerX / Sprite.SCALED_SIZE;
             int centerYUnit = centerY / Sprite.SCALED_SIZE;
@@ -221,25 +221,21 @@ public class Bomber extends MovingEntity {
                 outerCirclePositions.clear();
             }
 
-            if (outerCirclePositions.size()
-                    >= 2 * ((BombermanGame.WIDTH - 2) + (BombermanGame.HEIGHT - 2)) - 4) {
-                BombermanGame.bonusItem.createRandomOnGrass();
-                BombermanGame.bonusItem.setActivated(false);
+            if (isWentOuterCircle()) {
+                BombermanGame.bonusItem.spawn();
             }
+        }
+    }
+
+    @Override
+    public void update() {
+        if (isDead) {
+            return;
         }
 
         if (KeyAction.keys[KeyEvent.VK_D]) {
             detonateOldestBomb();
             KeyAction.keys[KeyEvent.VK_D] = false;
-        }
-
-        if (BombermanGame.bonusItem instanceof NakamotoSan
-                && BombermanGame.bonusItem.isActivated()
-                && BombermanGame.movingEntities.size() == 1
-                && BombermanGame.movingEntities.get(0) instanceof Bomber
-                && !Brick.isAnythingDestroyed) {
-            BombermanGame.bonusItem.createRandomOnGrass();
-            BombermanGame.bonusItem.setActivated(false);
         }
 
         int _x = x, _y = y;
@@ -258,6 +254,7 @@ public class Bomber extends MovingEntity {
             handleCollisionWithPortalIn4Cells(xUnit1, yUnit1, xUnit2, yUnit2);
             handleCollisionWithEnemy();
             handleBombPass(xUnit1, yUnit1, xUnit2, yUnit2);
+            handleIfGoddessMaskIsActivated();
         }
     }
 
