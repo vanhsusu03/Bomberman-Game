@@ -124,8 +124,8 @@ public class Sprite {
     |--------------------------------------------------------------------------
      */
     public static Sprite bomb = new Sprite(DEFAULT_SIZE, 0, 3, SpriteSheet.tiles, 15, 15);
-    public static Sprite bomb_1 = new Sprite(DEFAULT_SIZE, 1, 3, SpriteSheet.tiles, 13, 15);
-    public static Sprite bomb_2 = new Sprite(DEFAULT_SIZE, 2, 3, SpriteSheet.tiles, 12, 14);
+    public static Sprite bomb_1 = new Sprite(DEFAULT_SIZE, 1, 3, SpriteSheet.tiles, 15, 15);
+    public static Sprite bomb_2 = new Sprite(DEFAULT_SIZE, 2, 3, SpriteSheet.tiles, 15, 15);
 
     /*
     |--------------------------------------------------------------------------
@@ -257,7 +257,7 @@ public class Sprite {
                 if (_pixels[x + y * SIZE] == TRANSPARENT_COLOR) {
                     pw.setArgb(x, y, 0);
                 } else {
-                    pw.setArgb(x, y, _pixels[x + y * SIZE]);
+                   pw.setArgb(x, y, _pixels[x + y * SIZE]);
                 }
             }
         }

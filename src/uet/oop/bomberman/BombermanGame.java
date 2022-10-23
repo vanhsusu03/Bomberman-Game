@@ -7,48 +7,52 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
-import uet.oop.bomberman.entities.*;
+
+import uet.oop.bomberman.Menu.Gamestate;
+import uet.oop.bomberman.Menu.Menu;
+import uet.oop.bomberman.Menu.MenuButton;
+import uet.oop.bomberman.Menu.MouseAction;
+import uet.oop.bomberman.Sound.AudioFilePlayer;
+import uet.oop.bomberman.Sound.SoundEffect1;
+import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Balloon;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Oneal;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.*;
+import uet.oop.bomberman.entities.StillEntity.Item.BombItem;
+import uet.oop.bomberman.entities.StillEntity.Item.FlameItem;
+import uet.oop.bomberman.entities.StillEntity.Item.SpeedItem;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.map.MapLoadFile;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class BombermanGame extends Application {
-    
+
     public static final int WIDTH = 31;
-    public static final int HEIGHT = 13;
-    
+    public static final int HEIGHT = 16;
+
     private GraphicsContext gc;
     private Canvas canvas;
-    MapLoadFile mapLoadFile;
-
-    {
-        try {
-            mapLoadFile = new MapLoadFile(1);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    Menu menu = new Menu();
+    MenuButton menuButton = new MenuButton(5, 1, Gamestate.PLAYING);
 
     public static List<MovingEntity> movingEntities = new ArrayList<>();
     public static List<StillEntity> stillEntities = new ArrayList<>();
-
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
     }
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
@@ -64,6 +68,8 @@ public class BombermanGame extends Application {
         stage.setScene(scene);
         stage.show();
 
+
+        SoundEffect1.MusicGame1();
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
@@ -73,18 +79,34 @@ public class BombermanGame extends Application {
         };
         timer.start();
 
-        mapLoadFile.createMap();
+        createMap();
+
+        scene.setOnMouseMoved(mouseEvent -> {
+
+        });
+
+        scene.setOnMousePressed(mouseEvent -> {
+
+        });
+
+        scene.setOnMouseReleased(mouseEvent -> {
+
+        });
 
         scene.setOnKeyPressed(event -> {
-            KeyAction.setKey(String.valueOf(event.getCode()), true);
+            KeyAction.setKeptKey(String.valueOf(event.getCode()), true);
         });
 
         scene.setOnKeyReleased(event -> {
-            KeyAction.setKey(String.valueOf(event.getCode()), false);
+            KeyAction.setKeptKey(String.valueOf(event.getCode()), false);
+        });
+
+        scene.setOnKeyTyped(event -> {
+            KeyAction.setTypedKey(event.getCharacter(), true);
         });
     }
 
-    /*public void createMap() {
+    public void createMap() {
         int level, width, height;
         try {
             File file = new File("res/levels/Level1.txt");
@@ -97,31 +119,34 @@ public class BombermanGame extends Application {
             for (int i = 0; i < height; i++) {
                 String row = scanner.nextLine();
                 for (int j = 0; j < width; j++) {
-                    stillEntities.add(new Grass(j, i, Sprite.grass.getFxImage()));
+                    stillEntities.add(new Grass(j, i, Sprite.grass));
                     switch (row.charAt(j)) {
                         case 'p':
-                            movingEntities.add(new Bomber(j, i, 1, Sprite.player_right.getFxImage()));
+                            movingEntities.add(new Bomber(j, i, 1, Sprite.player_right));
                             break;
                         case '1':
-                            movingEntities.add(new Balloon(j, i, 0, Sprite.balloon_right1.getFxImage()));
+                            movingEntities.add(new Balloon(j, i, 0, Sprite.balloon_right1));
                             break;
                         case '2':
-                            movingEntities.add(new Oneal(j, i, 0, Sprite.oneal_right1.getFxImage()));
+                            movingEntities.add(new Oneal(j, i, 0, Sprite.oneal_right1));
                             break;
                         case 'b':
+                            stillEntities.add(new BombItem(j, i, Sprite.powerup_bombs));
                             break;
                         case 'f':
+                            stillEntities.add(new FlameItem(j, i, Sprite.powerup_flames));
                             break;
                         case 's':
+                            stillEntities.add(new SpeedItem(j, i, Sprite.powerup_speed));
                             break;
                         case '#':
-                            stillEntities.add(new Wall(j, i, Sprite.wall.getFxImage()));
+                            stillEntities.add(new Wall(j, i, Sprite.wall));
                             break;
                         case '*':
-                            stillEntities.add(new Brick(j, i, Sprite.brick.getFxImage()));
+                            stillEntities.add(new Brick(j, i, Sprite.brick));
                             break;
                         case 'x':
-                            stillEntities.add(new Portal(j, i, Sprite.portal.getFxImage()));
+                            stillEntities.add(new Portal(j, i, Sprite.portal));
                             break;
                     }
                 }
@@ -131,7 +156,7 @@ public class BombermanGame extends Application {
             System.out.println("Map file was not found.");
             e.printStackTrace();
         }
-    }*/
+    }
 
     public void update() {
         movingEntities.forEach(Entity::update);
@@ -141,5 +166,8 @@ public class BombermanGame extends Application {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         stillEntities.forEach(g -> g.render(gc));
         movingEntities.forEach(g -> g.render(gc));
+        Bomber.bombs.forEach(g -> g.render(gc));
+        menu.draw(gc);
+        menuButton.draw(gc);
     }
 }

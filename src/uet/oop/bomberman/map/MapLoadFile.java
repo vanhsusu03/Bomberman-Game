@@ -5,6 +5,9 @@ import uet.oop.bomberman.entities.MovingEntity.Enemy.Balloon;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Oneal;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.*;
+import uet.oop.bomberman.entities.StillEntity.Item.BombItem;
+import uet.oop.bomberman.entities.StillEntity.Item.FlameItem;
+import uet.oop.bomberman.entities.StillEntity.Item.SpeedItem;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.BombermanGame;
 import java.io.*;
@@ -12,11 +15,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapLoadFile extends LoadLevel {
+/*public class MapLoadFile extends LoadLevel {
     public static char[][] map;
-
-    //public List<MovingEntity> BombermanGame.movingEntities = new ArrayList<>();
-    //public List<StillEntity> BombermanGame.stillEntities = new ArrayList<>();
 
     public MapLoadFile(int level) throws FileNotFoundException {
         super(level);
@@ -24,21 +24,13 @@ public class MapLoadFile extends LoadLevel {
     @Override
     public void inputLevel(int level) throws FileNotFoundException {
         try {
-            URL file = MapLoadFile.class.getResource("/levels/Level" + Integer.toString(level) + ".txt");
+            URL file = uet.oop.bomberman.map.MapLoadFile.class.getResource("/levels/Level" + Integer.toString(level) + ".txt");
             BufferedReader in = new BufferedReader( new InputStreamReader(file.openStream() ) );
 
-            String data = in.readLine(); // đọc  hàng đầu tiền
-            /**
-             * dùng substring để tách  data dòng đầu
-             * ví dụ  nó có dạng :1 13 31
-             * 1 là level
-             *  13 31 là hàng cột
-             */
-            level = Integer.parseInt(data.substring(0,1));	// tách string đọc  level
-            height = Integer.parseInt(data.substring(2,4));// tách string ra đọc hàng
-            width = Integer.parseInt(data.substring(5,7));	// tách string đọc cột
-
-            // mình chỉ đọc đủ  số hàng rồi đóng file
+            String data = in.readLine();
+            level = Integer.parseInt(data.substring(0,1));
+            height = Integer.parseInt(data.substring(2,4));
+            width = Integer.parseInt(data.substring(5,7));
 
             map = new char[height][width];
             for (int i = 0; i < height; i++ ) {
@@ -47,12 +39,11 @@ public class MapLoadFile extends LoadLevel {
                 for (int j = 0; j < width; j++ ) {
                     map[i][j] = data.charAt(j);
                 }
-                //this.boardGame.add(data);
             }
             in.close();
 
         } catch (IOException e) {
-            System.out.println("Error loading level " + level);
+            System.out.println("Error loading map level " + level);
         }
     }
 
@@ -60,34 +51,45 @@ public class MapLoadFile extends LoadLevel {
     public void createMap() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                BombermanGame.stillEntities.add(new Grass(j, i, Sprite.grass.getFxImage()));
                 switch (map[i][j]) {
                     case 'p':
-                        BombermanGame.movingEntities.add(new Bomber(j, i, 1, Sprite.player_right.getFxImage()));
+                        BombermanGame.movingEntities.add(new Bomber(j, i, 1, Sprite.player_right));
+                        BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                         break;
                     case '1':
-                        BombermanGame.movingEntities.add(new Balloon(j, i, 0, Sprite.balloon_right1.getFxImage()));
+                        BombermanGame.movingEntities.add(new Balloon(j, i, 0, Sprite.balloon_right1));
+                        BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                         break;
                     case '2':
-                        BombermanGame.movingEntities.add(new Oneal(j, i, 0, Sprite.oneal_right1.getFxImage()));
+                        BombermanGame.movingEntities.add(new Oneal(j, i, 0, Sprite.oneal_right1));
+                        BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                         break;
                     case 'b':
+                        BombermanGame.hiddenEntities[i][j] = new BombItem(j, i, Sprite.powerup_bombs);
+                        BombermanGame.map[i][j] = new Brick(j, i, Sprite.brick);
                         break;
                     case 'f':
+                        BombermanGame.hiddenEntities[i][j] = new FlameItem(j, i, Sprite.powerup_flames);
+                        BombermanGame.map[i][j] = new Brick(j, i, Sprite.brick);
                         break;
                     case 's':
+                        BombermanGame.hiddenEntities[i][j] = new SpeedItem(j, i, Sprite.powerup_speed);
+                        BombermanGame.map[i][j] = new Brick(j, i, Sprite.brick);
                         break;
                     case '#':
-                        BombermanGame.stillEntities.add(new Wall(j, i, Sprite.wall.getFxImage()));
+                        BombermanGame.map[i][j] = new Wall(j, i, Sprite.wall);
                         break;
                     case '*':
-                        BombermanGame.stillEntities.add(new Brick(j, i, Sprite.brick.getFxImage()));
+                        BombermanGame.map[i][j] = new Brick(j, i, Sprite.brick);
                         break;
                     case 'x':
-                        BombermanGame.stillEntities.add(new Portal(j, i, Sprite.portal.getFxImage()));
+                        BombermanGame.hiddenEntities[i][j] = new Portal(j, i, Sprite.portal);
+                        BombermanGame.map[i][j] = new Brick(j, i, Sprite.brick);
                         break;
+                    default:
+                        BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                 }
             }
         }
     }
-}
+}*/
