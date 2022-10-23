@@ -22,7 +22,7 @@ public class Brick extends StillEntity {
         }
     }
 
-    private boolean isHavingBrickOnMap() {
+    public static boolean isHavingOnMap() {
         for (int i = 0; i < BombermanGame.HEIGHT; i++) {
             for (int j = 0; j < BombermanGame.WIDTH; j++) {
                 if (BombermanGame.map[i][j] instanceof Brick) {
@@ -31,6 +31,13 @@ public class Brick extends StillEntity {
             }
         }
         return false;
+    }
+
+    private void handleIfDezenimanSanIsActivated() {
+        if (BombermanGame.bonusItem instanceof DezenimanSan
+                && BombermanGame.bonusItem.checkConditionToSpawn()) {
+            BombermanGame.bonusItem.spawn();
+        }
     }
 
     @Override
@@ -43,8 +50,9 @@ public class Brick extends StillEntity {
         int yUnit = getYUnit();
 
         if (isDestroyed && BombermanGame.hiddenEntities[yUnit][xUnit] != null) {
-            BombermanGame.map[getYUnit()][getXUnit()] = BombermanGame.hiddenEntities[yUnit][xUnit];
+            BombermanGame.map[yUnit][xUnit] = BombermanGame.hiddenEntities[yUnit][xUnit];
             BombermanGame.hiddenEntities[yUnit][xUnit] = null;
+            handleIfDezenimanSanIsActivated();
             return;
         }
 
@@ -61,13 +69,7 @@ public class Brick extends StillEntity {
             BombermanGame.map[yUnit][xUnit] = new Grass(xUnit,
                     yUnit, Sprite.grass);
 
-            if (BombermanGame.bonusItem instanceof DezenimanSan
-                    && BombermanGame.bonusItem.isActivated()
-                    && !Enemy.isAnyoneKilled
-                    && !isHavingBrickOnMap()) {
-                BombermanGame.bonusItem.createRandomOnGrass();
-                BombermanGame.bonusItem.setActivated(false);
-            }
+            handleIfDezenimanSanIsActivated();
         }
     }
 }

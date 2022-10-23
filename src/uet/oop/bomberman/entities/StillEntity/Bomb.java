@@ -105,6 +105,18 @@ public class Bomb extends StillEntity {
         }
     }
 
+    private void handleIfFamicomIsActivated() {
+        if (BombermanGame.bonusItem instanceof Famicom
+                && BombermanGame.bonusItem.checkConditionToSpawn()
+                && isExplodedByChainReaction) {
+            Famicom famicomItem = (Famicom) BombermanGame.bonusItem;
+            famicomItem.decreaseOneNumberRemainBombs();
+            if (famicomItem.getNumberRemainBombsToGetItem() <= 0) {
+                famicomItem.spawn();
+            }
+        }
+    }
+
     @Override
     public void update() {
         if (horizontalFlames.isEmpty() && System.nanoTime() - startTime >= DURATION_BOMB_EXPLOSION) {
@@ -122,17 +134,7 @@ public class Bomb extends StillEntity {
 
         for (int i = 0; i < horizontalFlames.size(); i++) {
             if (horizontalFlames.get(i).checkFinishedFlame()) {
-                if (BombermanGame.bonusItem instanceof Famicom
-                        && BombermanGame.bonusItem.isActivated()
-                        && isExplodedByChainReaction
-                        && BombermanGame.movingEntities.size() == 1
-                        && BombermanGame.movingEntities.get(0) instanceof Bomber) {
-                    Famicom.numberRemainBombsToGetItem--;
-                    if (Famicom.numberRemainBombsToGetItem <= 0) {
-                        BombermanGame.bonusItem.createRandomOnGrass();
-                        BombermanGame.bonusItem.setActivated(false);
-                    }
-                }
+                handleIfFamicomIsActivated();
                 Bomber.bombs.remove(this);
                 break;
             }

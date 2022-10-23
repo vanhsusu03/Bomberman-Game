@@ -35,6 +35,11 @@ public abstract class MovingEntity extends Entity {
 
     protected abstract void move();
 
+    protected void updateCenterPosition() {
+        centerX = x + sprite.get_realWidth() / 2;
+        centerY = y + sprite.get_realHeight() / 2;
+    }
+
     protected boolean checkIntersectionWithOtherMovingEntity(int x1, int y1,
                                                              int x2, int y2) {
         return x < x2 && y < y2

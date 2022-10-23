@@ -62,4 +62,11 @@ public abstract class BonusItem extends Item {
             }
         }
     }
+
+    public void spawn() {
+        createRandomOnGrass();
+        setActivated(false);
+    }
+
+    public abstract boolean checkConditionToSpawn();
 }

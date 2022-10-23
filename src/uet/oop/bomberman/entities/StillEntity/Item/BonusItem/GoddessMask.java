@@ -1,5 +1,7 @@
 package uet.oop.bomberman.entities.StillEntity.Item.BonusItem;
 
+import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class GoddessMask extends BonusItem {
@@ -11,6 +13,11 @@ public class GoddessMask extends BonusItem {
 
     public GoddessMask(int xUnit, int yUnit, Sprite sprite) {
         super(xUnit, yUnit, sprite);
+    }
+
+    @Override
+    public boolean checkConditionToSpawn() {
+        return isActivated && BombermanGame.bomber.isAloneInMap();
     }
 
     @Override
