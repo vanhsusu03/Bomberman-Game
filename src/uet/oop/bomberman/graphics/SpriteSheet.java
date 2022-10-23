@@ -12,7 +12,7 @@ import java.net.URL;
 public class SpriteSheet {
 
     //public static SpriteSheet tiles = new SpriteSheet("/textures/classic.png", 256);
-    public static SpriteSheet tiles = new SpriteSheet("/textures/classic_map5.png", 256);
+    public static SpriteSheet tiles = new SpriteSheet("/textures/classic_map1.png", 256);
     public final int SIZE;
     private String _path;
     public int[] _pixels;

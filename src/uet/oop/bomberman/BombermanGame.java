@@ -6,12 +6,11 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import uet.oop.bomberman.Menu.Gamestate;
-import uet.oop.bomberman.Menu.Menu;
-import uet.oop.bomberman.Menu.MenuButton;
-import uet.oop.bomberman.Menu.MouseAction;
+import uet.oop.bomberman.Menu2.Menu;
+import uet.oop.bomberman.Menu2.MenuButton;
 import uet.oop.bomberman.Sound.AudioFilePlayer;
 import uet.oop.bomberman.Sound.SoundEffect1;
 import uet.oop.bomberman.entities.Entity;
@@ -42,7 +41,7 @@ public class BombermanGame extends Application {
     private GraphicsContext gc;
     private Canvas canvas;
     Menu menu = new Menu();
-    MenuButton menuButton = new MenuButton(5, 1, Gamestate.PLAYING);
+    MenuButton menuButton = new MenuButton();
 
     public static List<MovingEntity> movingEntities = new ArrayList<>();
     public static List<StillEntity> stillEntities = new ArrayList<>();
@@ -69,7 +68,7 @@ public class BombermanGame extends Application {
         stage.show();
 
 
-        SoundEffect1.MusicGame1();
+        //SoundEffect1.MusicGame1();
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
@@ -81,16 +80,34 @@ public class BombermanGame extends Application {
 
         createMap();
 
+
         scene.setOnMouseMoved(mouseEvent -> {
-
-        });
-
-        scene.setOnMousePressed(mouseEvent -> {
-
-        });
-
-        scene.setOnMouseReleased(mouseEvent -> {
-
+            System.out.println(mouseEvent.getX() + " " + mouseEvent.getY());
+            if(mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 120 && mouseEvent.getY() <= 188) {
+                menuButton.index[0] = 1;
+            } else {
+                menuButton.index[0] = 0;
+            }
+            if(mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 190 && mouseEvent.getY() <= 258) {
+                menuButton.index[1] = 1;
+            } else {
+                menuButton.index[1] = 0;
+            }
+            if(mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 260 && mouseEvent.getY() <= 328) {
+                menuButton.index[2] = 1;
+            } else {
+                menuButton.index[2] = 0;
+            }
+            if(mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 330 && mouseEvent.getY() <= 398) {
+                menuButton.index[3] = 1;
+            } else {
+                menuButton.index[3] = 0;
+            }
+            if(mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 400 && mouseEvent.getY() <= 468) {
+                menuButton.index[4] = 1;
+            } else {
+                menuButton.index[4] = 0;
+            }
         });
 
         scene.setOnKeyPressed(event -> {
@@ -160,6 +177,8 @@ public class BombermanGame extends Application {
 
     public void update() {
         movingEntities.forEach(Entity::update);
+        //menu.update();
+        //menuButton.update();
     }
 
     public void render() {
@@ -167,7 +186,7 @@ public class BombermanGame extends Application {
         stillEntities.forEach(g -> g.render(gc));
         movingEntities.forEach(g -> g.render(gc));
         Bomber.bombs.forEach(g -> g.render(gc));
-        menu.draw(gc);
-        menuButton.draw(gc);
+        //menu.draw(gc);
+        //menuButton.draw(gc);
     }
 }

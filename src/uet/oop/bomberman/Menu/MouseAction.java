@@ -1,10 +1,11 @@
-package uet.oop.bomberman.Menu;
+/*package uet.oop.bomberman.Menu;
 
 import uet.oop.bomberman.BombermanGame;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
 
 public class MouseAction implements MouseListener, MouseMotionListener {
 
@@ -15,7 +16,16 @@ public class MouseAction implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        switch (Gamestate.state) {
+            case MENU:
 
+                break;
+            case PLAYING:
+                //gamePanel.getGame().getPlaying().mouseMoved(e);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -39,4 +49,4 @@ public class MouseAction implements MouseListener, MouseMotionListener {
     public void mouseExited(MouseEvent e) {
 
     }
-}
+}*/

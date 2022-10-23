@@ -1,15 +1,14 @@
 package uet.oop.bomberman.Menu;
 
 
-import javafx.scene.canvas.GraphicsContext;
+/*import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.awt.Graphics;
-import java.awt.Color;
+import javafx.scene.Scene;
+
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
 public class Menu extends State implements StateMethod {
     private MenuButton[] buttons = new MenuButton[5];
@@ -96,4 +95,4 @@ public class Menu extends State implements StateMethod {
             }
         }
     }
-}
+}*/

@@ -1,8 +1,9 @@
-package uet.oop.bomberman.Menu;
+/*package uet.oop.bomberman.Menu;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.Graphics;
@@ -20,7 +21,8 @@ public class MenuButton {
     private Gamestate state;
     private Image[][] images = new Image[6][2];
     //private Image img , img1, img2, img3, img4;
-    private boolean mouseOver, mousePress;
+    private boolean mouseOver;
+    private boolean mousePress;
     private Rectangle bounds;
     public MenuButton(int xPos, int yPos, Gamestate state) {
         this.xPos = xPos;
@@ -47,11 +49,11 @@ public class MenuButton {
         images[4][1] = new Image("/final/final res bomberman/product/quit/quit_last.png");
         images[5][0] = new Image("/final/final res bomberman/product/cre/cre_first.png");
         images[5][1] = new Image("/final/final res bomberman/product/cre/cre_last.png");
-        /*img = new Image("/final/final res bomberman/product/startgame/startgame_first.png");
+        img = new Image("/final/final res bomberman/product/startgame/startgame_first.png");
         img1 = new Image("/final/final res bomberman/product/opts/opt_first.png");
         img2 = new Image("/final/final res bomberman/product/instruction/ins_first.png");
         img3 = new Image("/final/final res bomberman/product/cre/cre_first.png");
-        img4 = new Image("/final/final res bomberman/product/quit/quit_first.png");*/
+        img4 = new Image("/final/final res bomberman/product/quit/quit_first.png");
     }
 
     public void draw(GraphicsContext gc) {
@@ -66,12 +68,17 @@ public class MenuButton {
 
     public void update() {
         index = 0;
-        if(mouseOver) {
-            index = 1;
-        }
     }
 
-    public boolean isMouseOver() {
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    /*public boolean isMouseOver() {
         return mouseOver;
     }
 
@@ -99,4 +106,4 @@ public class MenuButton {
         mousePress = true;
         mouseOver = false;
     }
-}
+}*/
