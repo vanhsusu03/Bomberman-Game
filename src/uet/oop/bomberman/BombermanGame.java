@@ -3,6 +3,7 @@ package uet.oop.bomberman;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -10,6 +11,7 @@ import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Balloon;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.Doll;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Kondoria;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Oneal;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
@@ -19,11 +21,13 @@ import uet.oop.bomberman.entities.StillEntity.Item.FlameItem;
 import uet.oop.bomberman.entities.StillEntity.Item.SpeedItem;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import javafx.scene.image.Image;
 import java.util.concurrent.locks.StampedLock;
 
 public class BombermanGame extends Application {
@@ -39,6 +43,8 @@ public class BombermanGame extends Application {
 
     public static int[][] mapParsed = new int[HEIGHT][WIDTH];
     int level, width, height;
+
+    private Image img = (Image) new Image("/textures/paused.png");
 
     public static List<MovingEntity> getMovingEntities() {
         return movingEntities;
@@ -67,6 +73,7 @@ public class BombermanGame extends Application {
         Scene scene = new Scene(root);
 
         // Them scene vao stage
+        stage.setTitle("BombermanGame");
         stage.setScene(scene);
         stage.show();
 
@@ -79,7 +86,6 @@ public class BombermanGame extends Application {
             }
         };
         timer.start();
-
 
         createMap();
 
@@ -164,6 +170,7 @@ public class BombermanGame extends Application {
             }
         }
         movingEntities.forEach(g->g.render(gc));
+        gc.drawImage(img,300,100);
         Bomber.bombs.forEach(g -> g.render(gc));
     }
 }

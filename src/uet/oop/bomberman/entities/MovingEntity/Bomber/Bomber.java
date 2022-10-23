@@ -143,6 +143,7 @@ public class Bomber extends MovingEntity {
         }
         setxBomber(this.x);
         setyBomber(this.y);
+        System.out.println(x + " "+ y);
     }
 
     @Override

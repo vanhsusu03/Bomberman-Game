@@ -49,7 +49,7 @@ public class RandomMove  {
         return this.direction;
     }
 
-    private int randomInt(int min, int max) {
+    public static int randomInt(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min,max);
     }
 

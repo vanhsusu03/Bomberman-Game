@@ -5,6 +5,10 @@ import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.ChasingBomberlv
 import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.RandomMove;
 import uet.oop.bomberman.graphics.Sprite;
 
+
+//Speed: 3 (Normal) - Smart 2 (Low)
+
+
 public class Oneal extends Enemy {
     public Oneal(int xUnit, int yUnit, int speed, Sprite sprite) {
         super(xUnit, yUnit, speed, sprite);
@@ -20,8 +24,8 @@ public class Oneal extends Enemy {
         updateFrameCount();
     }
 
-//    @Override
-//    public void render(GraphicsContext gc) {
-//        gc.drawImage(img, chasingBomberlv1.getX(), chasingBomberlv1.getY());
-//    }
+    @Override
+    public void render(GraphicsContext gc) {
+        gc.drawImage(img, chasingBomberlv1.getX(), chasingBomberlv1.getY());
+    }
 }

@@ -16,6 +16,7 @@ public class ChasingBomberlv1 extends RandomMove {
     }
 
     private final int rangetoChase = 5;
+    private int chasedirection;
 
     /**
      * RETURN 0: Can't navigate - player is out of range.
@@ -27,7 +28,6 @@ public class ChasingBomberlv1 extends RandomMove {
     private int directFollowChasing() {
         int Xdistance = x/Sprite.SCALED_SIZE - Bomber.getxBomber()/Sprite.SCALED_SIZE;
         int Ydistance = y/Sprite.SCALED_SIZE - Bomber.getyBomber()/Sprite.SCALED_SIZE;
-        //System.out.println("XDIS= " + Xdistance + " YDIS= " + Ydistance);
         //Player on the left
         if( Xdistance > 0 && Xdistance < rangetoChase && Ydistance == 0) {
             return 1;
@@ -47,11 +47,10 @@ public class ChasingBomberlv1 extends RandomMove {
         return 0;
     }
 
-    int chasedirection = 0;
-
     public void moveChasingChangeslv1() {
-        chasedirection = directFollowChasing();
-        //ystem.out.println(chasedirection);
+        if( x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
+            chasedirection = directFollowChasing();
+        }
             switch (chasedirection) {
                 case 1: //Left
                     if(canMoveleft()) {
