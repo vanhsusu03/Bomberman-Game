@@ -47,7 +47,7 @@ public abstract class MovingEntity extends Entity {
                 && (y + sprite.get_realHeight() > y1);
     }
 
-    private boolean isCellCanCome(int xUnit, int yUnit) {
+    protected boolean isCellCanCome(int xUnit, int yUnit) {
         if (this instanceof Bomber) {
             for (Bomb bomb : Bomber.bombs) {
                 if (bomb.getXUnit() == xUnit && bomb.getYUnit() == yUnit
@@ -61,8 +61,12 @@ public abstract class MovingEntity extends Entity {
                 && !(map[yUnit][xUnit] instanceof Wall);
     }
 
-    protected boolean checkCanMove(int xUnit1, int yUnit1,
-                                   int xUnit2, int yUnit2) {
+    protected boolean checkCanMove(int x, int y) {
+        int xUnit1 = x / Sprite.SCALED_SIZE;
+        int yUnit1 = y / Sprite.SCALED_SIZE;
+        int xUnit2 = (x + sprite.get_realWidth()) / Sprite.SCALED_SIZE;
+        int yUnit2 = (y + sprite.get_realHeight()) / Sprite.SCALED_SIZE;
+
         return isCellCanCome(xUnit1, yUnit1) && isCellCanCome(xUnit1, yUnit2)
                 && isCellCanCome(xUnit2, yUnit1) && isCellCanCome(xUnit2, yUnit2);
     }

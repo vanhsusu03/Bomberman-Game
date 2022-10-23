@@ -227,6 +227,40 @@ public class Bomber extends MovingEntity {
         }
     }
 
+    private void handleCollisionWithBrickWall(int oldX, int oldY) {
+        int oldXUnit = oldX / Sprite.SCALED_SIZE;
+        int oldYUnit = oldY / Sprite.SCALED_SIZE;
+
+        if ((double) oldY / Sprite.SCALED_SIZE - oldYUnit >= 0.55 && x > oldX
+                && isCellCanCome(oldXUnit + 1, oldYUnit + 1)) {
+            y += speed;
+        } else if ((double) oldY / Sprite.SCALED_SIZE - oldYUnit <= 0.45 && x > oldX
+                && isCellCanCome(oldXUnit + 1, oldYUnit)) {
+            y -= speed;
+        } else if ((double) oldY / Sprite.SCALED_SIZE - oldYUnit >= 0.55 && x < oldX
+                && isCellCanCome(oldXUnit - 1, oldYUnit + 1)) {
+            y += speed;
+        } else if ((double) oldY / Sprite.SCALED_SIZE - oldYUnit <= 0.45 && x < oldX
+                && isCellCanCome(oldXUnit - 1, oldYUnit)) {
+            y -= speed;
+        } else if ((double) oldX / Sprite.SCALED_SIZE - oldXUnit <= 0.6 && y > oldY
+                && isCellCanCome(oldXUnit, oldYUnit + 1)) {
+            x -= speed;
+        } else if ((double) oldX / Sprite.SCALED_SIZE - oldXUnit >= 0.55 && y > oldY
+                && isCellCanCome(oldXUnit + 1, oldYUnit + 1)) {
+            x += speed;
+        } else if ((double) oldX / Sprite.SCALED_SIZE - oldXUnit < 0.62 && y < oldY
+                && isCellCanCome(oldXUnit, oldYUnit - 1)) {
+            x -= speed;
+        } else if ((double) oldX / Sprite.SCALED_SIZE - oldXUnit > 0.62 && y < oldY
+                && isCellCanCome(oldXUnit + 1, oldYUnit - 1)) {
+            x += speed;
+        } else {
+            x = oldX;
+            y = oldY;
+        }
+    }
+
     @Override
     public void update() {
         if (isDead) {
@@ -238,18 +272,17 @@ public class Bomber extends MovingEntity {
             KeyAction.keys[KeyEvent.VK_D] = false;
         }
 
-        int _x = x, _y = y;
+        int oldX = x, oldY = y;
         move();
 
-        int xUnit1 = (x + 5) / Sprite.SCALED_SIZE;
-        int yUnit1 = (y + 12) / Sprite.SCALED_SIZE;
-        int xUnit2 = (x + sprite.get_realWidth()) / Sprite.SCALED_SIZE;
-        int yUnit2 = (y + sprite.get_realHeight()) / Sprite.SCALED_SIZE;
-
-        if (!checkCanMove(xUnit1, yUnit1, xUnit2, yUnit2)) {
-            x = _x;
-            y = _y;
+        if (!checkCanMove(x, y)) {
+            handleCollisionWithBrickWall(oldX, oldY);
         } else {
+            int xUnit1 = x / Sprite.SCALED_SIZE;
+            int yUnit1 = y / Sprite.SCALED_SIZE;
+            int xUnit2 = (x + sprite.get_realWidth()) / Sprite.SCALED_SIZE;
+            int yUnit2 = (y + sprite.get_realHeight()) / Sprite.SCALED_SIZE;
+
             handleCollisionWithItemIn4Cells(xUnit1, yUnit1, xUnit2, yUnit2);
             handleCollisionWithPortalIn4Cells(xUnit1, yUnit1, xUnit2, yUnit2);
             handleCollisionWithEnemy();
@@ -267,19 +300,19 @@ public class Bomber extends MovingEntity {
         } else {
             if (KeyAction.keys[KeyEvent.VK_UP]) {
                 sprite = Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1,
-                        Sprite.player_up_2, frameCount, 40);
+                        Sprite.player_up_2, frameCount, 18);
                 img = sprite.getFxImage();
             } else if (KeyAction.keys[KeyEvent.VK_DOWN]) {
                 sprite = Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1,
-                        Sprite.player_down_2, frameCount, 40);
+                        Sprite.player_down_2, frameCount, 18);
                 img = sprite.getFxImage();
             } else if (KeyAction.keys[KeyEvent.VK_LEFT]) {
                 sprite = Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1,
-                        Sprite.player_left_2, frameCount, 40);
+                        Sprite.player_left_2, frameCount, 18);
                 img = sprite.getFxImage();
             } else if (KeyAction.keys[KeyEvent.VK_RIGHT]) {
                 sprite = Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1,
-                        Sprite.player_right_2, frameCount, 40);
+                        Sprite.player_right_2, frameCount, 18);
                 img = sprite.getFxImage();
             }
         }
