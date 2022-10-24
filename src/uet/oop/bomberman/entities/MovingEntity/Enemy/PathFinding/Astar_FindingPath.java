@@ -25,7 +25,7 @@ public class Astar_FindingPath {
 
     public Astar_FindingPath(int heightRange, int widthRange, boolean wallPass, boolean brickPass, boolean bombPass) {
         this.heightRange = heightRange;
-        this.widthRange = widthRange;
+        this.widthRange = widthRange*2;
         this.wallPass = wallPass;
         this.brickPass = brickPass;
         this.bombPass = bombPass;
@@ -33,7 +33,7 @@ public class Astar_FindingPath {
 
     //Parsed map: 1 - CANT GO, 0 - CAN GO
     public int[][] mapParsed() {
-        int[][] mapParsed = new int[BombermanGame.HEIGHT][BombermanGame.WIDTH];
+        int[][] mapParsed = new int[BombermanGame.HEIGHT][BombermanGame.WIDTH*2];
         List<List<StillEntity>> stillList = BombermanGame.getStillEntities();
         List<MovingEntity> moveList = BombermanGame.getMovingEntities();
         for (int i = 0; i < moveList.size(); i++) {
