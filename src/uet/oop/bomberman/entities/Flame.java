@@ -10,6 +10,9 @@ import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.Item;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Flame extends Entity {
     private FlameType flameType;
 
@@ -19,8 +22,9 @@ public class Flame extends Entity {
     }
 
     public boolean checkIntersectionWithBombs(Bomb bombSpawnsThisFlame) {
+        List<Bomb> bombs = BombermanGame.bomber.getBombs();
         boolean isIntersected = false;
-        for (Bomb bomb : Bomber.bombs) {
+        for (Bomb bomb : bombs) {
             if (bomb != bombSpawnsThisFlame && bomb.getXUnit() == getXUnit()
                     && bomb.getYUnit() == getYUnit()) {
                 isIntersected = true;
@@ -55,13 +59,14 @@ public class Flame extends Entity {
     }
 
     private void changeFlameTypeToLast(int xUnit, int yUnit) {
-        if (Bomber.bombs.get(0).getXUnit() < xUnit) {
+        List<Bomb> bombs = BombermanGame.bomber.getBombs();
+        if (bombs.get(0).getXUnit() < xUnit) {
             flameType = FlameType.HORIZONTAL_RIGHT_LAST;
-        } else if (Bomber.bombs.get(0).getXUnit() > xUnit) {
+        } else if (bombs.get(0).getXUnit() > xUnit) {
             flameType = FlameType.HORIZONTAL_LEFT_LAST;
-        } else if (Bomber.bombs.get(0).getYUnit() < yUnit) {
+        } else if (bombs.get(0).getYUnit() < yUnit) {
             flameType = FlameType.VERTICAL_DOWN_LAST;
-        } else if (Bomber.bombs.get(0).getXUnit() < xUnit) {
+        } else if (bombs.get(0).getXUnit() < xUnit) {
             flameType = FlameType.VERTICAL_TOP_LAST;
         }
     }

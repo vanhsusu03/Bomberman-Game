@@ -13,15 +13,13 @@ import java.util.List;
 public class Bomb extends StillEntity {
     private static final int DURATION_BOMB_EXPLOSION = (int) 2e9;
     private long startTime;
-    private boolean isBomberCanPass;
+    private boolean isBomberCanPass = true;
     private boolean isExplodedByChainReaction;
     private List<Flame> horizontalFlames = new ArrayList<>();
     private List<Flame> verticalFlames = new ArrayList<>();
 
     public Bomb(int xUnit, int yUnit, Sprite sprite) {
         super(xUnit, yUnit, sprite);
-        isBomberCanPass = true;
-        isExplodedByChainReaction = false;
         startTime = System.nanoTime();
     }
 
@@ -34,7 +32,7 @@ public class Bomb extends StillEntity {
     }
 
     public void setExplosion() {
-        startTime = System.nanoTime() - DURATION_BOMB_EXPLOSION + (int) 4e7;
+        startTime = System.nanoTime() - DURATION_BOMB_EXPLOSION + (int) 3e7;
     }
 
     public void setExplodedByChainReaction(boolean explodedByChainReaction) {
@@ -42,15 +40,16 @@ public class Bomb extends StillEntity {
     }
 
     public void createFlame() {
-        for (int i = -Bomber.flameLength; i <= Bomber.flameLength; i++) {
+        int flameLength = BombermanGame.bomber.getFlameLength();
+        for (int i = -flameLength; i <= flameLength; i++) {
             Flame.FlameType horizontalFlame, verticalFlame;
             if (i == 0) {
                 horizontalFlame = Flame.FlameType.CENTER;
                 verticalFlame = null;
-            } else if (i == -Bomber.flameLength) {
+            } else if (i == -flameLength) {
                 horizontalFlame = Flame.FlameType.HORIZONTAL_LEFT_LAST;
                 verticalFlame = Flame.FlameType.VERTICAL_TOP_LAST;
-            } else if (i == Bomber.flameLength) {
+            } else if (i == flameLength) {
                 horizontalFlame = Flame.FlameType.HORIZONTAL_RIGHT_LAST;
                 verticalFlame = Flame.FlameType.VERTICAL_DOWN_LAST;
             } else {
@@ -135,7 +134,7 @@ public class Bomb extends StillEntity {
         for (int i = 0; i < horizontalFlames.size(); i++) {
             if (horizontalFlames.get(i).checkFinishedFlame()) {
                 handleIfFamicomIsActivated();
-                Bomber.bombs.remove(this);
+                BombermanGame.bomber.removeAElementInBombs(this);
                 break;
             }
         }

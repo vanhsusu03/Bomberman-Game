@@ -9,7 +9,6 @@ public class DezenimanSan extends BonusItem {
     public DezenimanSan(Sprite sprite) {
         super(sprite);
         point = (int) 1e6;
-        isActivated = true;
     }
 
     public DezenimanSan(int xUnit, int yUnit, Sprite sprite) {

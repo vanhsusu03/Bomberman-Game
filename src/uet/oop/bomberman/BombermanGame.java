@@ -10,12 +10,13 @@ import javafx.stage.Stage;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Balloon;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Oneal;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Grass;
-import uet.oop.bomberman.entities.StillEntity.Item.*;
-import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.*;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.NakamotoSan;
 import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.*;
 import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.entities.StillEntity.Wall;
@@ -70,7 +71,7 @@ public class BombermanGame extends Application {
         };
         timer.start();
 
-        createMap();
+        goNewMap();
 
         scene.setOnKeyPressed(event -> {
             KeyAction.setKeptKey(String.valueOf(event.getCode()), true);
@@ -85,8 +86,19 @@ public class BombermanGame extends Application {
         });
     }
 
+    public void goNewMap() {
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 0; j < WIDTH; j++) {
+                hiddenEntities[i][j] = null;
+            }
+        }
+        movingEntities.clear();
+        Brick.isAnythingDestroyed = false;
+        Enemy.isAnyoneKilled = false;
+        createMap();
+    }
+
     public void createMap() {
-        // Con` thieu' lam` moi' moi. thu' (dua ve` rong~)
         int level, width, height;
         try {
             File file = new File("res/levels/Level1.txt");
@@ -176,12 +188,12 @@ public class BombermanGame extends Application {
     public void update() {
         movingEntities.forEach(Entity::update);
 
-        int n = Bomber.bombs.size();
-        for (int i = 0; i < Bomber.bombs.size(); i++) {
-            Bomber.bombs.get(i).update();
-            if (n > Bomber.bombs.size()) {
+        int n = bomber.getBombs().size();
+        for (int i = 0; i < bomber.getBombs().size(); i++) {
+            bomber.getBombs().get(i).update();
+            if (n > bomber.getBombs().size()) {
                 i--;
-                n = Bomber.bombs.size();
+                n = bomber.getBombs().size();
             }
         }
     }
@@ -200,7 +212,7 @@ public class BombermanGame extends Application {
             }
         }
 
-        Bomber.bombs.forEach(bomb -> bomb.render(gc));
+        bomber.getBombs().forEach(bomb -> bomb.render(gc));
 
         int n = movingEntities.size();
         for (int i = 0; i < movingEntities.size(); i++) {
