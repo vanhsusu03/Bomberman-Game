@@ -1,15 +1,13 @@
 package uet.oop.bomberman.entities.MovingEntity.Enemy;
 
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
-import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.NakamotoSan;
 import uet.oop.bomberman.graphics.Sprite;
 
 public abstract class Enemy extends MovingEntity {
     protected static final int TIME_MOVING_DEAD_SPRITE = 100;
-    public static boolean isAnyoneKilled = false;
+    public static boolean isAnyoneKilled;
 
     public Enemy(int xUnit, int yUnit, int speed, Sprite sprite) {
         super(xUnit, yUnit, speed, sprite);

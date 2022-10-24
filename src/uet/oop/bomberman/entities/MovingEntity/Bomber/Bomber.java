@@ -6,10 +6,11 @@ import uet.oop.bomberman.KeyAction;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Bomb;
-import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Grass;
-import uet.oop.bomberman.entities.StillEntity.Item.*;
-import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.*;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusTarget;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.GoddessMask;
+import uet.oop.bomberman.entities.StillEntity.Item.Item;
 import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.*;
 import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.graphics.Sprite;
@@ -20,15 +21,26 @@ import java.util.*;
 import static uet.oop.bomberman.BombermanGame.map;
 
 public class Bomber extends MovingEntity {
-    public static int flameLength = 1;
-    public static List<Bomb> bombs = new ArrayList<>();
-    private int maxNumberOfBombs;
-    private boolean isCanDetonateOldestBomb = false;
+    private int flameLength = 1;
+    private List<Bomb> bombs = new ArrayList<>();
+    private int maxNumberOfBombs = 1;
+    private boolean isCanDetonateOldestBomb;
     private Set<String> outerCirclePositions = new HashSet<>();
 
     public Bomber(int xUnit, int yUnit, int speed, Sprite sprite) {
         super(xUnit, yUnit, speed, sprite);
-        maxNumberOfBombs = 1;
+    }
+
+    public List<Bomb> getBombs() {
+        return Collections.unmodifiableList(bombs);
+    }
+
+    public void removeAElementInBombs(Bomb bomb) {
+        bombs.remove(bomb);
+    }
+
+    public int getFlameLength() {
+        return flameLength;
     }
 
     private void putBomb() {
@@ -42,7 +54,7 @@ public class Bomber extends MovingEntity {
 
     private void useMysteryItem() {
         Random random = new Random();
-        int ranNum = random.nextInt(Item.NUMBER_OF_ITEMS - 1);
+        int ranNum = random.nextInt(PowerUpItem.NUMBER_OF_ITEMS - 1);
         switch (ranNum) {
             case 0:
                 speed++;

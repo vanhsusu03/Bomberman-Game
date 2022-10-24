@@ -10,7 +10,7 @@ import java.util.Random;
 
 public abstract class BonusItem extends Item {
     protected int point;
-    protected boolean isActivated = false;
+    protected boolean isActivated = true;
 
     public BonusItem(Sprite sprite) {
         this.sprite = sprite;
