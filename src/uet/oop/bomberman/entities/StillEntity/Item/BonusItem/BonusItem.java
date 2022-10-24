@@ -3,7 +3,6 @@ package uet.oop.bomberman.entities.StillEntity.Item.BonusItem;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.Item;
-import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.DetonatorItem;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.Random;
