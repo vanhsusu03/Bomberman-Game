@@ -6,18 +6,28 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
-import uet.oop.bomberman.entities.MovingEntity.Enemy.*;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.Balloon;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.Oneal;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
-import uet.oop.bomberman.entities.StillEntity.*;
-import uet.oop.bomberman.entities.StillEntity.Item.BombItem;
-import uet.oop.bomberman.entities.StillEntity.Item.FlameItem;
-import uet.oop.bomberman.entities.StillEntity.Item.SpeedItem;
+import uet.oop.bomberman.entities.StillEntity.Brick;
+import uet.oop.bomberman.entities.StillEntity.Grass;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.NakamotoSan;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.BombItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.BombpassItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.BrickpassItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.DetonatorItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.FlameItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.FlamepassItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.MysteryItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.SpeedItem;
+import uet.oop.bomberman.entities.StillEntity.Portal;
+import uet.oop.bomberman.entities.StillEntity.Wall;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.map.Camera;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,33 +36,18 @@ import java.util.List;
 import java.util.Scanner;
 
 public class BombermanGame extends Application {
-    
     public static final int WIDTH = 31;
     public static final int HEIGHT = 13;
-    
-    public static GraphicsContext gc;
+    public static long score = 0;
+    public static Entity[][] map = new Entity[HEIGHT][WIDTH];
+    public static Entity[][] hiddenEntities = new Entity[HEIGHT][WIDTH];
+    public static List<MovingEntity> movingEntities = new ArrayList<>();
+    public static Bomber bomber;
+    public static BonusItem bonusItem = null;
+    private GraphicsContext gc;
     private Canvas canvas;
 
-    Camera camera = new Camera(0,0,WIDTH*Sprite.SCALED_SIZE,HEIGHT*Sprite.SCALED_SIZE, 2*WIDTH*Sprite.SCALED_SIZE, 2*HEIGHT*Sprite.SCALED_SIZE);
-    public static List<MovingEntity> movingEntities = new ArrayList<>();
-
-    public static List<List<StillEntity>> stillEntities = new ArrayList<List<StillEntity>>();
-
-    public static int[][] mapParsed = new int[HEIGHT][WIDTH];
-    int level, width, height;
-
-    private Image img = (Image) new Image("/textures/paused.png");
-
-    public static List<MovingEntity> getMovingEntities() {
-        return movingEntities;
-    }
-
-    public static List<List<StillEntity>> getStillEntities() {
-        return stillEntities;
-    }
-
     public static void main(String[] args) {
-        //System.setProperty("quantum.multithreaded", "false");
         Application.launch(BombermanGame.class);
     }
 
@@ -70,21 +65,20 @@ public class BombermanGame extends Application {
         Scene scene = new Scene(root);
 
         // Them scene vao stage
-        stage.setTitle("BombermanGame");
         stage.setScene(scene);
         stage.show();
-
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
                 render();
                 update();
+//                System.out.println(score);
             }
         };
         timer.start();
 
-        createMap();
+        goNewMap();
 
         scene.setOnKeyPressed(event -> {
             KeyAction.setKeptKey(String.valueOf(event.getCode()), true);
@@ -99,7 +93,20 @@ public class BombermanGame extends Application {
         });
     }
 
+    public void goNewMap() {
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 0; j < WIDTH; j++) {
+                hiddenEntities[i][j] = null;
+            }
+        }
+        movingEntities.clear();
+        Brick.isAnythingDestroyed = false;
+        Enemy.isAnyoneKilled = false;
+        createMap();
+    }
+
     public void createMap() {
+        int level, width, height;
         try {
             File file = new File("res/levels/Level1.txt");
             Scanner scanner = new Scanner(file);
@@ -108,57 +115,73 @@ public class BombermanGame extends Application {
             width = scanner.nextInt();
             scanner.nextLine();
 
+            Grass.grassImg = Sprite.grass.getFxImage();
+//            bonusItem = new BonusTarget(Sprite.bonus_item_bonus_target);
+            bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
+//            bonusItem = new DezenimanSan(Sprite.bonus_item_dezeniman_san);
+//            bonusItem = new Famicom(Sprite.bonus_item_famicom);
+//            bonusItem = new GoddessMask(Sprite.bonus_item_goddess_mask);
             for (int i = 0; i < height; i++) {
                 String row = scanner.nextLine();
-                stillEntities.add(new ArrayList<>());
-                for (int j = 0; j < width*2; j++) {
-                    stillEntities.get(i).add(j,new Grass(j, i, Sprite.grass));
+                for (int j = 0; j < width; j++) {
                     switch (row.charAt(j)) {
                         case 'p':
-                            movingEntities.add(new Bomber(j, i, 3, Sprite.player_right));
+                            bomber = new Bomber(j, i, 1, Sprite.player_right);
+                            movingEntities.add(bomber);
+                            map[i][j] = new Grass(j, i, Sprite.grass);
                             break;
                         case '1':
-                            movingEntities.add(new Balloon(j, i,2 , Sprite.balloon_right1,false,false,false));
+                            movingEntities.add(new Balloon(j, i, 0, Sprite.balloon_right1));
+                            map[i][j] = new Grass(j, i, Sprite.grass);
                             break;
                         case '2':
-                            movingEntities.add(new Oneal(j, i, 3, Sprite.oneal_right1,false,false,false));
-                            break;
-                        case '3':
-                            movingEntities.add(new Kondoria(j,i,1,Sprite.kondoria_right1,true,true,false));
-                            break;
-                        case '4':
-                            movingEntities.add(new Doll(j,i,3,Sprite.doll_right1,false,false,false));
-                            break;
-                        case '5':
-                            movingEntities.add(new Minvo(j,i,4,Sprite.minvo_right1,false,false,false));
-                            break;
-                        case '6':
-                            movingEntities.add(new Ovapi(j,i,2,Sprite.ovapi_right1,false,false,false));
-                            break;
-                        case '7':
-                            movingEntities.add(new Pass(j,i,1,Sprite.pass_right1,true,true,true));
-                            break;
-                        case '8':
-                            movingEntities.add(new Pontan(j,i,2,Sprite.pass_right1,true,true,true));
+                            movingEntities.add(new Oneal(j, i, 0, Sprite.oneal_right1));
+                            map[i][j] = new Grass(j, i, Sprite.grass);
                             break;
                         case 'b':
-                            stillEntities.get(i).add(j,new BombItem(j, i, Sprite.powerup_bombs));
+                            hiddenEntities[i][j] = new BombItem(j, i, Sprite.powerup_bombs);
+                            map[i][j] = new Brick(j, i, Sprite.brick);
                             break;
                         case 'f':
-                            stillEntities.get(i).add(j,new FlameItem(j, i, Sprite.powerup_flames));
+                            hiddenEntities[i][j] = new FlameItem(j, i, Sprite.powerup_flames);
+                            map[i][j] = new Brick(j, i, Sprite.brick);
                             break;
                         case 's':
-                            stillEntities.get(i).add(j,new SpeedItem(j, i, Sprite.powerup_speed));
+                            hiddenEntities[i][j] = new SpeedItem(j, i, Sprite.powerup_speed);
+                            map[i][j] = new Brick(j, i, Sprite.brick);
+                            break;
+                        case 'l':
+                            hiddenEntities[i][j] = new FlamepassItem(j, i, Sprite.powerup_flamepass);
+                            map[i][j] = new Brick(j, i, Sprite.brick);
+                            break;
+                        case 'o':
+                            hiddenEntities[i][j] = new BombpassItem(j, i, Sprite.powerup_bombpass);
+                            map[i][j] = new Brick(j, i, Sprite.brick);
+                            break;
+                        case 'r':
+                            hiddenEntities[i][j] = new BrickpassItem(j, i, Sprite.powerup_brickpass);
+                            map[i][j] = new Brick(j, i, Sprite.brick);
+                            break;
+                        case 'd':
+                            hiddenEntities[i][j] = new DetonatorItem(j, i, Sprite.powerup_detonator);
+                            map[i][j] = new Brick(j, i, Sprite.brick);
+                            break;
+                        case 'm':
+                            hiddenEntities[i][j] = new MysteryItem(j, i, Sprite.powerup_mystery);
+                            map[i][j] = new Brick(j, i, Sprite.brick);
                             break;
                         case '#':
-                            stillEntities.get(i).add(j, new Wall(j, i, Sprite.wall));
+                            map[i][j] = new Wall(j, i, Sprite.wall);
                             break;
                         case '*':
-                            stillEntities.get(i).add(j,new Brick(j, i, Sprite.brick));
+                            map[i][j] = new Brick(j, i, Sprite.brick);
                             break;
                         case 'x':
-                            stillEntities.get(i).add(j,new Portal(j, i, Sprite.portal));
+                            hiddenEntities[i][j] = new Portal(j, i, Sprite.portal);
+                            map[i][j] = new Brick(j, i, Sprite.brick);
                             break;
+                        default:
+                            map[i][j] = new Grass(j, i, Sprite.grass);
                     }
                 }
             }
@@ -169,27 +192,42 @@ public class BombermanGame extends Application {
         }
     }
 
-
-
     public void update() {
-        camera.setCenter(Bomber.getxBomber(),Bomber.getyGridBomber());
-        //camera.move(1,1);
-        camera.update();
-        System.out.println("PR" + camera.getStartX() + " "+ camera.getStartY());
         movingEntities.forEach(Entity::update);
+
+        int n = bomber.getBombs().size();
+        for (int i = 0; i < bomber.getBombs().size(); i++) {
+            bomber.getBombs().get(i).update();
+            if (n > bomber.getBombs().size()) {
+                i--;
+                n = bomber.getBombs().size();
+            }
+        }
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        camera.render(camera.getStartX(), camera.getStartY(),gc);
-        for(int i=0;i < HEIGHT; i++) {
-            for(int j= camera.getStartX();j < WIDTH*2; j++) {
-                if(stillEntities.get(i).get(j) != null) stillEntities.get(i).get(j).render(gc);
+
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 0; j < WIDTH; j++) {
+                if (map[i][j] instanceof Portal || map[i][j] instanceof Brick
+                        || map[i][j] instanceof BonusItem) {
+                    gc.drawImage(Grass.grassImg,
+                            j * Sprite.SCALED_SIZE, i * Sprite.SCALED_SIZE);
+                }
+                map[i][j].render(gc);
             }
         }
-        movingEntities.forEach(g->g.render(gc));
-        //gc.drawImage(img,300,100);
-        Bomber.bombs.forEach(g -> g.render(gc));
-//        camera.render(camera.getStartX(), camera.getStartY(),gc);
+
+        bomber.getBombs().forEach(bomb -> bomb.render(gc));
+
+        int n = movingEntities.size();
+        for (int i = 0; i < movingEntities.size(); i++) {
+            movingEntities.get(i).render(gc);
+            if (n > movingEntities.size()) {
+                i--;
+                n = movingEntities.size();
+            }
+        }
     }
 }

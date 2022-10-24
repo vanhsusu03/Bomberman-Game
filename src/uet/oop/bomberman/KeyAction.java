@@ -4,8 +4,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyAction implements KeyListener {
-    // Max(VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT, VK_SPACE) = 40.
-    public static boolean[] keys = new boolean[41];
+    // Max(VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT, VK_SPACE, VK_D) = 68.
+    public static boolean[] keys = new boolean[69];
 
     public static void setKeptKey(String key, boolean isUsing) {
         switch (key) {
@@ -29,21 +29,21 @@ public class KeyAction implements KeyListener {
             case " ":
                 keys[KeyEvent.VK_SPACE] = isTyped;
                 break;
+            case "d":
+                keys[KeyEvent.VK_D] = isTyped;
+                break;
         }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        keys[e.getKeyCode()] = true;
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        keys[e.getKeyCode()] = false;
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        keys[e.getKeyCode()] = true;
     }
 }

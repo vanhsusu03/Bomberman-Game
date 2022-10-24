@@ -7,95 +7,147 @@ import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Bomb;
 import uet.oop.bomberman.entities.StillEntity.Grass;
-import uet.oop.bomberman.entities.StillEntity.Item.BombItem;
-import uet.oop.bomberman.entities.StillEntity.Item.FlameItem;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusTarget;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.GoddessMask;
 import uet.oop.bomberman.entities.StillEntity.Item.Item;
-import uet.oop.bomberman.entities.StillEntity.Item.SpeedItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.BombItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.BombpassItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.BrickpassItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.DetonatorItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.FlameItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.FlamepassItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.MysteryItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.PowerUpItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.SpeedItem;
 import uet.oop.bomberman.entities.StillEntity.Portal;
-import uet.oop.bomberman.entities.StillEntity.StillEntity;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 public class Bomber extends MovingEntity {
-
-    public static int xBomber, yBomber;
-    private boolean isDead;
-    private int numberOfBombs;
-    public static List<Boolean> passBomb = new ArrayList<>();
-    public static List<Bomb> bombs = new ArrayList<>();
+    private int flameLength = 1;
+    private List<Bomb> bombs = new ArrayList<>();
+    private int maxNumberOfBombs = 1;
+    private boolean isCanDetonateOldestBomb;
+    private Set<String> outerCirclePositions = new HashSet<>();
 
     public Bomber(int xUnit, int yUnit, int speed, Sprite sprite) {
         super(xUnit, yUnit, speed, sprite);
-        xBomber = xUnit * Sprite.SCALED_SIZE;
-        yBomber = yUnit * Sprite.SCALED_SIZE;
-        numberOfBombs = 1;
     }
 
-    public static int getxBomber() {
-        return xBomber;
-    }
-    public static int getyBomber() {
-        return yBomber;
+    public List<Bomb> getBombs() {
+        return Collections.unmodifiableList(bombs);
     }
 
-    public static void setxBomber(int x) {
-        xBomber = x;
-    }
-    public static void setyBomber(int y) {
-        yBomber = y;
+    public void removeAElementInBombs(Bomb bomb) {
+        bombs.remove(bomb);
     }
 
-    public static int getxGridBomber() {
-        return xBomber/Sprite.SCALED_SIZE;
-    }
-    public static int getyGridBomber() {
-        return yBomber/Sprite.SCALED_SIZE;
-    }
-    @Override
-    public int getX() {
-        return super.getX();
-    }
-
-    @Override
-    public int getY() {
-        return super.getY();
+    public int getFlameLength() {
+        return flameLength;
     }
 
     private void putBomb() {
-        if (bombs.size() < numberOfBombs) {
-            passBomb.add(true);
-            bombs.add(new Bomb((int) Math.round((double) x / Sprite.SCALED_SIZE),
-                    (int) Math.round((double) y / Sprite.SCALED_SIZE), Sprite.bomb));
+        int xBomb = (int) Math.round((double) x / Sprite.SCALED_SIZE);
+        int yBomb = (int) Math.round((double) y / Sprite.SCALED_SIZE);
+
+        if (bombs.size() < maxNumberOfBombs
+                && BombermanGame.map[yBomb][xBomb] instanceof Grass) {
+            bombs.add(new Bomb(xBomb, yBomb, Sprite.bomb));
         }
     }
 
-    private void eatItems(Item item) {
-        if (item instanceof SpeedItem) {
+    private void useMysteryItem() {
+        Random random = new Random();
+        int ranNum = random.nextInt(PowerUpItem.NUMBER_OF_ITEMS - 1);
+        switch (ranNum) {
+            case 0:
+                speed++;
+                System.out.println("speed");
+                break;
+            case 1:
+                flameLength++;
+                System.out.println("flame");
+                break;
+            case 2:
+                maxNumberOfBombs++;
+                System.out.println("bomb");
+                break;
+            case 3:
+                isCanPassFlames = true;
+                System.out.println("passflame");
+                break;
+            case 4:
+                isCanPassBombs = true;
+                System.out.println("passbomb");
+                break;
+            case 5:
+                isCanPassBrick = true;
+                System.out.println("brick");
+                break;
+            case 6:
+                isCanDetonateOldestBomb = true;
+                System.out.println("detonate");
+                break;
+        }
+    }
+
+    public boolean isAloneInMap() {
+        return BombermanGame.movingEntities.size() == 1
+                && BombermanGame.movingEntities.get(0) instanceof Bomber;
+    }
+
+    private void eatItem(int i, int j) {
+        if (BombermanGame.map[i][j] instanceof SpeedItem) {
             speed++;
-            BombermanGame.stillEntities.remove(item);
-        } else if (item instanceof FlameItem) {
-            BombermanGame.stillEntities.remove(item);
-        } else if (item instanceof BombItem) {
-            numberOfBombs++;
-            BombermanGame.stillEntities.remove(item);
+        } else if (BombermanGame.map[i][j] instanceof FlameItem) {
+            flameLength++;
+        } else if (BombermanGame.map[i][j] instanceof BombItem) {
+            maxNumberOfBombs++;
+        } else if (BombermanGame.map[i][j] instanceof FlamepassItem) {
+            isCanPassFlames = true;
+        } else if (BombermanGame.map[i][j] instanceof BombpassItem) {
+            isCanPassBombs = true;
+        } else if (BombermanGame.map[i][j] instanceof BrickpassItem) {
+            isCanPassBrick = true;
+        } else if (BombermanGame.map[i][j] instanceof DetonatorItem) {
+            isCanDetonateOldestBomb = true;
+        } else if (BombermanGame.map[i][j] instanceof MysteryItem) {
+            useMysteryItem();
+        } else if (BombermanGame.map[i][j] instanceof BonusItem) {
+            BombermanGame.score += BombermanGame.bonusItem.getPoint();
+        }
+        BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
+    }
+
+    private void handleIfBonusTargetIsActivated() {
+        if (BombermanGame.bonusItem instanceof BonusTarget
+                && BombermanGame.bonusItem.checkConditionToSpawn()) {
+            BombermanGame.bonusItem.spawn();
         }
     }
 
-    private void usePortal(Portal portal) {
-        BombermanGame.stillEntities.remove(portal);
+    private void usePortal(int i, int j) {
+        handleIfBonusTargetIsActivated();
+
+        for (MovingEntity movingEntity : BombermanGame.movingEntities) {
+            if (movingEntity instanceof Enemy) {
+                return;
+            }
+        }
+
+        System.out.println("Game la` de~!!!");
     }
 
     @Override
-    public void update() {
-//        if (isDead) {
-//
-//        }
-
-        int _x = x, _y = y;
-
+    public void move() {
         if (KeyAction.keys[KeyEvent.VK_UP]) {
             y -= speed;
         } else if (KeyAction.keys[KeyEvent.VK_DOWN]) {
@@ -108,67 +160,185 @@ public class Bomber extends MovingEntity {
             putBomb();
             KeyAction.keys[KeyEvent.VK_SPACE] = false;
         }
+    }
 
-        for(int i=0;i < BombermanGame.HEIGHT;i++) {
-            for (int j = 0; j < BombermanGame.WIDTH; j++) {
-                StillEntity stillEntity = BombermanGame.stillEntities.get(i).get(j);
-                int xStillEntity = stillEntity.getX(), yStillEntity = stillEntity.getY();
-                if (checkIntersection(xStillEntity, yStillEntity,
-                        xStillEntity + stillEntity.getSprite().get_realWidth(),
-                        yStillEntity + stillEntity.getSprite().get_realHeight())) {
-                    if (stillEntity instanceof Item) {
-                        eatItems((Item) stillEntity);
-                        BombermanGame.stillEntities.get(i).set(j,new Grass(j,i,Sprite.grass));
-                    } else if (stillEntity instanceof Portal) {
-                        usePortal((Portal) stillEntity);
-                        i--;
-                    }
-                }
-            }
+    private void handleCollisionWithItemIn1Cell(int i, int j) {
+        if (BombermanGame.map[i][j] instanceof Item) {
+            eatItem(i, j);
         }
+    }
 
+    private void handleCollisionWithItemIn4Cells(int xUnit1, int yUnit1,
+                                                 int xUnit2, int yUnit2) {
+        handleCollisionWithItemIn1Cell(yUnit1, xUnit1);
+        handleCollisionWithItemIn1Cell(yUnit1, xUnit2);
+        handleCollisionWithItemIn1Cell(yUnit2, xUnit1);
+        handleCollisionWithItemIn1Cell(yUnit2, xUnit2);
+    }
+
+    private void handleCollisionWithPortalIn1Cell(int i, int j) {
+        if (BombermanGame.map[i][j] instanceof Portal) {
+            usePortal(i, j);
+        }
+    }
+
+    private void handleCollisionWithPortalIn4Cells(int xUnit1, int yUnit1,
+                                                   int xUnit2, int yUnit2) {
+        handleCollisionWithPortalIn1Cell(yUnit1, xUnit1);
+        handleCollisionWithPortalIn1Cell(yUnit1, xUnit2);
+        handleCollisionWithPortalIn1Cell(yUnit2, xUnit1);
+        handleCollisionWithPortalIn1Cell(yUnit2, xUnit2);
+    }
+
+    private void handleCollisionWithEnemy() {
         for (MovingEntity movingEntity : BombermanGame.movingEntities) {
-            if (!(movingEntity instanceof Enemy)) continue;
-            int xMovingEntity = movingEntity.getX(), yMovingEntity = movingEntity.getY();
-            if (checkIntersection(xMovingEntity, yMovingEntity,
-                    xMovingEntity + movingEntity.getSprite().get_realWidth(),
-                    yMovingEntity + movingEntity.getSprite().get_realHeight())) {
-                //isDead = true;
+            if (!(movingEntity instanceof Enemy) || movingEntity.isDead()) {
+                continue;
+            }
+            if (checkIntersectionWithOtherMovingEntity(movingEntity.getX(), movingEntity.getY(),
+                    movingEntity.getX() + movingEntity.getSprite().get_realWidth(),
+                    movingEntity.getY() + movingEntity.getSprite().get_realHeight())) {
+                isDead = true;
+                return;
             }
         }
+    }
 
-        if (!checkCanMove()) {
-            x = _x;
-            y = _y;
+    private void handleBombPass(int xUnit1, int yUnit1,
+                                int xUnit2, int yUnit2) {
+        if (!bombs.isEmpty() && bombs.get(bombs.size() - 1).isBomberCanPass()) {
+            int xUnitBomb = bombs.get(bombs.size() - 1).getXUnit();
+            int yUnitBomb = bombs.get(bombs.size() - 1).getYUnit();
+
+            if (!checkBothInACell(xUnitBomb, yUnitBomb, xUnit1, yUnit1)
+                    && !checkBothInACell(xUnitBomb, yUnitBomb, xUnit1, yUnit2)
+                    && !checkBothInACell(xUnitBomb, yUnitBomb, xUnit2, yUnit1)
+                    && !checkBothInACell(xUnitBomb, yUnitBomb, xUnit2, yUnit2)
+                    && !isCanPassBombs) {
+                bombs.get(bombs.size() - 1).setBomberCanPass(false);
+            }
         }
-        setxBomber(this.x);
-        setyBomber(this.y);
-        System.out.println(x + " "+ y);
+    }
+
+    private void detonateOldestBomb() {
+        if (isCanDetonateOldestBomb && !bombs.isEmpty()) {
+            bombs.get(0).setExplosion();
+        }
+    }
+
+    private boolean isWentOuterCircle() {
+        return outerCirclePositions.size()
+                >= 2 * ((BombermanGame.WIDTH - 2) + (BombermanGame.HEIGHT - 2)) - 4;
+    }
+
+    private void handleIfGoddessMaskIsActivated() {
+        if (BombermanGame.bonusItem instanceof GoddessMask
+                && BombermanGame.bonusItem.checkConditionToSpawn()) {
+            updateCenterPosition();
+            int centerXUnit = centerX / Sprite.SCALED_SIZE;
+            int centerYUnit = centerY / Sprite.SCALED_SIZE;
+            if (centerXUnit == 1 || centerYUnit == 1
+                    || centerXUnit == BombermanGame.WIDTH - 2
+                    || centerYUnit == BombermanGame.HEIGHT - 2) {
+                outerCirclePositions.add(centerXUnit + " " + centerYUnit);
+            } else {
+                outerCirclePositions.clear();
+            }
+
+            if (isWentOuterCircle()) {
+                BombermanGame.bonusItem.spawn();
+            }
+        }
+    }
+
+    private void handleCollisionWithBrickWall(int oldX, int oldY) {
+        int oldXUnit = oldX / Sprite.SCALED_SIZE;
+        int oldYUnit = oldY / Sprite.SCALED_SIZE;
+
+        if ((double) oldY / Sprite.SCALED_SIZE - oldYUnit >= 0.55 && x > oldX
+                && isCellCanCome(oldXUnit + 1, oldYUnit + 1)) {
+            y += speed;
+        } else if ((double) oldY / Sprite.SCALED_SIZE - oldYUnit <= 0.45 && x > oldX
+                && isCellCanCome(oldXUnit + 1, oldYUnit)) {
+            y -= speed;
+        } else if ((double) oldY / Sprite.SCALED_SIZE - oldYUnit >= 0.55 && x < oldX
+                && isCellCanCome(oldXUnit - 1, oldYUnit + 1)) {
+            y += speed;
+        } else if ((double) oldY / Sprite.SCALED_SIZE - oldYUnit <= 0.45 && x < oldX
+                && isCellCanCome(oldXUnit - 1, oldYUnit)) {
+            y -= speed;
+        } else if ((double) oldX / Sprite.SCALED_SIZE - oldXUnit <= 0.6 && y > oldY
+                && isCellCanCome(oldXUnit, oldYUnit + 1)) {
+            x -= speed;
+        } else if ((double) oldX / Sprite.SCALED_SIZE - oldXUnit >= 0.55 && y > oldY
+                && isCellCanCome(oldXUnit + 1, oldYUnit + 1)) {
+            x += speed;
+        } else if ((double) oldX / Sprite.SCALED_SIZE - oldXUnit < 0.62 && y < oldY
+                && isCellCanCome(oldXUnit, oldYUnit - 1)) {
+            x -= speed;
+        } else if ((double) oldX / Sprite.SCALED_SIZE - oldXUnit > 0.62 && y < oldY
+                && isCellCanCome(oldXUnit + 1, oldYUnit - 1)) {
+            x += speed;
+        } else {
+            x = oldX;
+            y = oldY;
+        }
+    }
+
+    @Override
+    public void update() {
+        if (isDead) {
+            return;
+        }
+
+        if (KeyAction.keys[KeyEvent.VK_D]) {
+            detonateOldestBomb();
+            KeyAction.keys[KeyEvent.VK_D] = false;
+        }
+
+        int oldX = x, oldY = y;
+        move();
+
+        if (!checkCanMove(x, y)) {
+            handleCollisionWithBrickWall(oldX, oldY);
+        } else {
+            int xUnit1 = x / Sprite.SCALED_SIZE;
+            int yUnit1 = y / Sprite.SCALED_SIZE;
+            int xUnit2 = (x + sprite.get_realWidth()) / Sprite.SCALED_SIZE;
+            int yUnit2 = (y + sprite.get_realHeight()) / Sprite.SCALED_SIZE;
+
+            handleCollisionWithItemIn4Cells(xUnit1, yUnit1, xUnit2, yUnit2);
+            handleCollisionWithPortalIn4Cells(xUnit1, yUnit1, xUnit2, yUnit2);
+            handleCollisionWithEnemy();
+            handleBombPass(xUnit1, yUnit1, xUnit2, yUnit2);
+            handleIfGoddessMaskIsActivated();
+        }
     }
 
     @Override
     public void render(GraphicsContext gc) {
         if (isDead) {
-            img = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2,
-                    Sprite.player_dead3, frameCount, 40).getFxImage();
+            sprite = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2,
+                    Sprite.player_dead3, frameCount, 60);
+            img = sprite.getFxImage();
         } else {
             if (KeyAction.keys[KeyEvent.VK_UP]) {
-                img = Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1,
-                        Sprite.player_up_2, frameCount, 40).getFxImage();
+                sprite = Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1,
+                        Sprite.player_up_2, frameCount, 18);
+                img = sprite.getFxImage();
             } else if (KeyAction.keys[KeyEvent.VK_DOWN]) {
-                img = Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1,
-                        Sprite.player_down_2, frameCount, 40).getFxImage();
+                sprite = Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1,
+                        Sprite.player_down_2, frameCount, 18);
+                img = sprite.getFxImage();
             } else if (KeyAction.keys[KeyEvent.VK_LEFT]) {
-                img = Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1,
-                        Sprite.player_left_2, frameCount, 40).getFxImage();
+                sprite = Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1,
+                        Sprite.player_left_2, frameCount, 18);
+                img = sprite.getFxImage();
             } else if (KeyAction.keys[KeyEvent.VK_RIGHT]) {
-                img = Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1,
-                        Sprite.player_right_2, frameCount, 40).getFxImage();
+                sprite = Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1,
+                        Sprite.player_right_2, frameCount, 18);
+                img = sprite.getFxImage();
             }
-//            else {
-//                img = Sprite.movingSprite(Sprite.player_right,Sprite.player_right,
-//                        Sprite.player_right,frameCount,40).getFxImage();
-//            }
         }
 
         updateFrameCount();

@@ -1,12 +1,15 @@
 package uet.oop.bomberman.graphics;
 
-import javafx.scene.image.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 
 /**
  * Lưu trữ thông tin các pixel của 1 sprite (hình ảnh game)
  */
 public class Sprite {
-
     public static final int DEFAULT_SIZE = 16;
     public static final int SCALED_SIZE = DEFAULT_SIZE * 2;
     private static final int TRANSPARENT_COLOR = 0xffff00ff;
@@ -44,7 +47,7 @@ public class Sprite {
     public static Sprite player_down_2 = new Sprite(DEFAULT_SIZE, 2, 2, SpriteSheet.tiles, 10, 15);
 
     public static Sprite player_left_1 = new Sprite(DEFAULT_SIZE, 3, 1, SpriteSheet.tiles, 10, 15);
-    public static Sprite player_left_2 = new Sprite(DEFAULT_SIZE, 3, 2, SpriteSheet.tiles, 10,15);
+    public static Sprite player_left_2 = new Sprite(DEFAULT_SIZE, 3, 2, SpriteSheet.tiles, 10, 15);
 
     public static Sprite player_right_1 = new Sprite(DEFAULT_SIZE, 1, 1, SpriteSheet.tiles, 10, 15);
     public static Sprite player_right_2 = new Sprite(DEFAULT_SIZE, 1, 2, SpriteSheet.tiles, 10, 15);
@@ -204,10 +207,22 @@ public class Sprite {
     public static Sprite powerup_bombs = new Sprite(DEFAULT_SIZE, 0, 10, SpriteSheet.tiles, 16, 16);
     public static Sprite powerup_flames = new Sprite(DEFAULT_SIZE, 1, 10, SpriteSheet.tiles, 16, 16);
     public static Sprite powerup_speed = new Sprite(DEFAULT_SIZE, 2, 10, SpriteSheet.tiles, 16, 16);
-    public static Sprite powerup_wallpass = new Sprite(DEFAULT_SIZE, 3, 10, SpriteSheet.tiles, 16, 16);
+    public static Sprite powerup_brickpass = new Sprite(DEFAULT_SIZE, 3, 10, SpriteSheet.tiles, 16, 16);
     public static Sprite powerup_detonator = new Sprite(DEFAULT_SIZE, 4, 10, SpriteSheet.tiles, 16, 16);
     public static Sprite powerup_bombpass = new Sprite(DEFAULT_SIZE, 5, 10, SpriteSheet.tiles, 16, 16);
     public static Sprite powerup_flamepass = new Sprite(DEFAULT_SIZE, 6, 10, SpriteSheet.tiles, 16, 16);
+    public static Sprite powerup_mystery = new Sprite(DEFAULT_SIZE, 7, 10, SpriteSheet.tiles, 16, 16);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Bonus Items
+    |--------------------------------------------------------------------------
+     */
+    public static Sprite bonus_item_bonus_target = new Sprite(DEFAULT_SIZE, 0, 11, SpriteSheet.tiles, 16, 16);
+    public static Sprite bonus_item_nakamoto_san = new Sprite(DEFAULT_SIZE, 2, 11, SpriteSheet.tiles, 16, 16);
+    public static Sprite bonus_item_dezeniman_san = new Sprite(DEFAULT_SIZE, 5, 11, SpriteSheet.tiles, 16, 16);
+    public static Sprite bonus_item_famicom = new Sprite(DEFAULT_SIZE, 3, 11, SpriteSheet.tiles, 16, 16);
+    public static Sprite bonus_item_goddess_mask = new Sprite(DEFAULT_SIZE, 1, 11, SpriteSheet.tiles, 16, 16);
 
     public Sprite(int size, int x, int y, SpriteSheet sheet, int rw, int rh) {
         SIZE = size;
@@ -248,15 +263,34 @@ public class Sprite {
         }
     }
 
+    public static Sprite movingSprite(Sprite normal, Sprite x1, Sprite x2, Sprite x3, int animate, int time) {
+        int calc = animate % time;
+        int diff = time / 4;
+
+        if (calc < diff) {
+            return normal;
+        }
+
+        if (calc < diff * 2) {
+            return x1;
+        }
+
+        if (calc < diff * 3) {
+            return x2;
+        }
+
+        return x3;
+    }
+
     public static Sprite movingSprite(Sprite normal, Sprite x1, Sprite x2, int animate, int time) {
         int calc = animate % time;
         int diff = time / 3;
 
-        if(calc < diff) {
+        if (calc < diff) {
             return normal;
         }
 
-        if(calc < diff * 2) {
+        if (calc < diff * 2) {
             return x1;
         }
 
