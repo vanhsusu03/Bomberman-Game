@@ -2,7 +2,6 @@ package uet.oop.bomberman.entities.StillEntity;
 
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.DezenimanSan;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -15,13 +14,6 @@ public class Brick extends StillEntity {
         super(xUnit, yUnit, sprite);
     }
 
-    public void setDestroyed(boolean destroyed) {
-        isDestroyed = destroyed;
-        if (destroyed) {
-            isAnythingDestroyed = true;
-        }
-    }
-
     public static boolean isHavingOnMap() {
         for (int i = 0; i < BombermanGame.HEIGHT; i++) {
             for (int j = 0; j < BombermanGame.WIDTH; j++) {
@@ -31,6 +23,13 @@ public class Brick extends StillEntity {
             }
         }
         return false;
+    }
+
+    public void setDestroyed(boolean destroyed) {
+        isDestroyed = destroyed;
+        if (destroyed) {
+            isAnythingDestroyed = true;
+        }
     }
 
     private void handleIfDezenimanSanIsActivated() {

@@ -2,7 +2,6 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Bomb;
 import uet.oop.bomberman.entities.StillEntity.Brick;
@@ -10,7 +9,6 @@ import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.Item;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Flame extends Entity {

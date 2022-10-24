@@ -8,10 +8,7 @@ import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static uet.oop.bomberman.BombermanGame.map;
 
 public abstract class MovingEntity extends Entity {
     protected int centerX;
@@ -62,8 +59,9 @@ public abstract class MovingEntity extends Entity {
             }
         }
 
-        return (!(map[yUnit][xUnit] instanceof Brick) || isCanPassBrick)
-                && !(map[yUnit][xUnit] instanceof Wall);
+        return (!(BombermanGame.map[yUnit][xUnit] instanceof Brick)
+                || isCanPassBrick)
+                && !(BombermanGame.map[yUnit][xUnit] instanceof Wall);
     }
 
     protected boolean checkCanMove(int x, int y) {

@@ -11,14 +11,25 @@ import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusTarget;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.GoddessMask;
 import uet.oop.bomberman.entities.StillEntity.Item.Item;
-import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.*;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.BombItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.BombpassItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.BrickpassItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.DetonatorItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.FlameItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.FlamepassItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.MysteryItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.PowerUpItem;
+import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.SpeedItem;
 import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.event.KeyEvent;
-import java.util.*;
-
-import static uet.oop.bomberman.BombermanGame.map;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 public class Bomber extends MovingEntity {
     private int flameLength = 1;
@@ -47,7 +58,8 @@ public class Bomber extends MovingEntity {
         int xBomb = (int) Math.round((double) x / Sprite.SCALED_SIZE);
         int yBomb = (int) Math.round((double) y / Sprite.SCALED_SIZE);
 
-        if (bombs.size() < maxNumberOfBombs && map[yBomb][xBomb] instanceof Grass) {
+        if (bombs.size() < maxNumberOfBombs
+                && BombermanGame.map[yBomb][xBomb] instanceof Grass) {
             bombs.add(new Bomb(xBomb, yBomb, Sprite.bomb));
         }
     }

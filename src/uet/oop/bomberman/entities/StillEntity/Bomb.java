@@ -3,7 +3,6 @@ package uet.oop.bomberman.entities.StillEntity;
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Flame;
-import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.Famicom;
 import uet.oop.bomberman.graphics.Sprite;
 
