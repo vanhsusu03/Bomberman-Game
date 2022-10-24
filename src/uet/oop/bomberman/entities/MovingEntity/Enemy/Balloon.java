@@ -51,6 +51,18 @@ public class Balloon extends Enemy {
 
     @Override
     public void render(GraphicsContext gc) {
+        if (isDead) {
+            sprite = Sprite.movingSprite(Sprite.balloon_dead, Sprite.mob_dead1,
+                    Sprite.mob_dead2, Sprite.mob_dead3,
+                    frameCount, TIME_MOVING_DEAD_SPRITE);
+            img = sprite.getFxImage();
+        }
         gc.drawImage(img, moveRandom.getX(), moveRandom.getY());
+        removeEnemyIfDeathAnimationEnds();
+    }
+
+    @Override
+    protected void move() {
+
     }
 }

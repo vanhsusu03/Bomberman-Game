@@ -23,22 +23,23 @@ public class ChasingBomberAStar extends RandomMove {
 
     public void tracePath() {
         for (int i = 0; i < path.size(); i++) {
-            if (getX() != path.get(i).getX() * 32 || getY() != path.get(i).getY() * 32) {
+            if (getX() != path.get(i).getX() * Sprite.SCALED_SIZE
+                    || getY() != path.get(i).getY() * Sprite.SCALED_SIZE) {
                 Node curNode = path.get(i);
-                if (curNode.getX() == getGridX() && getX() % 32 == 0) {
-                    if (getY() > curNode.getY() * 32) {
+                if (curNode.getX() == getGridX() && getX() % Sprite.SCALED_SIZE == 0) {
+                    if (getY() > curNode.getY() * Sprite.SCALED_SIZE) {
                         direction = 2;
                         y -= speed;
-                    } else if (getY() < curNode.getY() * 32) {
+                    } else if (getY() < curNode.getY() * Sprite.SCALED_SIZE) {
                         direction = 3;
                         y += speed;
                     }
                     break;
-                } else if (curNode.getY() == getGridY() && getY() % 32 == 0) {
-                    if (getX() > curNode.getX() * 32) {
+                } else if (curNode.getY() == getGridY() && getY() % Sprite.SCALED_SIZE == 0) {
+                    if (getX() > curNode.getX() * Sprite.SCALED_SIZE) {
                         direction = 0;
                         x -= speed;
-                    } else if (getX() < curNode.getX() * 32) {
+                    } else if (getX() < curNode.getX() * Sprite.SCALED_SIZE) {
                         direction = 1;
                         x += speed;
                     }
@@ -52,7 +53,7 @@ public class ChasingBomberAStar extends RandomMove {
     }
 
     public void moveChasingChangesAStar() {
-        if (getX() % 32 == 0 && getY() % 32 == 0) {
+        if (getX() % Sprite.SCALED_SIZE == 0 && getY() % Sprite.SCALED_SIZE == 0) {
             generatePath();
         }
         if (path == null || path.size() == 0) {
@@ -62,7 +63,7 @@ public class ChasingBomberAStar extends RandomMove {
         }
     }
 
-    public void updateChasingmoveAStar() {
+    public void updateChasingMoveAStar() {
         moveChasingChangesAStar();
     }
 }

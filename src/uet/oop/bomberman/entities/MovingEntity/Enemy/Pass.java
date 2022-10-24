@@ -16,7 +16,7 @@ public class Pass extends Enemy {
 
     @Override
     public void update() {
-        chasingBomberAStar.updateChasingmoveAStar();
+        chasingBomberAStar.updateChasingMoveAStar();
         setX(chasingBomberAStar.getX());
         setY(chasingBomberAStar.getY());
         switch (chasingBomberAStar.getDirection()) {
@@ -38,7 +38,19 @@ public class Pass extends Enemy {
 
     @Override
     public void render(GraphicsContext gc) {
-        //System.out.println(chasingBomberAStar.getX() + " "+chasingBomberAStar.getY());
+        if (isDead) {
+            sprite = Sprite.movingSprite(Sprite.pass_dead, Sprite.mob_dead1,
+                    Sprite.mob_dead2, Sprite.mob_dead3,
+                    frameCount, TIME_MOVING_DEAD_SPRITE);
+            img = sprite.getFxImage();
+            updateFrameCount();
+        }
         gc.drawImage(img,chasingBomberAStar.getX(),chasingBomberAStar.getY());
+        removeEnemyIfDeathAnimationEnds();
+    }
+
+    @Override
+    protected void move() {
+
     }
 }

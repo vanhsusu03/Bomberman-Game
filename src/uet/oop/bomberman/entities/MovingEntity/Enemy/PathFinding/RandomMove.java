@@ -5,6 +5,7 @@ package uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding;
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Balloon;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
@@ -12,6 +13,8 @@ import uet.oop.bomberman.entities.StillEntity.StillEntity;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.entities.StillEntity.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomMove {
@@ -22,6 +25,7 @@ public class RandomMove {
     protected boolean brickPass;
     protected boolean bombPass;
     boolean canMove = false;
+    private List<Bomb> bombList = new ArrayList<>();
 
     public RandomMove(int x, int y, int speed, boolean wallPass, boolean brickPass, boolean bombPass) {
         this.x = x;
@@ -74,12 +78,19 @@ public class RandomMove {
     int direction = 0;
 
     public boolean canMoveleft() {
-        StillEntity tmpStill = BombermanGame.stillEntities.get(y / Sprite.SCALED_SIZE).get((x - speed) / Sprite.SCALED_SIZE);
+        Entity tmpStill = BombermanGame.map[y / Sprite.SCALED_SIZE][(x - speed) / Sprite.SCALED_SIZE];
+        if(!bombPass) {
+            for(int i=0;i<bombList.size();i++) {
+                if(bombList.get(i).getGridX() == (x - speed) / Sprite.SCALED_SIZE
+                        && bombList.get(i).getGridY() == y / Sprite.SCALED_SIZE ) {
+                    return false;
+                }
+            }
+        }
         if (!(tmpStill instanceof Grass)) {
-            if ((!wallPass && !brickPass && !bombPass)
+            if ((!wallPass && !brickPass)
                     || (wallPass && !(tmpStill instanceof Wall))
-                    || (brickPass && !(tmpStill instanceof Brick))
-                    || (bombPass && !(tmpStill instanceof Bomb))) {
+                    || (brickPass && !(tmpStill instanceof Brick))) {
                 return false;
             }
         }
@@ -87,12 +98,19 @@ public class RandomMove {
     }
 
     public boolean canMoveright() {
-        StillEntity tmpStill = BombermanGame.stillEntities.get(y / Sprite.SCALED_SIZE).get((x) / Sprite.SCALED_SIZE + 1);
+        Entity tmpStill = BombermanGame.map[y / Sprite.SCALED_SIZE][(x / Sprite.SCALED_SIZE) +1 ];
+        if(!bombPass) {
+            for(int i=0;i<bombList.size();i++) {
+                if(bombList.get(i).getGridX() == (x / Sprite.SCALED_SIZE) + 1
+                        && bombList.get(i).getGridY() == y / Sprite.SCALED_SIZE ) {
+                    return false;
+                }
+            }
+        }
         if (!(tmpStill instanceof Grass)) {
-            if ((!wallPass && !brickPass && !bombPass)
+            if ((!wallPass && !brickPass)
                     || (wallPass && !(tmpStill instanceof Wall))
-                    || (brickPass && !(tmpStill instanceof Brick))
-                    || (bombPass && !(tmpStill instanceof Bomb))) {
+                    || (brickPass && !(tmpStill instanceof Brick))) {
                 return false;
             }
         }
@@ -100,12 +118,19 @@ public class RandomMove {
     }
 
     public boolean canMoveup() {
-        StillEntity tmpStill = BombermanGame.stillEntities.get((y - speed) / Sprite.SCALED_SIZE).get(x / Sprite.SCALED_SIZE);
+        Entity tmpStill = BombermanGame.map[(y - speed) / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE];
+        if(!bombPass) {
+            for(int i=0;i<bombList.size();i++) {
+                if(bombList.get(i).getGridX() == x / Sprite.SCALED_SIZE
+                        && bombList.get(i).getGridY() == (y-speed) / Sprite.SCALED_SIZE ) {
+                    return false;
+                }
+            }
+        }
         if (!(tmpStill instanceof Grass)) {
-            if ((!wallPass && !brickPass && !bombPass)
+            if ((!wallPass && !brickPass)
                     || (wallPass && !(tmpStill instanceof Wall))
-                    || (brickPass && !(tmpStill instanceof Brick))
-                    || (bombPass && !(tmpStill instanceof Bomb))) {
+                    || (brickPass && !(tmpStill instanceof Brick))) {
                 return false;
             }
         }
@@ -113,38 +138,25 @@ public class RandomMove {
     }
 
     public boolean canMovedown() {
-        StillEntity tmpStill = BombermanGame.stillEntities.get(y / Sprite.SCALED_SIZE + 1).get(x / Sprite.SCALED_SIZE);
+        Entity tmpStill = BombermanGame.map[(y / Sprite.SCALED_SIZE) + 1][x / Sprite.SCALED_SIZE];
+        if(!bombPass) {
+            for(int i=0;i<bombList.size();i++) {
+                if(bombList.get(i).getGridX() == x/ Sprite.SCALED_SIZE
+                        && bombList.get(i).getGridY() == (y / Sprite.SCALED_SIZE) + 1 ) {
+                    System.out.println(bombList.get(i).getGridX() + " " + bombList.get(i).getGridY());
+                    return false;
+                }
+            }
+        }
         if (!(tmpStill instanceof Grass)) {
-            if ((!wallPass && !brickPass && !bombPass)
+            if ((!wallPass && !brickPass)
                     || (wallPass && !(tmpStill instanceof Wall))
-                    || (brickPass && !(tmpStill instanceof Brick))
-                    || (bombPass && !(tmpStill instanceof Bomb))) {
+                    || (brickPass && !(tmpStill instanceof Brick))) {
                 return false;
             }
         }
         return true;
     }
-
-    public boolean checkCollisionwithMap() {
-        if (x / Sprite.SCALED_SIZE <= 1) {
-            x = Sprite.SCALED_SIZE + 1;
-            return false;
-        }
-        if (x / Sprite.SCALED_SIZE >= BombermanGame.WIDTH - 1) {
-            x = (BombermanGame.WIDTH - 2) * Sprite.SCALED_SIZE;
-            return false;
-        }
-        if (y / Sprite.SCALED_SIZE <= 1) {
-            y = 1 + Sprite.SCALED_SIZE;
-            return false;
-        }
-        if (y / Sprite.SCALED_SIZE >= BombermanGame.HEIGHT - 1) {
-            y = (BombermanGame.HEIGHT - 1) * Sprite.SCALED_SIZE + 1;
-            return false;
-        }
-        return true;
-    }
-
     /**
      * 0 - canMoveLeft
      * 1 - canMoveRight
@@ -152,6 +164,7 @@ public class RandomMove {
      * 3 - canMoveDown
      */
     private void moveDirectionChanges() {
+        bombList = BombermanGame.bomber.getBombs();
         if (!canMove) {
             direction = randomInt(0, 4);
         }

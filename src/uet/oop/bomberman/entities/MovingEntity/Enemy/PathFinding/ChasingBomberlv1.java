@@ -16,7 +16,7 @@ public class ChasingBomberlv1 extends RandomMove {
     }
 
     private final int rangetoChase = 85;
-    private int chasedirection;
+    private int chaseDirection = 0;
 
     /**
      * RETURN 0: Can't navigate - player is out of range.
@@ -49,9 +49,9 @@ public class ChasingBomberlv1 extends RandomMove {
 
     public void moveChasingChangeslv1() {
         if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
-            chasedirection = directFollowChasing();
+            chaseDirection = directFollowChasing();
         }
-        switch (chasedirection) {
+        switch (chaseDirection) {
             case 1: //Left
                 if (canMoveleft()) {
                     x -= speed;
@@ -77,7 +77,7 @@ public class ChasingBomberlv1 extends RandomMove {
         }
     }
 
-    public void updateChasingmoveLv1() {
+    public void updateChasingMoveLv1() {
         moveChasingChangeslv1();
     }
 }

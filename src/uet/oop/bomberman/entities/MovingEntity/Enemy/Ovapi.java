@@ -14,7 +14,7 @@ public class Ovapi extends Enemy {
     ChasingBomberlv2 chasingBomberlv2 = new ChasingBomberlv2(x,y,speed,wallPass,brickPass,bombPass);
     @Override
     public void update() {
-        chasingBomberlv2.updateChasingmoveLv2();
+        chasingBomberlv2.updateChasingMoveLv2();
         setX(chasingBomberlv2.getX());
         setY(chasingBomberlv2.getY());
         switch (chasingBomberlv2.getDirection()) {
@@ -36,6 +36,19 @@ public class Ovapi extends Enemy {
 
     @Override
     public void render(GraphicsContext gc) {
+        if (isDead) {
+            sprite = Sprite.movingSprite(Sprite.ovapi_dead, Sprite.mob_dead1,
+                    Sprite.mob_dead2, Sprite.mob_dead3,
+                    frameCount, TIME_MOVING_DEAD_SPRITE);
+            img = sprite.getFxImage();
+            updateFrameCount();
+        }
         gc.drawImage(img, chasingBomberlv2.getX(), chasingBomberlv2.getY());
+        removeEnemyIfDeathAnimationEnds();
+    }
+
+    @Override
+    protected void move() {
+
     }
 }

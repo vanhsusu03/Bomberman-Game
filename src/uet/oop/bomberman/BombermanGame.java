@@ -11,6 +11,7 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Balloon;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.Kondoria;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Oneal;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Brick;
@@ -49,6 +50,10 @@ public class BombermanGame extends Application {
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
+    }
+
+    public static List<MovingEntity> getMovingEntities() {
+        return movingEntities;
     }
 
     @Override
@@ -117,7 +122,7 @@ public class BombermanGame extends Application {
 
             Grass.grassImg = Sprite.grass.getFxImage();
 //            bonusItem = new BonusTarget(Sprite.bonus_item_bonus_target);
-            bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
+           // bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
 //            bonusItem = new DezenimanSan(Sprite.bonus_item_dezeniman_san);
 //            bonusItem = new Famicom(Sprite.bonus_item_famicom);
 //            bonusItem = new GoddessMask(Sprite.bonus_item_goddess_mask);
@@ -126,16 +131,16 @@ public class BombermanGame extends Application {
                 for (int j = 0; j < width; j++) {
                     switch (row.charAt(j)) {
                         case 'p':
-                            bomber = new Bomber(j, i, 1, Sprite.player_right);
+                            bomber = new Bomber(j, i, 2, Sprite.player_right);
                             movingEntities.add(bomber);
                             map[i][j] = new Grass(j, i, Sprite.grass);
                             break;
                         case '1':
-                            movingEntities.add(new Balloon(j, i, 0, Sprite.balloon_right1));
+                            movingEntities.add(new Balloon(j, i, 1, Sprite.balloon_right1,false,false,false));
                             map[i][j] = new Grass(j, i, Sprite.grass);
                             break;
                         case '2':
-                            movingEntities.add(new Oneal(j, i, 0, Sprite.oneal_right1));
+                            movingEntities.add(new Kondoria(j, i, 1, Sprite.oneal_right1,false,false,false));
                             map[i][j] = new Grass(j, i, Sprite.grass);
                             break;
                         case 'b':

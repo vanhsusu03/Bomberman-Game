@@ -21,6 +21,10 @@ public abstract class Entity {
     protected Sprite sprite;
     protected Image img;
 
+    public Entity() {
+
+    }
+
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
     public Entity(int xUnit, int yUnit, int speed, Sprite sprite) {
         this.gridX = xUnit;
@@ -29,7 +33,9 @@ public abstract class Entity {
         this.y = yUnit * Sprite.SCALED_SIZE;
         this.speed = speed;
         this.sprite = sprite;
-        img = sprite.getFxImage();
+        if (sprite != null) {
+            img = sprite.getFxImage();
+        }
     }
 
     public void setX(int x) {
@@ -59,6 +65,14 @@ public abstract class Entity {
     public int getGridY() {
         return this.gridY;
     }
+    public int getXUnit() {
+        return x / Sprite.SCALED_SIZE;
+    }
+
+    public int getYUnit() {
+        return y / Sprite.SCALED_SIZE;
+    }
+
 
     public Image getImage() {
         return this.img;
@@ -66,6 +80,14 @@ public abstract class Entity {
 
     public Sprite getSprite() {
         return sprite;
+    }
+    protected boolean checkBothInACell(int xUnit, int yUnit) {
+        return xUnit == getXUnit() && yUnit == getYUnit();
+    }
+
+    protected boolean checkBothInACell(int xUnit1, int yUnit1,
+                                       int xUnit2, int yUnit2) {
+        return xUnit1 == xUnit2 && yUnit1 == yUnit2;
     }
 
     public void render(GraphicsContext gc) {

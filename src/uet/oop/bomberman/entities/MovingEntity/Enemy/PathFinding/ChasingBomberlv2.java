@@ -16,9 +16,9 @@ public class ChasingBomberlv2 extends RandomMove {
         super(x, y, speed, wallPass, brickPass, bombPass);
     }
 
-    private int XrangeofChasing = 120;
-    private int YrangeofChasing = 120;
-    private int chasedirection = 0;
+    private int xRangeOfChasing = 120;
+    private int yRangeOfChasing = 120;
+    private int chaseDirection = 0;
 
     /**
      * RETURN 0: Can't navigate - player is out of range
@@ -32,46 +32,43 @@ public class ChasingBomberlv2 extends RandomMove {
      * RETURN 8: Player in the same y - x right
      */
     private int directFollowChasing() {
-        int Xdistance = x - Bomber.getxGridBomber() * Sprite.SCALED_SIZE;
-        int Ydistance = y - Bomber.getyGridBomber() * Sprite.SCALED_SIZE;
-        if (Xdistance == 0) {
-            if (Ydistance > 0 && Ydistance <= YrangeofChasing) {
+        int xDistance = x - Bomber.getxGridBomber() * Sprite.SCALED_SIZE;
+        int yDistance = y - Bomber.getyGridBomber() * Sprite.SCALED_SIZE;
+        if (xDistance == 0) {
+            if (yDistance > 0 && yDistance <= yRangeOfChasing) {
                 return 5;
-            } else if (Ydistance < 0 && -Ydistance <= YrangeofChasing) {
+            } else if (yDistance < 0 && -yDistance <= yRangeOfChasing) {
                 return 6;
             }
         }
-        if (Ydistance == 0) {
-            if (Xdistance > 0 && Xdistance <= XrangeofChasing) {
+        if (yDistance == 0) {
+            if (xDistance > 0 && xDistance <= xRangeOfChasing) {
                 return 7;
-            } else if (Xdistance < 0 && -Xdistance <= XrangeofChasing) {
+            } else if (xDistance < 0 && -xDistance <= xRangeOfChasing) {
                 return 8;
             }
         }
-        if (Xdistance > 0 && Xdistance < XrangeofChasing && Ydistance > 0 && Ydistance < YrangeofChasing) {
+        if (xDistance > 0 && xDistance < xRangeOfChasing && yDistance > 0 && yDistance < yRangeOfChasing) {
             return 1;
         }
-        if (Xdistance > 0 && Xdistance < XrangeofChasing && -Ydistance > 0 && -Ydistance < YrangeofChasing) {
+        if (xDistance > 0 && xDistance < xRangeOfChasing && -yDistance > 0 && -yDistance < yRangeOfChasing) {
             return 3;
         }
-        if (-Xdistance > 0 && -Xdistance < XrangeofChasing && Ydistance > 0 && Ydistance < YrangeofChasing) {
+        if (-xDistance > 0 && -xDistance < xRangeOfChasing && yDistance > 0 && yDistance < yRangeOfChasing) {
             return 2;
         }
-        if (-Xdistance > 0 && -Xdistance < XrangeofChasing && -Ydistance > 0 && -Ydistance < YrangeofChasing) {
+        if (-xDistance > 0 && -xDistance < xRangeOfChasing && -yDistance > 0 && -yDistance < yRangeOfChasing) {
             return 4;
         }
         return 0;
     }
 
-//    public void confirmDirections(boolean) {
-//
-//    }
 
-    public void moveChasingChangeslv2() {
+    public void moveChasingChangesLv2() {
         if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
-            chasedirection = directFollowChasing();
+            chaseDirection = directFollowChasing();
         }
-        switch (chasedirection) {
+        switch (chaseDirection) {
             case 1: // Top-Left
                 // Left
                 if (canMoveleft()) {
@@ -79,7 +76,7 @@ public class ChasingBomberlv2 extends RandomMove {
                 } else if (canMoveup()) {
                     y -= speed;
                 } else {
-                    chasedirection = 0;
+                    chaseDirection = 0;
                 }
             case 2: // Top - Right
                 //Up
@@ -88,7 +85,7 @@ public class ChasingBomberlv2 extends RandomMove {
                 } else if (canMoveup()) {
                     y -= speed;
                 } else {
-                    chasedirection = 0;
+                    chaseDirection = 0;
                 }
             case 3: // Left - Down
                 //DOWN
@@ -97,7 +94,7 @@ public class ChasingBomberlv2 extends RandomMove {
                 } else if (canMovedown()) {
                     y += speed;
                 } else {
-                    chasedirection = 0;
+                    chaseDirection = 0;
                 }
             case 4: // Right - Down
                 if (canMoveright()) {
@@ -105,38 +102,38 @@ public class ChasingBomberlv2 extends RandomMove {
                 } else if (canMovedown()) {
                     y += speed;
                 } else {
-                    chasedirection = 0;
+                    chaseDirection = 0;
                 }
             case 5: // same x, y up
                 if (canMoveup()) {
                     y -= speed;
                 } else {
-                    chasedirection = 0;
+                    chaseDirection = 0;
                 }
             case 6: // same x, y down
                 if (canMovedown()) {
                     y += speed;
                 } else {
-                    chasedirection = 0;
+                    chaseDirection = 0;
                 }
             case 7: // same y, x left
                 if (canMoveleft()) {
                     x -= speed;
                 } else {
-                    chasedirection = 0;
+                    chaseDirection = 0;
                 }
             case 8: //same y, x right
                 if (canMoveright()) {
                     x += speed;
                 } else {
-                    chasedirection = 0;
+                    chaseDirection = 0;
                 }
             default:
                 updateRandomMove();
         }
     }
 
-    public void updateChasingmoveLv2() {
-        moveChasingChangeslv2();
+    public void updateChasingMoveLv2() {
+        moveChasingChangesLv2();
     }
 }

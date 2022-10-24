@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding;
 
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Brick;
@@ -25,7 +26,7 @@ public class Astar_FindingPath {
 
     public Astar_FindingPath(int heightRange, int widthRange, boolean wallPass, boolean brickPass, boolean bombPass) {
         this.heightRange = heightRange;
-        this.widthRange = widthRange*2;
+        this.widthRange = widthRange;
         this.wallPass = wallPass;
         this.brickPass = brickPass;
         this.bombPass = bombPass;
@@ -33,15 +34,15 @@ public class Astar_FindingPath {
 
     //Parsed map: 1 - CANT GO, 0 - CAN GO
     public int[][] mapParsed() {
-        int[][] mapParsed = new int[BombermanGame.HEIGHT][BombermanGame.WIDTH*2];
-        List<List<StillEntity>> stillList = BombermanGame.getStillEntities();
+        int[][] mapParsed = new int[BombermanGame.HEIGHT][BombermanGame.WIDTH];
+        Entity[][] entity = BombermanGame.map;
         List<MovingEntity> moveList = BombermanGame.getMovingEntities();
         for (int i = 0; i < moveList.size(); i++) {
             mapParsed[moveList.get(i).getGridY()][moveList.get(i).getGridX()] = 1;
         }
         for (int i = 0; i < heightRange; i++) { //height
             for (int j = 0; j < widthRange; j++) { //width
-                StillEntity tmpStill = stillList.get(i).get(j);
+                Entity tmpStill = entity[i][j];
                 if (tmpStill instanceof Wall || tmpStill instanceof Brick) {
                     mapParsed[i][j] = 1;
                 } else {
@@ -52,7 +53,7 @@ public class Astar_FindingPath {
         if (wallPass) {
             for(int i=0;i<heightRange;i++) {
                 for(int j=0;j<widthRange;j++) {
-                    if(stillList.get(i).get(j) instanceof Wall) {
+                    if(entity[i][j] instanceof Wall) {
                         mapParsed[i][j] = 0;
                     }
                 }
@@ -61,20 +62,23 @@ public class Astar_FindingPath {
         if (brickPass) {
             for(int i=0;i<heightRange;i++) {
                 for(int j=0;j<widthRange;j++) {
-                    if(stillList.get(i).get(j) instanceof Brick) {
+                    if(entity[i][j] instanceof Brick) {
                         mapParsed[i][j] = 0;
                     }
                 }
             }
         }
-        if (bombPass) {
-//            for(int i=0;i<heightRange;i++) {
-//                for(int j=0;j<widthRange;j++) {
-//                    if(stillList.get(i).get(j) instanceof Wall) {
-//                        mapParsed[i][j] = 0;
-//                    }
-//                }
-//            }
+        if (!bombPass) {
+            for(int i=0;i<heightRange;i++) {
+                for(int j=0;j<widthRange;j++) {
+                    for(int k = 0 ; k < BombermanGame.bomber.getBombs().size();k++) {
+                        if(BombermanGame.bomber.getBombs().get(k).getGridX() == j
+                        && BombermanGame.bomber.getBombs().get(k).getGridY() == i) {
+                            mapParsed[i][j] = 1;
+                        }
+                    }
+                }
+            }
         }
         mapParsed[Bomber.getyGridBomber()][Bomber.getxGridBomber()] = 0;
         return mapParsed;

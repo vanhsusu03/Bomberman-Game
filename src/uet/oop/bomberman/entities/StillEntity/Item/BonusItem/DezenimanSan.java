@@ -5,10 +5,10 @@ import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class DezenimanSan extends BonusItem {
-    public DezenimanSan(Sprite sprite) {
-        super(sprite);
-        point = (int) 1e6;
-    }
+//    public DezenimanSan(Sprite sprite) {
+//        super(sprite);
+//        point = (int) 1e6;
+//    }
 
     public DezenimanSan(int xUnit, int yUnit, Sprite sprite) {
         super(xUnit, yUnit, sprite);
