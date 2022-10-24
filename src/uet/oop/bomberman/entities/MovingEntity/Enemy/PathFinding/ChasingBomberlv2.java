@@ -12,13 +12,13 @@ import java.util.Random;
  * Chasing bomberman lv1 - Smart: Normal - a bit of High.
  */
 public class ChasingBomberlv2 extends RandomMove {
-    public ChasingBomberlv2(int x, int y, int speed) {
-        super(x, y, speed);
+    public ChasingBomberlv2(int x, int y, int speed, boolean wallPass, boolean brickPass, boolean bombPass) {
+        super(x, y, speed, wallPass, brickPass, bombPass);
     }
 
-    private int XrangeofChasing = 7;
-    private int YrangeofChasing = 7;
-    private int chasedirection;
+    private int XrangeofChasing = 120;
+    private int YrangeofChasing = 120;
+    private int chasedirection = 0;
 
     /**
      * RETURN 0: Can't navigate - player is out of range
@@ -32,8 +32,8 @@ public class ChasingBomberlv2 extends RandomMove {
      * RETURN 8: Player in the same y - x right
      */
     private int directFollowChasing() {
-        int Xdistance = x / Sprite.SCALED_SIZE - Bomber.getxBomber() / Sprite.SCALED_SIZE;
-        int Ydistance = y / Sprite.SCALED_SIZE - Bomber.getyBomber() / Sprite.SCALED_SIZE;
+        int Xdistance = x - Bomber.getxGridBomber() * Sprite.SCALED_SIZE;
+        int Ydistance = y - Bomber.getyGridBomber() * Sprite.SCALED_SIZE;
         if (Xdistance == 0) {
             if (Ydistance > 0 && Ydistance <= YrangeofChasing) {
                 return 5;
@@ -111,25 +111,25 @@ public class ChasingBomberlv2 extends RandomMove {
                 if (canMoveup()) {
                     y -= speed;
                 } else {
-                    updateRandomMove();
+                    chasedirection = 0;
                 }
             case 6: // same x, y down
                 if (canMovedown()) {
                     y += speed;
                 } else {
-                    updateRandomMove();
+                    chasedirection = 0;
                 }
             case 7: // same y, x left
                 if (canMoveleft()) {
                     x -= speed;
                 } else {
-                    updateRandomMove();
+                    chasedirection = 0;
                 }
             case 8: //same y, x right
                 if (canMoveright()) {
                     x += speed;
                 } else {
-                    updateRandomMove();
+                    chasedirection = 0;
                 }
             default:
                 updateRandomMove();

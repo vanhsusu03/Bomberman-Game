@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChasingBomberAStar extends RandomMove {
-    public ChasingBomberAStar(int x, int y, int speed) {
-        super(x, y, speed);
+    public ChasingBomberAStar(int x, int y, int speed, boolean wallPass, boolean brickPass, boolean bombPass) {
+        super(x, y, speed, wallPass, brickPass, bombPass);
     }
 
-    Astar_FindingPath astar_findingPath = new Astar_FindingPath(BombermanGame.HEIGHT, BombermanGame.WIDTH);
+    Astar_FindingPath astar_findingPath = new Astar_FindingPath(BombermanGame.HEIGHT, BombermanGame.WIDTH,wallPass,brickPass,bombPass);
     List<Node> path = new ArrayList<>();
 
     public void generatePath() {
@@ -27,15 +27,19 @@ public class ChasingBomberAStar extends RandomMove {
                 Node curNode = path.get(i);
                 if (curNode.getX() == getGridX() && getX() % 32 == 0) {
                     if (getY() > curNode.getY() * 32) {
+                        direction = 2;
                         y -= speed;
                     } else if (getY() < curNode.getY() * 32) {
+                        direction = 3;
                         y += speed;
                     }
                     break;
                 } else if (curNode.getY() == getGridY() && getY() % 32 == 0) {
                     if (getX() > curNode.getX() * 32) {
+                        direction = 0;
                         x -= speed;
                     } else if (getX() < curNode.getX() * 32) {
+                        direction = 1;
                         x += speed;
                     }
                     break;

@@ -9,11 +9,12 @@ import uet.oop.bomberman.graphics.Sprite;
 // Speed 3 (Normal) - Smart: 1 (Lowest)
 public class Doll extends Enemy {
 
-    public Doll(int xUnit, int yUnit, int speed, Sprite sprite) {
-        super(xUnit, yUnit, speed, sprite);
+    public Doll(int xUnit, int yUnit, int speed, Sprite sprite, boolean wallPass, boolean brickPass, boolean bombPass) {
+        super(xUnit, yUnit, speed, sprite, wallPass, brickPass, bombPass);
         img = sprite.getFxImage();
     }
-    RandomMove moveRandom = new RandomMove(x,y,speed);
+
+    RandomMove moveRandom = new RandomMove(x,y,speed, wallPass, brickPass, bombPass);
 
     /**
      * Change animations from move: 0 - L, 1 - R, 2 - U, 3 - D

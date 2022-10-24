@@ -11,11 +11,11 @@ import javax.sql.XADataSource;
  */
 public class ChasingBomberlv1 extends RandomMove {
 
-    public ChasingBomberlv1(int x, int y, int speed) {
-        super(x, y, speed);
+    public ChasingBomberlv1(int x, int y, int speed, boolean wallPass, boolean brickPass, boolean bombPass) {
+        super(x, y, speed, wallPass, brickPass, bombPass);
     }
 
-    private final int rangetoChase = 5;
+    private final int rangetoChase = 85;
     private int chasedirection;
 
     /**
@@ -26,56 +26,56 @@ public class ChasingBomberlv1 extends RandomMove {
      * RETURN 4: Player down.
      */
     private int directFollowChasing() {
-        int Xdistance = x/Sprite.SCALED_SIZE - Bomber.getxBomber()/Sprite.SCALED_SIZE;
-        int Ydistance = y/Sprite.SCALED_SIZE - Bomber.getyBomber()/Sprite.SCALED_SIZE;
+        int Xdistance = x - Bomber.getxGridBomber() * Sprite.SCALED_SIZE;
+        int Ydistance = y - Bomber.getyGridBomber() * Sprite.SCALED_SIZE;
         //Player on the left
-        if( Xdistance > 0 && Xdistance < rangetoChase && Ydistance == 0) {
+        if (Xdistance > 0 && Xdistance < rangetoChase && Ydistance == 0) {
             return 1;
         }
         //PLayer on the right
-        if ( -Xdistance > 0 && -Xdistance < rangetoChase && Ydistance == 0 ) {
+        if (-Xdistance > 0 && -Xdistance < rangetoChase && Ydistance == 0) {
             return 2;
         }
         //Player is up
-        if ( Xdistance == 0 && Ydistance > 0 && Ydistance < rangetoChase) {
+        if (Xdistance == 0 && Ydistance > 0 && Ydistance < rangetoChase) {
             return 3;
         }
         //Player is down
-        if (Xdistance == 0  && -Ydistance > 0 && -Ydistance < rangetoChase) {
+        if (Xdistance == 0 && -Ydistance > 0 && -Ydistance < rangetoChase) {
             return 4;
         }
         return 0;
     }
 
     public void moveChasingChangeslv1() {
-        if( x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
+        if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
             chasedirection = directFollowChasing();
         }
-            switch (chasedirection) {
-                case 1: //Left
-                    if(canMoveleft()) {
-                        x -= speed;
-                        break;
-                    }
-                case 2: //Right
-                    if(canMoveright()) {
-                         x+=speed;
-                         break;
-                    }
-                case 3: //Up
-                    if (canMoveup()) {
-                        y-=speed;
-                        break;
-                    }
-                case 4: //Down
-                    if (canMovedown()) {
-                        y += speed;
-                        break;
-                    }
-                default:
-                    updateRandomMove();
-            }
+        switch (chasedirection) {
+            case 1: //Left
+                if (canMoveleft()) {
+                    x -= speed;
+                    break;
+                }
+            case 2: //Right
+                if (canMoveright()) {
+                    x += speed;
+                    break;
+                }
+            case 3: //Up
+                if (canMoveup()) {
+                    y -= speed;
+                    break;
+                }
+            case 4: //Down
+                if (canMovedown()) {
+                    y += speed;
+                    break;
+                }
+            default:
+                updateRandomMove();
         }
+    }
 
     public void updateChasingmoveLv1() {
         moveChasingChangeslv1();

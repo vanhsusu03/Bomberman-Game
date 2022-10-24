@@ -17,11 +17,12 @@ import java.util.TimerTask;
 //Speed 2 (Low) - Smart 1 (Lowest)
 
 public class Balloon extends Enemy {
-    public Balloon(int xUnit, int yUnit, int speed, Sprite sprite) {
-        super(xUnit, yUnit, speed, sprite);
+    public Balloon(int xUnit, int yUnit, int speed, Sprite sprite, boolean wallPass, boolean brickPass, boolean bombPass) {
+        super(xUnit, yUnit, speed, sprite, wallPass, brickPass, bombPass);
         img = sprite.getFxImage();
     }
-    RandomMove moveRandom = new RandomMove(x,y,speed);
+
+    RandomMove moveRandom = new RandomMove(x,y,speed, wallPass, brickPass, bombPass);
 
     /**
      * Change animations from move: 0 - L, 1 - R, 2 - U, 3 - D

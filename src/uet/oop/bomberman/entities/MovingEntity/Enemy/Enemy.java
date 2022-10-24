@@ -5,8 +5,15 @@ import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.entities.Entity;
 public abstract class Enemy extends MovingEntity {
 
-    public Enemy(int xUnit, int yUnit, int speed, Sprite sprite) {
+    protected boolean wallPass;
+    protected boolean brickPass;
+    protected boolean bombPass;
+
+    public Enemy(int xUnit, int yUnit, int speed, Sprite sprite, boolean wallPass, boolean brickPass, boolean bombPass) {
         super(xUnit, yUnit, speed, sprite);
+        this.wallPass = wallPass;
+        this.brickPass = brickPass;
+        this.bombPass = bombPass;
     }
 
 }

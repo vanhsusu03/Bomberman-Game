@@ -10,10 +10,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
-import uet.oop.bomberman.entities.MovingEntity.Enemy.Balloon;
-import uet.oop.bomberman.entities.MovingEntity.Enemy.Doll;
-import uet.oop.bomberman.entities.MovingEntity.Enemy.Kondoria;
-import uet.oop.bomberman.entities.MovingEntity.Enemy.Oneal;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.*;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.*;
 import uet.oop.bomberman.entities.StillEntity.Item.BombItem;
@@ -118,16 +115,32 @@ public class BombermanGame extends Application {
                     stillEntities.get(i).add(j,new Grass(j, i, Sprite.grass));
                     switch (row.charAt(j)) {
                         case 'p':
-                            movingEntities.add(new Bomber(j, i, 2, Sprite.player_right));
+                            movingEntities.add(new Bomber(j, i, 3, Sprite.player_right));
                             break;
                         case '1':
-                            movingEntities.add(new Balloon(j, i, 1, Sprite.balloon_right1));
+                            movingEntities.add(new Balloon(j, i,2 , Sprite.balloon_right1,false,false,false));
                             break;
                         case '2':
-                            movingEntities.add(new Oneal(j, i, 1, Sprite.oneal_right1));
+                            movingEntities.add(new Oneal(j, i, 3, Sprite.oneal_right1,false,false,false));
                             break;
                         case '3':
-                            movingEntities.add(new Kondoria(j,i,1,Sprite.kondoria_right1));
+                            movingEntities.add(new Kondoria(j,i,1,Sprite.kondoria_right1,true,true,false));
+                            break;
+                        case '4':
+                            movingEntities.add(new Doll(j,i,3,Sprite.doll_right1,false,false,false));
+                            break;
+                        case '5':
+                            movingEntities.add(new Minvo(j,i,4,Sprite.minvo_right1,false,false,false));
+                            break;
+                        case '6':
+                            movingEntities.add(new Ovapi(j,i,2,Sprite.ovapi_right1,false,false,false));
+                            break;
+                        case '7':
+                            movingEntities.add(new Pass(j,i,1,Sprite.pass_right1,true,true,true));
+                            break;
+                        case '8':
+                            movingEntities.add(new Pontan(j,i,2,Sprite.pass_right1,true,true,true));
+                            break;
                         case 'b':
                             stillEntities.get(i).add(j,new BombItem(j, i, Sprite.powerup_bombs));
                             break;

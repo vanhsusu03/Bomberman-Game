@@ -12,11 +12,12 @@ import uet.oop.bomberman.graphics.Sprite;
 //Speed: 1 (Lowest) - Smart 4 (Highest) - Brick Pass
 
 public class Kondoria extends Enemy {
-    public Kondoria(int xUnit, int yUnit, int speed, Sprite sprite) {
-        super(xUnit, yUnit, speed, sprite);
+    public Kondoria(int xUnit, int yUnit, int speed, Sprite sprite, boolean wallPass, boolean brickPass, boolean bombPass) {
+        super(xUnit, yUnit, speed, sprite, wallPass, brickPass, bombPass);
         img = sprite.getFxImage();
     }
-    ChasingBomberAStar chasingBomberAStar = new ChasingBomberAStar(x,y,1);
+
+    ChasingBomberAStar chasingBomberAStar = new ChasingBomberAStar(x,y,speed, wallPass,brickPass,bombPass);
 
     @Override
     public void update() {
