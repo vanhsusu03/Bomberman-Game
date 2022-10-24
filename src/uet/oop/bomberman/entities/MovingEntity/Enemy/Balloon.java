@@ -1,19 +1,52 @@
 package uet.oop.bomberman.entities.MovingEntity.Enemy;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.RandomMove;
+import uet.oop.bomberman.graphics.SpriteSheet;
+
+import java.awt.*;
+import java.sql.Time;
+import java.util.Timer;
+import java.util.TimerTask;
+
+
+//Speed 2 (Low) - Smart 1 (Lowest)
 
 public class Balloon extends Enemy {
-    public Balloon(int xUnit, int yUnit, int speed, Sprite sprite) {
-        super(xUnit, yUnit, speed, sprite);
+    public Balloon(int xUnit, int yUnit, int speed, Sprite sprite, boolean wallPass, boolean brickPass, boolean bombPass) {
+        super(xUnit, yUnit, speed, sprite, wallPass, brickPass, bombPass);
+        img = sprite.getFxImage();
     }
 
-    @Override
-    public void move() {
-    }
+    RandomMove moveRandom = new RandomMove(x,y,speed, wallPass, brickPass, bombPass);
 
+    /**
+     * Change animations from move: 0 - L, 1 - R, 2 - U, 3 - D
+     */
     @Override
     public void update() {
+        moveRandom.updateRandomMove();
+        setX(moveRandom.getX());
+        setY(moveRandom.getY());
+        switch (moveRandom.getDirection()) {
+            case 0:
+                img = Sprite.movingSprite(Sprite.balloon_left1,Sprite.balloon_left2,Sprite.balloon_left3,frameCount,80).getFxImage();
+                break;
+            case 1:
+                img = Sprite.movingSprite(Sprite.balloon_right1,Sprite.balloon_right2,Sprite.balloon_right3,frameCount,80).getFxImage();
+                break;
+            case 2:
+                img = Sprite.movingSprite(Sprite.balloon_right1,Sprite.balloon_left1,Sprite.balloon_right1,frameCount,80).getFxImage();
+                break;
+            case 3:
+                img = Sprite.movingSprite(Sprite.balloon_left1,Sprite.balloon_right1,Sprite.balloon_left1,frameCount,80).getFxImage();
+                break;
+        }
+        updateFrameCount();
     }
 
     @Override
@@ -23,12 +56,13 @@ public class Balloon extends Enemy {
                     Sprite.mob_dead2, Sprite.mob_dead3,
                     frameCount, TIME_MOVING_DEAD_SPRITE);
             img = sprite.getFxImage();
-            updateFrameCount();
-        } else {
         }
-
-        gc.drawImage(img, x, y);
-
+        gc.drawImage(img, moveRandom.getX(), moveRandom.getY());
         removeEnemyIfDeathAnimationEnds();
+    }
+
+    @Override
+    protected void move() {
+
     }
 }

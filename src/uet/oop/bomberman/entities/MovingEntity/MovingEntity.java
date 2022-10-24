@@ -3,9 +3,8 @@ package uet.oop.bomberman.entities.MovingEntity;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
-import uet.oop.bomberman.entities.StillEntity.Bomb;
-import uet.oop.bomberman.entities.StillEntity.Brick;
-import uet.oop.bomberman.entities.StillEntity.Wall;
+import uet.oop.bomberman.entities.StillEntity.*;
+import uet.oop.bomberman.entities.StillEntity.Item.Item;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.List;
@@ -17,7 +16,10 @@ public abstract class MovingEntity extends Entity {
     protected boolean isCanPassFlames;
     protected boolean isCanPassBombs;
     protected boolean isCanPassBrick;
+    public MovingEntity() {
+        super();
 
+    }
     public MovingEntity(int xUnit, int yUnit, int speed, Sprite sprite) {
         super(xUnit, yUnit, speed, sprite);
     }

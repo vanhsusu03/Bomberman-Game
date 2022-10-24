@@ -32,15 +32,39 @@ import java.util.Random;
 import java.util.Set;
 
 public class Bomber extends MovingEntity {
+
+    public static int xGridBomber;
+    public static int yGridBomber;
     private int flameLength = 1;
     private List<Bomb> bombs = new ArrayList<>();
     private int maxNumberOfBombs = 1;
     private boolean isCanDetonateOldestBomb;
     private Set<String> outerCirclePositions = new HashSet<>();
 
+    public Bomber() {
+        super();
+    }
+
+    public Bomber(Bomber other) {
+        super(other.gridX, other.gridY, other.speed, other.sprite);
+        xGridBomber = other.gridX;
+        yGridBomber = other.gridY;
+    }
+
     public Bomber(int xUnit, int yUnit, int speed, Sprite sprite) {
         super(xUnit, yUnit, speed, sprite);
+        xGridBomber = xUnit;
+        yGridBomber = yUnit;
     }
+
+    public static int getxGridBomber() {
+        return xGridBomber;
+    }
+
+    public static int getyGridBomber() {
+        return yGridBomber;
+    }
+
 
     public List<Bomb> getBombs() {
         return Collections.unmodifiableList(bombs);
@@ -57,7 +81,6 @@ public class Bomber extends MovingEntity {
     private void putBomb() {
         int xBomb = (int) Math.round((double) x / Sprite.SCALED_SIZE);
         int yBomb = (int) Math.round((double) y / Sprite.SCALED_SIZE);
-
         if (bombs.size() < maxNumberOfBombs
                 && BombermanGame.map[yBomb][xBomb] instanceof Grass) {
             bombs.add(new Bomb(xBomb, yBomb, Sprite.bomb));
@@ -313,6 +336,8 @@ public class Bomber extends MovingEntity {
             handleBombPass(xUnit1, yUnit1, xUnit2, yUnit2);
             handleIfGoddessMaskIsActivated();
         }
+        xGridBomber = x / Sprite.SCALED_SIZE;
+        yGridBomber = y / Sprite.SCALED_SIZE;
     }
 
     @Override
@@ -340,7 +365,6 @@ public class Bomber extends MovingEntity {
                 img = sprite.getFxImage();
             }
         }
-
         updateFrameCount();
         gc.drawImage(img, x, y);
     }

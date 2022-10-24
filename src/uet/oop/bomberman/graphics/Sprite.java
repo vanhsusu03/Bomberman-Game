@@ -6,6 +6,8 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 
+import java.io.File;
+
 /**
  * Lưu trữ thông tin các pixel của 1 sprite (hình ảnh game)
  */
@@ -19,6 +21,46 @@ public class Sprite {
     protected int _realWidth;
     protected int _realHeight;
     private SpriteSheet _sheet;
+    //Another images
+    public static Image backgr_menu = new Image(new File("res/backgrmenu/bomberman.png").toURI().toString());
+    public static Image opts_panel = new Image(new File("res/panel/options/options.png").toURI().toString());
+    public static Image control_panel = new Image(new File("res/control_panel/control_panel.png").toURI().toString());
+    public static Image paused_panel = new Image(new File("res/panel/pause/paused.png").toURI().toString());
+    public static Image completedlevel_panel = new Image(new File("res/panel/winlevel/levelwin.png").toURI().toString());
+    public static Image wingame_panel = new Image(new File("res/panel/wingame/wingame.png").toURI().toString());
+    public static Image lose_panel = new Image(new File("res/panel/lose/lose.png").toURI().toString());
+
+
+    //BUTTON
+    public static Image cre_first = new Image(new File("res/cre/cre_first.png").toURI().toString());
+    public static Image cre_last = new Image(new File("res/cre/cre_last.png").toURI().toString());
+    public static Image highsc_first = new Image(new File("res/highsc/highsc_first.png").toURI().toString());
+    public static Image highsc_last = new Image(new File("res/highsc/highsc_last.png").toURI().toString());
+    public static Image ins_first = new Image(new File("res/instruction/instruction_first.png").toURI().toString());
+    public static Image ins_last = new Image(new File("res/instruction/instruction_last.png").toURI().toString());
+    public static Image opts_first = new Image(new File("res/opts/opt_first.png").toURI().toString());
+    public static Image opts_last = new Image(new File("res/opts/opt_last.png").toURI().toString());
+    public static Image startgame_first = new Image(new File("res/startgame/startgame_first.png").toURI().toString());
+    public static Image startgame_last = new Image(new File("res/startgame_last.png").toURI().toString());
+    public static Image quit_first = new Image(new File("res/quit/quit_first.png").toURI().toString());
+    public static Image quit_last = new Image(new File("res/quit/quit_last.png").toURI().toString());
+
+    //ICON
+    public static Image ic_back_first = new Image(new File("res/icon/back/back_first.png").toURI().toString());
+    public static Image ic_back_last = new Image(new File("res/icon/back/back_last.png").toURI().toString());
+    public static Image ic_home_first = new Image(new File("res/icon/home/home_first.png").toURI().toString());
+    public static Image ic_home_last = new Image(new File("res/icon/home/home_last.png").toURI().toString());
+    public static Image ic_mutesound_first = new Image(new File("res/icon/mute sound/mutesound_first.png").toURI().toString());
+    public static Image ic_mutesound_last = new Image(new File("res/icon/mute sound/mutesound_last.png").toURI().toString());
+    public static Image ic_nextlevel_first = new Image(new File("res/icon/nextlevel/nextlevel_first.png").toURI().toString());
+    public static Image ic_nextlevel_last = new Image(new File("res/icon/nextlevel/nextlevel_last.png").toURI().toString());
+    public static Image ic_onsound_first = new Image(new File("res/icon/onsound/onsound_first.png").toURI().toString());
+    public static Image ic_onsound_last = new Image(new File("res/icon/onsound/onsound_last.png").toURI().toString());
+    public static Image ic_pause_first = new Image(new File("res/icon/pause/pause_first.png").toURI().toString());
+    public static Image ic_pause_last = new Image(new File("res/icon/pause/pause_last.png").toURI().toString());
+    public static Image ic_resume_first = new Image(new File("res/icon/resume/resume_first.png").toURI().toString());
+    public static Image ic_resume_last = new Image(new File("res/icon/resume/resume_last.png").toURI().toString());
+
 
     /*
     |--------------------------------------------------------------------------
@@ -115,6 +157,37 @@ public class Sprite {
     public static Sprite kondoria_right3 = new Sprite(DEFAULT_SIZE, 11, 7, SpriteSheet.tiles, 16, 16);
 
     public static Sprite kondoria_dead = new Sprite(DEFAULT_SIZE, 10, 8, SpriteSheet.tiles, 16, 16);
+
+    //OVAPI
+    public static Sprite ovapi_right1 = new Sprite(DEFAULT_SIZE, 7, 5, SpriteSheet.tiles, 16, 16);
+    public static Sprite ovapi_right2 = new Sprite(DEFAULT_SIZE, 7, 6, SpriteSheet.tiles, 16, 16);
+    public static Sprite ovapi_right3 = new Sprite(DEFAULT_SIZE, 7, 7, SpriteSheet.tiles, 16, 16);
+
+    public static Sprite ovapi_left1 = new Sprite(DEFAULT_SIZE, 6, 5, SpriteSheet.tiles, 16, 16);
+    public static Sprite ovapi_left2 = new Sprite(DEFAULT_SIZE, 6, 6, SpriteSheet.tiles, 16, 16);
+    public static Sprite ovapi_left3 = new Sprite(DEFAULT_SIZE, 6, 7, SpriteSheet.tiles, 16, 16);
+
+    public static Sprite ovapi_dead = new Sprite(DEFAULT_SIZE, 6, 8, SpriteSheet.tiles, 16, 16);
+
+    //PASS
+    public static Sprite pass_right1 = new Sprite(DEFAULT_SIZE, 5, 5, SpriteSheet.tiles, 16, 16);
+    public static Sprite pass_right2 = new Sprite(DEFAULT_SIZE, 5, 6, SpriteSheet.tiles, 16, 16);
+    public static Sprite pass_right3 = new Sprite(DEFAULT_SIZE, 5, 7, SpriteSheet.tiles, 16, 16);
+
+    public static Sprite pass_left1 = new Sprite(DEFAULT_SIZE, 4, 5, SpriteSheet.tiles, 16, 16);
+    public static Sprite pass_left2 = new Sprite(DEFAULT_SIZE, 4, 6, SpriteSheet.tiles, 16, 16);
+    public static Sprite pass_left3 = new Sprite(DEFAULT_SIZE, 4, 7, SpriteSheet.tiles, 16, 16);
+    public static Sprite pass_dead = new Sprite(DEFAULT_SIZE, 4, 8, SpriteSheet.tiles, 16, 16);
+
+    //PONTAN
+    public static Sprite pontan_right1 = new Sprite(DEFAULT_SIZE, 13, 5, SpriteSheet.tiles, 16, 16);
+    public static Sprite pontan_right2 = new Sprite(DEFAULT_SIZE, 13, 6, SpriteSheet.tiles, 16, 16);
+    public static Sprite pontan_right3 = new Sprite(DEFAULT_SIZE, 13, 7, SpriteSheet.tiles, 16, 16);
+
+    public static Sprite pontan_left1 = new Sprite(DEFAULT_SIZE, 12, 5, SpriteSheet.tiles, 16, 16);
+    public static Sprite pontan_left2 = new Sprite(DEFAULT_SIZE, 12, 6, SpriteSheet.tiles, 16, 16);
+    public static Sprite pontan_left3 = new Sprite(DEFAULT_SIZE, 12, 7, SpriteSheet.tiles, 16, 16);
+    public static Sprite pontan_dead = new Sprite(DEFAULT_SIZE, 12, 8, SpriteSheet.tiles, 16, 16);
 
     //ALL
     public static Sprite mob_dead1 = new Sprite(DEFAULT_SIZE, 15, 0, SpriteSheet.tiles, 16, 16);

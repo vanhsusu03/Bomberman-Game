@@ -7,10 +7,12 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
+import uet.oop.bomberman.UI.Panels.Control;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Balloon;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.Kondoria;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Oneal;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Brick;
@@ -29,11 +31,31 @@ import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.entities.StillEntity.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
+
+import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.image.Image;
 
 public class BombermanGame extends Application {
     public static final int WIDTH = 31;
@@ -46,15 +68,34 @@ public class BombermanGame extends Application {
     public static BonusItem bonusItem = null;
     private GraphicsContext gc;
     private Canvas canvas;
+    public static Time timeKeeper;
+
+    public static MouseEvent e;
+
+    private Control control_panel = new Control(0, 416, Sprite.control_panel);
+    public static int maxTime = 210;
+
+    private int DEFAULT_FONT_SIZE = 25;
+
+    private Label time;
+    //private Label score;
+    private Label hp;
+    private Label level;
+    Image image = (Image) new Image(new File("res/textures/control_panel.png").toURI().toString());
 
     public static void main(String[] args) {
+        timeKeeper = new Time();
         Application.launch(BombermanGame.class);
+    }
+
+    public static List<MovingEntity> getMovingEntities() {
+        return movingEntities;
     }
 
     @Override
     public void start(Stage stage) {
         // Tao Canvas
-        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
+        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT + 96);
         gc = canvas.getGraphicsContext2D();
 
         // Tao root container
@@ -77,8 +118,16 @@ public class BombermanGame extends Application {
             }
         };
         timer.start();
-
+        scene.setOnMouseMoved(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                System.out.println(mouseEvent.getX() + " "+ mouseEvent.getY());
+                control_panel.setCoordinatesMouse(mouseEvent.getX(),mouseEvent.getY());
+            }
+        });
         goNewMap();
+        //createLabels();
+        //root.getChildren().addAll(time);
 
         scene.setOnKeyPressed(event -> {
             KeyAction.setKeptKey(String.valueOf(event.getCode()), true);
@@ -117,7 +166,7 @@ public class BombermanGame extends Application {
 
             Grass.grassImg = Sprite.grass.getFxImage();
 //            bonusItem = new BonusTarget(Sprite.bonus_item_bonus_target);
-            bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
+            // bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
 //            bonusItem = new DezenimanSan(Sprite.bonus_item_dezeniman_san);
 //            bonusItem = new Famicom(Sprite.bonus_item_famicom);
 //            bonusItem = new GoddessMask(Sprite.bonus_item_goddess_mask);
@@ -126,16 +175,16 @@ public class BombermanGame extends Application {
                 for (int j = 0; j < width; j++) {
                     switch (row.charAt(j)) {
                         case 'p':
-                            bomber = new Bomber(j, i, 1, Sprite.player_right);
+                            bomber = new Bomber(j, i, 2, Sprite.player_right);
                             movingEntities.add(bomber);
                             map[i][j] = new Grass(j, i, Sprite.grass);
                             break;
                         case '1':
-                            movingEntities.add(new Balloon(j, i, 0, Sprite.balloon_right1));
+                            movingEntities.add(new Balloon(j, i, 1, Sprite.balloon_right1, false, false, false));
                             map[i][j] = new Grass(j, i, Sprite.grass);
                             break;
                         case '2':
-                            movingEntities.add(new Oneal(j, i, 0, Sprite.oneal_right1));
+                            movingEntities.add(new Kondoria(j, i, 1, Sprite.oneal_right1, false, false, false));
                             map[i][j] = new Grass(j, i, Sprite.grass);
                             break;
                         case 'b':
@@ -192,9 +241,18 @@ public class BombermanGame extends Application {
         }
     }
 
-    public void update() {
-        movingEntities.forEach(Entity::update);
+    private void createLabels() {
+        time = new Label(new Integer(timeKeeper.countSecond()).toString());
+        time.setFont(Font.font("Segoe UI Black", FontWeight.BOLD, DEFAULT_FONT_SIZE));
+        time.setTextFill(Color.RED);
+        time.setLayoutX(675);
+        time.setLayoutY(480);
+    }
 
+    public void update() {
+        //time.setText("Time: " + (maxTime - timeKeeper.countSecond()));
+        movingEntities.forEach(Entity::update);
+        control_panel.update();
         int n = bomber.getBombs().size();
         for (int i = 0; i < bomber.getBombs().size(); i++) {
             bomber.getBombs().get(i).update();
@@ -218,6 +276,8 @@ public class BombermanGame extends Application {
                 map[i][j].render(gc);
             }
         }
+
+        control_panel.render(gc);
 
         bomber.getBombs().forEach(bomb -> bomb.render(gc));
 
