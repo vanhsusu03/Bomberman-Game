@@ -2,6 +2,8 @@ package uet.oop.bomberman;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -9,8 +11,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import uet.oop.bomberman.Menu2.Menu;
-import uet.oop.bomberman.Menu2.MenuButton;
+import uet.oop.bomberman.Menu2.*;
 import uet.oop.bomberman.Sound.AudioFilePlayer;
 import uet.oop.bomberman.Sound.SoundEffect1;
 import uet.oop.bomberman.entities.Entity;
@@ -37,11 +38,16 @@ public class BombermanGame extends Application {
 
     public static final int WIDTH = 31;
     public static final int HEIGHT = 16;
-
     private GraphicsContext gc;
     private Canvas canvas;
     Menu menu = new Menu();
     MenuButton menuButton = new MenuButton();
+
+    Options options = new Options();
+
+    Instruction ins = new Instruction();
+
+    HighScore highScore = new HighScore();
 
     public static List<MovingEntity> movingEntities = new ArrayList<>();
     public static List<StillEntity> stillEntities = new ArrayList<>();
@@ -80,35 +86,80 @@ public class BombermanGame extends Application {
 
         createMap();
 
+        System.out.println(GameState.state);
+        switch (GameState.state) {
+            case MENU:
+                scene.setOnMouseMoved(mouseEvent -> {
+                    System.out.println(mouseEvent.getX() + " " + mouseEvent.getY());
+                    if (mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 120 && mouseEvent.getY() <= 188) {
+                        menuButton.index[0] = 1;
+                    } else {
+                        menuButton.index[0] = 0;
+                    }
+                    if (mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 190 && mouseEvent.getY() <= 258) {
+                        menuButton.index[1] = 1;
+                    } else {
+                        menuButton.index[1] = 0;
+                    }
+                    if (mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 260 && mouseEvent.getY() <= 328) {
+                        menuButton.index[2] = 1;
+                    } else {
+                        menuButton.index[2] = 0;
+                    }
+                    if (mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 330 && mouseEvent.getY() <= 398) {
+                        menuButton.index[3] = 1;
+                    } else {
+                        menuButton.index[3] = 0;
+                    }
+                    if (mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 400 && mouseEvent.getY() <= 468) {
+                        menuButton.index[4] = 1;
+                    } else {
+                        menuButton.index[4] = 0;
+                    }
+                });
 
-        scene.setOnMouseMoved(mouseEvent -> {
-            System.out.println(mouseEvent.getX() + " " + mouseEvent.getY());
-            if(mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 120 && mouseEvent.getY() <= 188) {
-                menuButton.index[0] = 1;
-            } else {
-                menuButton.index[0] = 0;
-            }
-            if(mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 190 && mouseEvent.getY() <= 258) {
-                menuButton.index[1] = 1;
-            } else {
-                menuButton.index[1] = 0;
-            }
-            if(mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 260 && mouseEvent.getY() <= 328) {
-                menuButton.index[2] = 1;
-            } else {
-                menuButton.index[2] = 0;
-            }
-            if(mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 330 && mouseEvent.getY() <= 398) {
-                menuButton.index[3] = 1;
-            } else {
-                menuButton.index[3] = 0;
-            }
-            if(mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 400 && mouseEvent.getY() <= 468) {
-                menuButton.index[4] = 1;
-            } else {
-                menuButton.index[4] = 0;
-            }
-        });
+                scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        if (mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 120 && mouseEvent.getY() <= 188) {
+                            GameState.state = GameState.PLAYING;
+                            System.out.println(GameState.state);
+                        } else if (mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 190 && mouseEvent.getY() <= 258) {
+                            GameState.state = GameState.OPTION;
+                            System.out.println(GameState.state);
+                        }
+                        if (mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 260 && mouseEvent.getY() <= 328) {
+                            GameState.state = GameState.INSTRUCTION;
+                            System.out.println(GameState.state);
+                        }
+                        if (mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 330 && mouseEvent.getY() <= 398) {
+                            GameState.state = GameState.HIGHSCORE;
+                            System.out.println(GameState.state);
+                        }
+                        if (mouseEvent.getX() >= 640 && mouseEvent.getX() <= 938 && mouseEvent.getY() >= 400 && mouseEvent.getY() <= 468) {
+                            GameState.state = GameState.QUIT;
+                            System.out.println(GameState.state);
+                            Platform.exit();
+                        }
+                    }
+                });
+                break;
+            case PLAYING:
+                break;
+            case OPTION:
+                scene.setOnMouseMoved(mouseEvent -> {
+                    if (mouseEvent.getX() >= 650 && mouseEvent.getX() <= 670 && mouseEvent.getY() >= 150 && mouseEvent.getY() <= 170) {
+                        options.index_opt[0] = 1;
+                    } else {
+                        options.index_opt[0] = 0;
+                    }
+                    if (mouseEvent.getX() >= 650 && mouseEvent.getX() <= 670 && mouseEvent.getY() >= 150 && mouseEvent.getY() <= 170) {
+                        options.index_opt[0] = 1;
+                    } else {
+                        options.index_opt[0] = 0;
+                    }
+                });
+        }
 
         scene.setOnKeyPressed(event -> {
             KeyAction.setKeptKey(String.valueOf(event.getCode()), true);
@@ -176,17 +227,50 @@ public class BombermanGame extends Application {
     }
 
     public void update() {
-        movingEntities.forEach(Entity::update);
+        switch (GameState.state) {
+            case MENU:
+                break;
+            case PLAYING:
+                movingEntities.forEach(Entity::update);
+                break;
+            case OPTION:
+                break;
+            case INSTRUCTION:
+                break;
+            case HIGHSCORE:
+                break;
+        }
+
         //menu.update();
         //menuButton.update();
     }
 
     public void render() {
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        stillEntities.forEach(g -> g.render(gc));
-        movingEntities.forEach(g -> g.render(gc));
-        Bomber.bombs.forEach(g -> g.render(gc));
-        //menu.draw(gc);
-        //menuButton.draw(gc);
+
+        switch (GameState.state) {
+            case MENU:
+                gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                menu.draw(gc);
+                menuButton.draw(gc);
+                break;
+            case PLAYING:
+                gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                stillEntities.forEach(g -> g.render(gc));
+                movingEntities.forEach(g -> g.render(gc));
+                Bomber.bombs.forEach(g -> g.render(gc));
+                break;
+            case OPTION:
+                options.draw(gc);
+                break;
+            case INSTRUCTION:
+                ins.draw(gc);
+                break;
+            case HIGHSCORE:
+                highScore.draw(gc);
+                break;
+            case QUIT:
+                break;
+
+        }
     }
 }
