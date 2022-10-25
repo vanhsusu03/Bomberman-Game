@@ -11,6 +11,7 @@ public class OnSound extends Icon {
 
     @Override
     public void update() {
+        setActive(checkActive());
         if(isActive) {
             img = Sprite.ic_onsound_last;
         } else {

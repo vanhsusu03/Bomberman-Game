@@ -11,6 +11,7 @@ public class MuteSound extends Icon{
 
     @Override
     public void update() {
+        setActive(checkActive());
         if(isActive) {
             img = Sprite.ic_mutesound_last;
         } else {

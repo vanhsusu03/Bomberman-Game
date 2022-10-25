@@ -21,6 +21,9 @@ public class KeyAction implements KeyListener {
             case "RIGHT":
                 keys[KeyEvent.VK_RIGHT] = isUsing;
                 break;
+            case "ESCAPE":
+                keys[KeyEvent.VK_ESCAPE] = isUsing;
+                break;
         }
     }
 
@@ -31,6 +34,9 @@ public class KeyAction implements KeyListener {
                 break;
             case "d":
                 keys[KeyEvent.VK_D] = isTyped;
+                break;
+            case "ESCAPE":
+                keys[KeyEvent.VK_ESCAPE] = isTyped;
                 break;
         }
     }

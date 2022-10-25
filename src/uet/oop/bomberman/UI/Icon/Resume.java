@@ -12,6 +12,7 @@ public class Resume extends Icon{
 
     @Override
     public void update() {
+        setActive(checkActive());
         if(isActive) {
             img = Sprite.ic_resume_last;
         } else {

@@ -108,20 +108,27 @@ public class BombermanGame extends Application {
         // Them scene vao stage
         stage.setScene(scene);
         stage.show();
-
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
                 render();
                 update();
+                control_panel.runningPanel(gc);
+                System.out.println("DANG RENDER GAME NE");
 //                System.out.println(score);
             }
         };
         timer.start();
+        scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                control_panel.setMouseClicked(true);
+            }
+        });
         scene.setOnMouseMoved(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                System.out.println(mouseEvent.getX() + " "+ mouseEvent.getY());
+                //System.out.println(mouseEvent.getX() + " "+ mouseEvent.getY());
                 control_panel.setCoordinatesMouse(mouseEvent.getX(),mouseEvent.getY());
             }
         });
@@ -252,7 +259,6 @@ public class BombermanGame extends Application {
     public void update() {
         //time.setText("Time: " + (maxTime - timeKeeper.countSecond()));
         movingEntities.forEach(Entity::update);
-        control_panel.update();
         int n = bomber.getBombs().size();
         for (int i = 0; i < bomber.getBombs().size(); i++) {
             bomber.getBombs().get(i).update();
@@ -277,10 +283,8 @@ public class BombermanGame extends Application {
             }
         }
 
-        control_panel.render(gc);
-
+        //control_panel.render(gc);
         bomber.getBombs().forEach(bomb -> bomb.render(gc));
-
         int n = movingEntities.size();
         for (int i = 0; i < movingEntities.size(); i++) {
             movingEntities.get(i).render(gc);

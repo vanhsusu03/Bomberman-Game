@@ -2,6 +2,7 @@ package uet.oop.bomberman.UI.Panels;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 public class WinGame extends Panel{
     public WinGame(int x, int y, Image img) {
@@ -13,10 +14,14 @@ public class WinGame extends Panel{
 
     }
 
+    @Override
+    public void setMouseClicked(boolean isClicked) {
+
+    }
+
 
     @Override
     public void update() {
-
     }
 
     @Override
@@ -24,5 +29,9 @@ public class WinGame extends Panel{
 
     }
 
+    @Override
+    public void runningPanel(GraphicsContext gc) {
+
+    }
 
 }

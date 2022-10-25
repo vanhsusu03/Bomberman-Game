@@ -11,6 +11,7 @@ public class Home extends Icon {
 
     @Override
     public void update() {
+        setActive(checkActive());
         if(isActive) {
             img = Sprite.ic_home_last;
         } else {

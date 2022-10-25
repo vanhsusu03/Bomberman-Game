@@ -12,6 +12,7 @@ public abstract class Icon {
     protected double yMouse;
     protected int margin = 3;
     protected boolean isActive;
+    protected boolean isClicked;
 
     protected Image img;
 
@@ -26,6 +27,18 @@ public abstract class Icon {
         this.isActive = active;
     }
 
+    public void setClicked(boolean clicked) {
+        this.isClicked = clicked;
+    }
+
+    public boolean getActive() {
+        return isActive;
+    }
+
+    public boolean getClicked() {
+        return isClicked;
+    }
+
     public boolean checkActive () {
         if(xMouse >= x && xMouse <= x + img.getWidth() - margin
         && yMouse >= y && yMouse <= y + img.getHeight()) {
@@ -37,6 +50,13 @@ public abstract class Icon {
     public void setMouseGrid(double x, double y) {
         this.xMouse = x;
         this.yMouse = y;
+    }
+
+    public boolean canTransfer() {
+        if(checkActive() && isClicked) {
+            return true;
+        }
+        return false;
     }
     public abstract void update();
     public abstract void render(GraphicsContext gc);

@@ -3,6 +3,7 @@ package uet.oop.bomberman.UI.Panels;
 import javafx.scene.canvas.GraphicsContext;
 
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 public class Lose extends Panel {
 
@@ -15,6 +16,11 @@ public class Lose extends Panel {
 
     }
 
+    @Override
+    public void setMouseClicked(boolean isClicked) {
+
+    }
+
 
     @Override
     public void update() {
@@ -23,6 +29,11 @@ public class Lose extends Panel {
 
     @Override
     public void render(GraphicsContext gc) {
+
+    }
+
+    @Override
+    public void runningPanel(GraphicsContext gc) {
 
     }
 

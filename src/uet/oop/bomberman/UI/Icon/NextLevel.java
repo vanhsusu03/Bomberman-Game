@@ -12,6 +12,7 @@ public class NextLevel extends Icon{
 
     @Override
     public void update() {
+        setActive(checkActive());
         if(isActive) {
             img = Sprite.ic_nextlevel_last;
         } else {

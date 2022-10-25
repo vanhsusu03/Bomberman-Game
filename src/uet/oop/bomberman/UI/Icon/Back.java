@@ -12,6 +12,7 @@ public class Back extends Icon{
 
     @Override
     public void update() {
+        setActive(checkActive());
         if(isActive) {
             img = Sprite.ic_back_last;
         } else {
