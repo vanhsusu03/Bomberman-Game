@@ -36,29 +36,17 @@ import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.entities.StillEntity.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
-
-import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.image.Image;
@@ -83,6 +71,7 @@ public class BombermanGame extends Application {
     public static Sound bombExplosionSound = new Sound("bomb_explosion");
     public static Sound bomberDeathSound = new Sound("bomber_death");
     public static Sound stageSound = new Sound("stage");
+    public static Sound stageSound2 = new Sound("stage2");
     public static Sound levelCompleteSound = new Sound("level_complete");
 
     private Control control_panel = new Control(0, 416, Sprite.control_panel);
@@ -263,6 +252,11 @@ public class BombermanGame extends Application {
         time.setTextFill(Color.RED);
         time.setLayoutX(675);
         time.setLayoutY(480);
+    }
+
+    public static void convertSoundStage() {
+        stageSound.stop();
+        stageSound2.play(-1, false);
     }
 
     private void updateMoveSound() {
