@@ -78,12 +78,23 @@ public class Bomber extends MovingEntity {
         return flameLength;
     }
 
+    private boolean isHavingBombAtPosition(int xUnit, int yUnit) {
+        for (Bomb bomb : bombs) {
+            if (bomb.getXUnit() == xUnit && bomb.getYUnit() == yUnit) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void putBomb() {
         int xBomb = (int) Math.round((double) x / Sprite.SCALED_SIZE);
         int yBomb = (int) Math.round((double) y / Sprite.SCALED_SIZE);
         if (bombs.size() < maxNumberOfBombs
-                && BombermanGame.map[yBomb][xBomb] instanceof Grass) {
+                && BombermanGame.map[yBomb][xBomb] instanceof Grass
+                && !isHavingBombAtPosition(xBomb, yBomb)) {
             bombs.add(new Bomb(xBomb, yBomb, Sprite.bomb));
+            BombermanGame.putBombSound.play(0, true);
         }
     }
 
@@ -148,6 +159,7 @@ public class Bomber extends MovingEntity {
             BombermanGame.score += BombermanGame.bonusItem.getPoint();
         }
         BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
+        BombermanGame.eatItemSound.play(0, true);
     }
 
     private void handleIfBonusTargetIsActivated() {
@@ -166,19 +178,23 @@ public class Bomber extends MovingEntity {
             }
         }
 
-        System.out.println("Game la` de~!!!");
+        BombermanGame.levelCompleteSound.play(0, false);
     }
 
     @Override
     public void move() {
         if (KeyAction.keys[KeyEvent.VK_UP]) {
             y -= speed;
+            BombermanGame.moveUpDownSound.play(-1, false);
         } else if (KeyAction.keys[KeyEvent.VK_DOWN]) {
             y += speed;
+            BombermanGame.moveUpDownSound.play(-1, false);
         } else if (KeyAction.keys[KeyEvent.VK_LEFT]) {
             x -= speed;
+            BombermanGame.moveLeftRightSound.play(-1, false);
         } else if (KeyAction.keys[KeyEvent.VK_RIGHT]) {
             x += speed;
+            BombermanGame.moveLeftRightSound.play(-1, false);
         } else if (KeyAction.keys[KeyEvent.VK_SPACE]) {
             putBomb();
             KeyAction.keys[KeyEvent.VK_SPACE] = false;
@@ -213,6 +229,10 @@ public class Bomber extends MovingEntity {
         handleCollisionWithPortalIn1Cell(yUnit2, xUnit2);
     }
 
+    public void death() {
+        BombermanGame.bomberDeathSound.play(0, false);
+    }
+
     private void handleCollisionWithEnemy() {
         for (MovingEntity movingEntity : BombermanGame.movingEntities) {
             if (!(movingEntity instanceof Enemy) || movingEntity.isDead()) {
@@ -221,7 +241,7 @@ public class Bomber extends MovingEntity {
             if (checkIntersectionWithOtherMovingEntity(movingEntity.getX(), movingEntity.getY(),
                     movingEntity.getX() + movingEntity.getSprite().get_realWidth(),
                     movingEntity.getY() + movingEntity.getSprite().get_realHeight())) {
-                isDead = true;
+                setDead(true);
                 return;
             }
         }

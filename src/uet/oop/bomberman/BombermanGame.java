@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
+import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.UI.Panels.Control;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
@@ -18,6 +19,10 @@ import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusTarget;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.DezenimanSan;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.Famicom;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.GoddessMask;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.NakamotoSan;
 import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.BombItem;
 import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.BombpassItem;
@@ -33,6 +38,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -69,8 +75,15 @@ public class BombermanGame extends Application {
     private GraphicsContext gc;
     private Canvas canvas;
     public static Time timeKeeper;
-
     public static MouseEvent e;
+    public static Sound moveLeftRightSound = new Sound("move_left_right");
+    public static Sound moveUpDownSound = new Sound("move_up_down");
+    public static Sound putBombSound = new Sound("put_bomb");
+    public static Sound eatItemSound = new Sound("eat_item");
+    public static Sound bombExplosionSound = new Sound("bomb_explosion");
+    public static Sound bomberDeathSound = new Sound("bomber_death");
+    public static Sound stageSound = new Sound("stage");
+    public static Sound levelCompleteSound = new Sound("level_complete");
 
     private Control control_panel = new Control(0, 416, Sprite.control_panel);
     public static int maxTime = 210;
@@ -125,6 +138,7 @@ public class BombermanGame extends Application {
                 control_panel.setCoordinatesMouse(mouseEvent.getX(),mouseEvent.getY());
             }
         });
+
         goNewMap();
         //createLabels();
         //root.getChildren().addAll(time);
@@ -166,16 +180,16 @@ public class BombermanGame extends Application {
 
             Grass.grassImg = Sprite.grass.getFxImage();
 //            bonusItem = new BonusTarget(Sprite.bonus_item_bonus_target);
-            // bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
+//             bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
 //            bonusItem = new DezenimanSan(Sprite.bonus_item_dezeniman_san);
 //            bonusItem = new Famicom(Sprite.bonus_item_famicom);
-//            bonusItem = new GoddessMask(Sprite.bonus_item_goddess_mask);
+            bonusItem = new GoddessMask(Sprite.bonus_item_goddess_mask);
             for (int i = 0; i < height; i++) {
                 String row = scanner.nextLine();
                 for (int j = 0; j < width; j++) {
                     switch (row.charAt(j)) {
                         case 'p':
-                            bomber = new Bomber(j, i, 2, Sprite.player_right);
+                            bomber = new Bomber(j, i, 1, Sprite.player_right);
                             movingEntities.add(bomber);
                             map[i][j] = new Grass(j, i, Sprite.grass);
                             break;
@@ -184,7 +198,7 @@ public class BombermanGame extends Application {
                             map[i][j] = new Grass(j, i, Sprite.grass);
                             break;
                         case '2':
-                            movingEntities.add(new Kondoria(j, i, 1, Sprite.oneal_right1, false, false, false));
+                            movingEntities.add(new Oneal(j, i, 1, Sprite.oneal_right1, false, false, false));
                             map[i][j] = new Grass(j, i, Sprite.grass);
                             break;
                         case 'b':
@@ -239,6 +253,8 @@ public class BombermanGame extends Application {
             System.out.println("Map file was not found.");
             e.printStackTrace();
         }
+
+        stageSound.play(-1, false);
     }
 
     private void createLabels() {
@@ -247,6 +263,17 @@ public class BombermanGame extends Application {
         time.setTextFill(Color.RED);
         time.setLayoutX(675);
         time.setLayoutY(480);
+    }
+
+    private void updateMoveSound() {
+        if (!KeyAction.keys[KeyEvent.VK_LEFT]
+                && !KeyAction.keys[KeyEvent.VK_RIGHT]) {
+            moveLeftRightSound.stop();
+        }
+        if (!KeyAction.keys[KeyEvent.VK_UP]
+                && !KeyAction.keys[KeyEvent.VK_DOWN]) {
+            moveUpDownSound.stop();
+        }
     }
 
     public void update() {
@@ -261,6 +288,8 @@ public class BombermanGame extends Application {
                 n = bomber.getBombs().size();
             }
         }
+
+        updateMoveSound();
     }
 
     public void render() {
