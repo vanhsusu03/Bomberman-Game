@@ -2,6 +2,7 @@ package uet.oop.bomberman.map;
 
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Balloon;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.Kondoria;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Oneal;
 import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Grass;
@@ -30,24 +31,25 @@ public class MapLoadFile {
 
             Grass.grassImg = Sprite.grass.getFxImage();
 //            bonusItem = new BonusTarget(Sprite.bonus_item_bonus_target);
-//            bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
+            // bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
 //            bonusItem = new DezenimanSan(Sprite.bonus_item_dezeniman_san);
 //            bonusItem = new Famicom(Sprite.bonus_item_famicom);
-//              bonusItem = new GoddessMask(Sprite.bonus_item_goddess_mask);
+//            bonusItem = new GoddessMask(Sprite.bonus_item_goddess_mask);
             for (int i = 0; i < height; i++) {
                 String row = scanner.nextLine();
                 for (int j = 0; j < width; j++) {
                     switch (row.charAt(j)) {
                         case 'p':
-                            BombermanGame.movingEntities.add(new Bomber(j, i, 1, Sprite.player_right));
+                            BombermanGame.bomber = new Bomber(j, i, 2, Sprite.player_right);
+                            BombermanGame.movingEntities.add(BombermanGame.bomber);
                             BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                             break;
                         case '1':
-                            BombermanGame.movingEntities.add(new Balloon(j, i, 0, Sprite.balloon_right1, false, false, false));
+                            BombermanGame.movingEntities.add(new Balloon(j, i, 1, Sprite.balloon_right1, false, false, false));
                             BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                             break;
                         case '2':
-                            BombermanGame.movingEntities.add(new Oneal(j, i, 0, Sprite.oneal_right1, false, false, false));
+                            BombermanGame.movingEntities.add(new Kondoria(j, i, 1, Sprite.oneal_right1, false, false, false));
                             BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                             break;
                         case 'b':
