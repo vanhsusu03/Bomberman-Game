@@ -1,39 +1,32 @@
 package uet.oop.bomberman.UI.Button;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-
-import java.awt.event.MouseEvent;
+import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.MouseAction;
+import uet.oop.bomberman.map.MapLoadFile;
 
 public abstract class Button {
     protected int x;
     protected int y;
-
     protected int margin = 3;
-    protected boolean isActive = false;
 
     protected Image img;
-
-    protected GraphicsContext gc;
 
     public Button(int x, int y, Image img) {
         this.x = x;
         this.y = y;
         this.img = img;
     }
-    public void setActive(boolean active) {
-        this.isActive = active;
+    public void setImage (Image img) {
+        this.img = img;
     }
 
-    public boolean checkActive (MouseEvent e) {
-        if(e.getX() >= x && e.getX() <= x + img.getWidth() - margin
-                && e.getY() >= y && e.getY() <= y + img.getHeight()) {
-            return true;
-        }
-        return false;
+    public boolean checkActive () {
+        return (MouseAction.x >= x && MouseAction.x <= x + img.getWidth() - margin
+                && MouseAction.y >= y && MouseAction.y <= y + img.getHeight());
     }
-
-    public abstract void update();
-    public abstract void render(GraphicsContext gc);
+    public void render() {
+        BombermanGame.gc.drawImage(img,x,y);
+    }
 
 }

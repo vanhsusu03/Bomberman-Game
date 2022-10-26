@@ -157,16 +157,15 @@ public class Bomber extends MovingEntity {
         }
     }
 
-    private void usePortal(int i, int j) {
+    public boolean usePortal() {
         handleIfBonusTargetIsActivated();
 
         for (MovingEntity movingEntity : BombermanGame.movingEntities) {
             if (movingEntity instanceof Enemy) {
-                return;
+                return false;
             }
         }
-
-        System.out.println("Game la` de~!!!");
+        return true;
     }
 
     @Override
@@ -201,7 +200,7 @@ public class Bomber extends MovingEntity {
 
     private void handleCollisionWithPortalIn1Cell(int i, int j) {
         if (BombermanGame.map[i][j] instanceof Portal) {
-            usePortal(i, j);
+              usePortal();
         }
     }
 

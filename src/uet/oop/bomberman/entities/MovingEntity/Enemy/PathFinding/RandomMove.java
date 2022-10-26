@@ -12,6 +12,7 @@ import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.StillEntity;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.entities.StillEntity.*;
+import uet.oop.bomberman.map.MapLoadFile;
 
 import java.util.ArrayList;
 import java.util.List;
