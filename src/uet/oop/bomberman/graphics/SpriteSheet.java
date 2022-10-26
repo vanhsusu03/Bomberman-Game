@@ -10,7 +10,7 @@ import java.net.URL;
  * Class này giúp lấy ra các sprite riêng từ 1 ảnh chung duy nhất đó
  */
 public class SpriteSheet {
-    public static SpriteSheet tiles = new SpriteSheet("/textures/classic.png", 256);
+    public static SpriteSheet tiles = new SpriteSheet("/textures/classic1.png", 256);
     public final int SIZE;
     private String _path;
     public int[] _pixels;
@@ -22,6 +22,10 @@ public class SpriteSheet {
         _pixels = new int[SIZE * SIZE];
         load();
     }
+
+//    public static SpriteSheet setTiles(int level ) {
+//        this.tiles = new SpriteSheet("/textures/classic" + level + ".png", 256);
+//    }
 
     private void load() {
         try {

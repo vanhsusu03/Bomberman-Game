@@ -1,64 +1,40 @@
 package uet.oop.bomberman.UI.Icon;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-
-import java.awt.event.MouseEvent;
+import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.MouseAction;
+import uet.oop.bomberman.map.MapLoadFile;
 
 public abstract class Icon {
     protected int x;
     protected int y;
-    protected double xMouse;
-    protected double yMouse;
     protected int margin = 3;
-    protected boolean isActive;
-    protected boolean isClicked;
-
     protected Image img;
-
-    protected GraphicsContext gc;
 
     public Icon(int x, int y, Image img) {
         this.x = x;
         this.y = y;
         this.img = img;
     }
-    public void setActive(boolean active) {
-        this.isActive = active;
-    }
 
-    public void setClicked(boolean clicked) {
-        this.isClicked = clicked;
+    public void setX(int x) {
+        this.x = x;
     }
-
-    public boolean getActive() {
-        return isActive;
+    public void setY(int y) {
+        this.y = y;
     }
-
-    public boolean getClicked() {
-        return isClicked;
-    }
-
-    public boolean checkActive () {
-        if(xMouse >= x && xMouse <= x + img.getWidth() - margin
-        && yMouse >= y && yMouse <= y + img.getHeight()) {
+    public boolean checkActive() {
+        if (MouseAction.x >= x && MouseAction.x <= x + img.getWidth() - margin
+                && MouseAction.y >= y && MouseAction.y <= y + img.getHeight()) {
             return true;
         }
         return false;
     }
 
-    public void setMouseGrid(double x, double y) {
-        this.xMouse = x;
-        this.yMouse = y;
-    }
-
-    public boolean canTransfer() {
-        if(checkActive() && isClicked) {
-            return true;
-        }
-        return false;
-    }
     public abstract void update();
-    public abstract void render(GraphicsContext gc);
+
+    public void render() {
+        BombermanGame.gc.drawImage(img, x, y);
+    }
 
 }

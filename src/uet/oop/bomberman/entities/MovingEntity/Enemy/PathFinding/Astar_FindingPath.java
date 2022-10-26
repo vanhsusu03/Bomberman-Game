@@ -36,7 +36,7 @@ public class Astar_FindingPath {
     public int[][] mapParsed() {
         int[][] mapParsed = new int[BombermanGame.HEIGHT][BombermanGame.WIDTH];
         Entity[][] entity = BombermanGame.map;
-        List<MovingEntity> moveList = BombermanGame.getMovingEntities();
+        List<MovingEntity> moveList = BombermanGame.movingEntities;
         for (int i = 0; i < moveList.size(); i++) {
             mapParsed[moveList.get(i).getGridY()][moveList.get(i).getGridX()] = 1;
         }
