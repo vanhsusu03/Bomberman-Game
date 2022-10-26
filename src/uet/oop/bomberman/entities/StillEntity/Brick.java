@@ -51,7 +51,8 @@ public class Brick extends StillEntity {
         if (isDestroyed && BombermanGame.hiddenEntities[yUnit][xUnit] != null) {
             BombermanGame.map[yUnit][xUnit] = BombermanGame.hiddenEntities[yUnit][xUnit];
             if (BombermanGame.hiddenEntities[yUnit][xUnit] instanceof Portal) {
-                BombermanGame.convertSoundStage();
+                BombermanGame.stageSound.stop();
+                BombermanGame.stageSound2.play(-1, false);
             }
             BombermanGame.hiddenEntities[yUnit][xUnit] = null;
             handleIfDezenimanSanIsActivated();
