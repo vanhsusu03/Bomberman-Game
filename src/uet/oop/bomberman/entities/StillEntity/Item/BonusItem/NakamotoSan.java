@@ -5,10 +5,10 @@ import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class NakamotoSan extends BonusItem {
-//    public NakamotoSan(Sprite sprite) {
-//        super(sprite);
-//        point = (int) 1e7;
-//    }
+    public NakamotoSan(Sprite sprite) {
+        super(sprite);
+        point = (int) 1e7;
+    }
 
     public NakamotoSan(int xUnit, int yUnit, Sprite sprite) {
         super(xUnit, yUnit, sprite);

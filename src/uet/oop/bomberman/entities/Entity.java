@@ -22,7 +22,6 @@ public abstract class Entity {
     protected Image img;
 
     public Entity() {
-
     }
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas

@@ -10,7 +10,7 @@ public abstract class Enemy extends MovingEntity {
     protected boolean wallPass;
     protected boolean brickPass;
     protected boolean bombPass;
-    protected static final int TIME_MOVING_DEAD_SPRITE = 100;
+    protected static final int TIME_MOVING_DEAD_SPRITE = 150;
     public static boolean isAnyoneKilled;
     public Enemy(int xUnit, int yUnit, int speed, Sprite sprite, boolean wallPass, boolean brickPass, boolean bombPass) {
         super(xUnit, yUnit, speed, sprite);
