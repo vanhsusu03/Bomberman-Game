@@ -16,21 +16,7 @@ import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
 
-import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusTarget;
-import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.DezenimanSan;
-import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.Famicom;
-import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.GoddessMask;
-import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.NakamotoSan;
-import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.BombItem;
-import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.BombpassItem;
-import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.BrickpassItem;
-import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.DetonatorItem;
-import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.FlameItem;
-import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.FlamepassItem;
-import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.MysteryItem;
-import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.SpeedItem;
-import uet.oop.bomberman.entities.StillEntity.Portal;
-import uet.oop.bomberman.entities.StillEntity.Wall;
+
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.event.KeyEvent;
@@ -63,8 +49,8 @@ public class BombermanGame extends Application {
     public static Bomber bomber;
     public static BonusItem bonusItem = null;
     public static int status = 0;
-    private GraphicsContext gc;
-    private Canvas canvas;
+    public static GraphicsContext gc;
+    public static Canvas canvas;
     public static Time timeKeeper;
     public static MouseEvent e;
     public static Sound moveLeftRightSound = new Sound("move_left_right");
@@ -76,7 +62,8 @@ public class BombermanGame extends Application {
     public static Sound stageSound = new Sound("stage");
     public static Sound stageSound2 = new Sound("stage2");
     public static Sound levelCompleteSound = new Sound("level_complete");
-
+    public static Sound menuStartSound = new Sound("menu_start");
+    public static Sound gameOverSound = new Sound("game_over");
 
 
     public static int numOfEnemies = 0;
@@ -157,16 +144,33 @@ public class BombermanGame extends Application {
     }
 
     public void update() throws FileNotFoundException {
-        switch (status) {
-            case 1:
-                startGame.updateGamePlay();
-                break;
-            case 2:
-
-            default:
-                menu.updateMenu();
-                break;
+        if (status == 0) {
+            menu.updateMenu();
+            menuStartSound.play(-1, false);
+        } else {
+            menuStartSound.stop();
         }
+
+        if (status == 1) {
+            startGame.updateGamePlay();
+            stageSound.play(-1, false);
+        } else {
+            stageSound.stop();
+            stageSound2.stop();
+        }
+
+//        switch (status) {
+//            case 1:
+//                startGame.updateGamePlay();
+//                stageSound.play(-1, false);
+//                break;
+//            case 2:
+//
+//            default:
+//                menu.updateMenu();
+//                menuStartSound.play(-1, false);
+//                break;
+//        }
     }
 
     public void render() throws FileNotFoundException {

@@ -178,9 +178,6 @@ public class Bomber extends MovingEntity {
             }
         }
 
-        BombermanGame.levelCompleteSound.play(0, false);
-        BombermanGame.stageSound2.stop();
-
         return true;
 
     }
