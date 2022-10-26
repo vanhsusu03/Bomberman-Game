@@ -5,6 +5,7 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Flame;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.Famicom;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.map.MapLoadFile;
 
 import java.util.ArrayList;
 import java.util.List;

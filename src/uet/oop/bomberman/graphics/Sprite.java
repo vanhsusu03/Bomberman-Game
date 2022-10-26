@@ -36,12 +36,12 @@ public class Sprite {
     public static Image cre_last = new Image(new File("res/cre/cre_last.png").toURI().toString());
     public static Image highsc_first = new Image(new File("res/highsc/highsc_first.png").toURI().toString());
     public static Image highsc_last = new Image(new File("res/highsc/highsc_last.png").toURI().toString());
-    public static Image ins_first = new Image(new File("res/instruction/instruction_first.png").toURI().toString());
-    public static Image ins_last = new Image(new File("res/instruction/instruction_last.png").toURI().toString());
+    public static Image ins_first = new Image(new File("res/instruction/ins_first.png").toURI().toString());
+    public static Image ins_last = new Image(new File("res/instruction/ins_last.png").toURI().toString());
     public static Image opts_first = new Image(new File("res/opts/opt_first.png").toURI().toString());
     public static Image opts_last = new Image(new File("res/opts/opt_last.png").toURI().toString());
     public static Image startgame_first = new Image(new File("res/startgame/startgame_first.png").toURI().toString());
-    public static Image startgame_last = new Image(new File("res/startgame_last.png").toURI().toString());
+    public static Image startgame_last = new Image(new File("res/startgame/startgame_last.png").toURI().toString());
     public static Image quit_first = new Image(new File("res/quit/quit_first.png").toURI().toString());
     public static Image quit_last = new Image(new File("res/quit/quit_last.png").toURI().toString());
 

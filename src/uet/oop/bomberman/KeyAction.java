@@ -3,7 +3,7 @@ package uet.oop.bomberman;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class KeyAction implements KeyListener {
+public class KeyAction {
     // Max(VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT, VK_SPACE, VK_D) = 68.
     public static boolean[] keys = new boolean[69];
 
@@ -21,6 +21,9 @@ public class KeyAction implements KeyListener {
             case "RIGHT":
                 keys[KeyEvent.VK_RIGHT] = isUsing;
                 break;
+            case "ESCAPE":
+                keys[KeyEvent.VK_ESCAPE] = isUsing;
+                break;
         }
     }
 
@@ -32,18 +35,10 @@ public class KeyAction implements KeyListener {
             case "d":
                 keys[KeyEvent.VK_D] = isTyped;
                 break;
+            case "ESCAPE":
+                keys[KeyEvent.VK_ESCAPE] = isTyped;
+                break;
         }
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
 }

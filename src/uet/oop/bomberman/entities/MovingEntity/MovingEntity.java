@@ -6,6 +6,7 @@ import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.StillEntity.*;
 import uet.oop.bomberman.entities.StillEntity.Item.Item;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.map.MapLoadFile;
 
 import java.util.List;
 
