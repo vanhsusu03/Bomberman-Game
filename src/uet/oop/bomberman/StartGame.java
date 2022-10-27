@@ -10,11 +10,14 @@ import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
 import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.graphics.SpriteSheet;
 import uet.oop.bomberman.map.MapLoadFile;
 
 import java.awt.event.KeyEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+
+import static uet.oop.bomberman.graphics.Sprite.DEFAULT_SIZE;
 
 public class StartGame {
 
@@ -38,7 +41,7 @@ public class StartGame {
     private int level;
     private int maxTime = 210;
 
-    private Font font = Font.loadFont(new FileInputStream("res/font/alarm_clock.ttf"), 30);
+    private Font font = Font.loadFont(new FileInputStream("res/font/ComicSansMS3.ttf"), 30);
 
     public StartGame() throws FileNotFoundException {
     }
@@ -50,14 +53,24 @@ public class StartGame {
         createPanels();
         createIcons();
         BombermanGame.gc.setFont(font);
-        BombermanGame.gc.setFill(Color.INDIGO);
+        BombermanGame.gc.setFill(Color.GOLD);
         timeKeeper = new Time();
+    }
+
+    private void updateMoveSound() {
+        if (!KeyAction.keys[KeyEvent.VK_LEFT] && !KeyAction.keys[KeyEvent.VK_RIGHT]) {
+            BombermanGame.moveLeftRightSound.stop();
+        }
+        if (!KeyAction.keys[KeyEvent.VK_UP] && !KeyAction.keys[KeyEvent.VK_DOWN]) {
+            BombermanGame.moveUpDownSound.stop();
+        }
     }
 
     public void updateGamePlay() throws FileNotFoundException {
         if (BombermanGame.bomber.isDead()) {
             lose_panel.setRunning(true);
-        } else if (BombermanGame.numOfEnemies == 0 && BombermanGame.bomber.usePortal() && level < 5) {
+        } else if (BombermanGame.numOfEnemies == 0
+                && BombermanGame.bomber.isUsedPortal() && level < 5) {
             completed_level_panel.setRunning(true);
         } else if (KeyAction.keys[KeyEvent.VK_ESCAPE] || (ic_pause.checkActive() && MouseAction.isClicked)) {
             paused_panel.setRunning(true);
@@ -80,6 +93,7 @@ public class StartGame {
                 }
             }
         }
+        updateMoveSound();
     }
 
     public void renderGamePlay() throws FileNotFoundException {
@@ -143,6 +157,7 @@ public class StartGame {
         if (MouseAction.isClicked && ic_home.checkActive()) {
             paused_panel.setRunning(false);
             BombermanGame.status = 0;
+            BombermanGame.menu.setStatus(Menu.MenuStatus.MENU_STATUS);
             BombermanGame.getStartGame().createNewGame(1);
             return;
         }
@@ -181,6 +196,7 @@ public class StartGame {
         if (MouseAction.isClicked && ic_home.checkActive()) {
             BombermanGame.status = 0;
             lose_panel.setRunning(false);
+            BombermanGame.menu.setStatus(Menu.MenuStatus.MENU_STATUS);
             BombermanGame.getStartGame().createNewGame(1);
             return;
         }

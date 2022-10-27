@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
+import uet.oop.bomberman.UI.Button.Instruction;
 
 import java.io.File;
 
@@ -24,12 +25,18 @@ public class Sprite {
     //Another images
     public static Image backgr_menu = new Image(new File("res/backgrmenu/bomberman.png").toURI().toString());
     public static Image opts_panel = new Image(new File("res/panel/options/options.png").toURI().toString());
+    public static Image highsc_panel = new Image(new File("res/highsc/highsc_panel.png").toURI().toString());
+    public static Image ins_panel = new Image(new File("res/instruction/ins.png").toURI().toString());
     public static Image control_panel = new Image(new File("res/control_panel/control_panel.png").toURI().toString());
     public static Image paused_panel = new Image(new File("res/panel/pause/paused.png").toURI().toString());
     public static Image completedlevel_panel = new Image(new File("res/panel/winlevel/levelwin.png").toURI().toString());
     public static Image wingame_panel = new Image(new File("res/panel/wingame/wingame.png").toURI().toString());
     public static Image lose_panel = new Image(new File("res/panel/lose/lose.png").toURI().toString());
-
+    public static Image startLevelPanel1 = new Image(new File("res/stage/stage1.png").toURI().toString());
+    public static Image startLevelPanel2 = new Image(new File("res/stage/stage2.png").toURI().toString());
+    public static Image startLevelPanel3 = new Image(new File("res/stage/stage3.png").toURI().toString());
+    public static Image startLevelPanel4 = new Image(new File("res/stage/stage4.png").toURI().toString());
+    public static Image startLevelPanel5 = new Image(new File("res/stage/stage5.png").toURI().toString());
 
     //BUTTON
     public static Image cre_first = new Image(new File("res/cre/cre_first.png").toURI().toString());

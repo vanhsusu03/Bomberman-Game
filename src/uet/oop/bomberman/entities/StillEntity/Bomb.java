@@ -129,6 +129,8 @@ public class Bomb extends StillEntity {
 
             removeCollidedFlame(horizontalFlames);
             removeCollidedFlame(verticalFlames);
+
+            BombermanGame.bombExplosionSound.play(0, true);
         }
 
         for (int i = 0; i < horizontalFlames.size(); i++) {

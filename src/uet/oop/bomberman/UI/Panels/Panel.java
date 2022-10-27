@@ -3,6 +3,7 @@ package uet.oop.bomberman.UI.Panels;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.map.MapLoadFile;
 
 public abstract class Panel{
@@ -20,10 +21,36 @@ public abstract class Panel{
 
     public void setRunning(boolean running) {
         isRunning = running;
+
+        if (this instanceof CompletedLevel) {
+            if (isRunning) {
+                BombermanGame.levelCompleteSound.play(-1, false);
+                Sound.stopStageSound();
+            } else {
+                BombermanGame.levelCompleteSound.stop();
+            }
+        } else if (this instanceof Lose) {
+            if (isRunning) {
+                BombermanGame.gameOverSound.play(-1, false);
+                Sound.stopStageSound();
+            } else {
+                BombermanGame.gameOverSound.stop();
+
+            }
+        } else if (this instanceof WinGame) {
+            if (isRunning) {
+                BombermanGame.winGameSound.play(-1, false);
+                Sound.stopStageSound();
+            } else {
+                BombermanGame.winGameSound.stop();
+            }
+        }
     }
+
     public boolean getRunning() {
         return this.isRunning;
     }
+
     public void render() {
         BombermanGame.gc.drawImage(img, x,y);
     }

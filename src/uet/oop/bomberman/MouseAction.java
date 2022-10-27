@@ -1,8 +1,5 @@
 package uet.oop.bomberman;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 public class MouseAction  {
     public static double x;
     public static double y;

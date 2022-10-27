@@ -1,5 +1,6 @@
 package uet.oop.bomberman.entities.MovingEntity.Enemy;
 
+
 //Speed: 2 (Normal) - Smart 1 (Lowest)
 
 import javafx.scene.canvas.GraphicsContext;

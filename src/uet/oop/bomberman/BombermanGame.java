@@ -7,32 +7,49 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
+
+import uet.oop.bomberman.Sound.Sound;
+
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
 
 
+import uet.oop.bomberman.graphics.Sprite;
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.map.MapLoadFile;
+
 
 public class BombermanGame extends Application {
     public static final int WIDTH = 31;
     public static final int HEIGHT = 13;
+    public static final int MAX_LEVEL = 5;
     public static long score = 0;
     public static Entity[][] map = new Entity[HEIGHT][WIDTH];
     public static Entity[][] hiddenEntities = new Entity[HEIGHT][WIDTH];
     public static List<MovingEntity> movingEntities = new ArrayList<>();
     public static Bomber bomber;
     public static BonusItem bonusItem = null;
+    public static int status = 0;
     public static GraphicsContext gc;
     public static Canvas canvas;
+    public static Sound moveLeftRightSound = new Sound("move_left_right");
+    public static Sound moveUpDownSound = new Sound("move_up_down");
+    public static Sound putBombSound = new Sound("put_bomb");
+    public static Sound eatItemSound = new Sound("eat_item");
+    public static Sound bombExplosionSound = new Sound("bomb_explosion");
+    public static Sound bomberDeathSound = new Sound("bomber_death");
+    public static Sound stageSound = new Sound("stage");
+    public static Sound stageSound2 = new Sound("stage2");
+    public static Sound levelCompleteSound = new Sound("level_complete");
+    public static Sound menuStartSound = new Sound("menu_start");
+    public static Sound gameOverSound = new Sound("game_over");
+    public static Sound winGameSound = new Sound("win_game");
 
-    public static int status = 0;
 
     public static int numOfEnemies = 0;
 
@@ -46,9 +63,7 @@ public class BombermanGame extends Application {
         }
     }
 
-    private Menu menu = new Menu();
-
-    public static int maxTime = 210;
+    public static Menu menu = new Menu();
 
     public static StartGame getStartGame() {
         return startGame;
@@ -97,6 +112,7 @@ public class BombermanGame extends Application {
             MouseAction.setIsClicked(true);
         });
 
+
         scene.setOnKeyPressed(event -> {
             KeyAction.setKeptKey(String.valueOf(event.getCode()), true);
         });
@@ -111,16 +127,20 @@ public class BombermanGame extends Application {
     }
 
     public void update() throws FileNotFoundException {
-        switch (status) {
-            case 1:
-                startGame.updateGamePlay();
-                break;
-            case 2:
-
-            default:
-                menu.updateMenu();
-                break;
+        if (status == 0) {
+            menu.updateMenu();
+            menuStartSound.play(-1, false);
+        } else {
+            menuStartSound.stop();
         }
+
+        if (status == 1) {
+            startGame.updateGamePlay();
+            stageSound.play(-1, false);
+        } else {
+            Sound.stopStageSound();
+        }
+
     }
 
     public void render() throws FileNotFoundException {
