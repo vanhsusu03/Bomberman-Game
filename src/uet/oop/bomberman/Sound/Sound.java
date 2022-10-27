@@ -10,10 +10,15 @@ import java.io.File;
 public class Sound {
     private static final String DATA_PATH = "res/sound/";
     private static final String AUDIO_EXTENSION = "wav";
+    public static boolean isMuted;
     private Clip clip;
     private boolean isPlaying;
-    public static boolean isMuted;
 
+    /**
+     * Initialize clip.
+     *
+     * @param fileName name of file sound
+     */
     public Sound(String fileName) {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
@@ -25,6 +30,20 @@ public class Sound {
         }
     }
 
+    /**
+     * Stop all stage sound.
+     */
+    public static void stopStageSound() {
+        BombermanGame.stageSound.stop();
+        BombermanGame.stageSound2.stop();
+    }
+
+    /**
+     * Play a sound.
+     *
+     * @param numberOfLoops number of sound repeats
+     * @param isForced      force to play sound
+     */
     public void play(int numberOfLoops, boolean isForced) {
         if (isMuted) {
             return;
@@ -38,14 +57,9 @@ public class Sound {
         }
     }
 
+    /** Stop a sound. */
     public void stop() {
         clip.stop();
         isPlaying = false;
-    }
-
-
-    public static void stopStageSound() {
-        BombermanGame.stageSound.stop();
-        BombermanGame.stageSound2.stop();
     }
 }
