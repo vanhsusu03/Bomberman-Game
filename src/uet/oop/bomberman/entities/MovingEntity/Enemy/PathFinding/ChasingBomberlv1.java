@@ -22,8 +22,8 @@ public class ChasingBomberlv1 extends RandomMove {
      * RETURN 4: Player down.
      */
     private int directFollowChasing() {
-        int xDistance = x/32 - BombermanGame.bomber.getX()/32;
-        int yDistance = y/32 - BombermanGame.bomber.getY()/32;
+        int xDistance = x / 32 - BombermanGame.bomber.getX() / 32;
+        int yDistance = y / 32 - BombermanGame.bomber.getY() / 32;
         //Player on the left
         if (xDistance > 0 && xDistance < rangetoChase && yDistance == 0) {
             return 1;
@@ -43,6 +43,9 @@ public class ChasingBomberlv1 extends RandomMove {
         return 0;
     }
 
+    /**
+     * Find path.
+     */
     public void moveChasingChangeslv1() {
         if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
             chaseDirection = directFollowChasing();

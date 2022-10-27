@@ -11,7 +11,7 @@ public class Kondoria extends Enemy {
         score = 10;
     }
 
-    ChasingBomberAStar chasingBomberAStar = new ChasingBomberAStar(x,y,speed, wallPass,brickPass,bombPass);
+    ChasingBomberAStar chasingBomberAStar = new ChasingBomberAStar(x, y, speed, wallPass, brickPass, bombPass);
 
     @Override
     public void update() {
@@ -20,16 +20,16 @@ public class Kondoria extends Enemy {
         setY(chasingBomberAStar.getY());
         switch (chasingBomberAStar.getDirection()) {
             case 0:
-                img = Sprite.movingSprite(Sprite.kondoria_left1,Sprite.kondoria_left2,Sprite.kondoria_left3,frameCount,80).getFxImage();
+                img = Sprite.movingSprite(Sprite.kondoria_left1, Sprite.kondoria_left2, Sprite.kondoria_left3, frameCount, 80).getFxImage();
                 break;
             case 1:
-                img = Sprite.movingSprite(Sprite.kondoria_right1,Sprite.kondoria_right2,Sprite.kondoria_right3,frameCount,80).getFxImage();
+                img = Sprite.movingSprite(Sprite.kondoria_right1, Sprite.kondoria_right2, Sprite.kondoria_right3, frameCount, 80).getFxImage();
                 break;
             case 2:
-                img = Sprite.movingSprite(Sprite.kondoria_left1,Sprite.kondoria_right2,Sprite.kondoria_left3,frameCount,80).getFxImage();
+                img = Sprite.movingSprite(Sprite.kondoria_left1, Sprite.kondoria_right2, Sprite.kondoria_left3, frameCount, 80).getFxImage();
                 break;
             case 3:
-                img = Sprite.movingSprite(Sprite.kondoria_right1,Sprite.kondoria_left2,Sprite.kondoria_right3,frameCount,80).getFxImage();
+                img = Sprite.movingSprite(Sprite.kondoria_right1, Sprite.kondoria_left2, Sprite.kondoria_right3, frameCount, 80).getFxImage();
                 break;
         }
         updateFrameCount();
@@ -43,7 +43,7 @@ public class Kondoria extends Enemy {
                     frameCount, TIME_MOVING_DEAD_SPRITE);
             img = sprite.getFxImage();
         }
-        gc.drawImage(img,chasingBomberAStar.getX(),chasingBomberAStar.getY());
+        gc.drawImage(img, chasingBomberAStar.getX(), chasingBomberAStar.getY());
         removeEnemyIfDeathAnimationEnds();
     }
 

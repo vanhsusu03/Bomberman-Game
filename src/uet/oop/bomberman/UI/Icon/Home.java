@@ -10,7 +10,7 @@ public class Home extends Icon {
 
     @Override
     public void update() {
-        if(checkActive()) {
+        if (checkActive()) {
             img = Sprite.ic_home_last;
         } else {
             img = Sprite.ic_home_first;

@@ -18,6 +18,11 @@ public abstract class Panel {
         this.img = img;
     }
 
+    /**
+     * Set running status of this panel.
+     *
+     * @param running running or not
+     */
     public void setRunning(boolean running) {
         isRunning = running;
 

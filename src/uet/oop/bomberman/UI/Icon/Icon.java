@@ -19,14 +19,24 @@ public abstract class Icon {
     public void setX(int x) {
         this.x = x;
     }
+
     public void setY(int y) {
         this.y = y;
     }
+
+    /**
+     * Check if mouse is in the range of this icon.
+     *
+     * @return true if it's in
+     */
     public boolean checkActive() {
         return MouseAction.x >= x && MouseAction.x <= x + img.getWidth() - margin
                 && MouseAction.y >= y && MouseAction.y <= y + img.getHeight();
     }
 
+    /**
+     * Update animations of Icons.
+     */
     public abstract void update();
 
     public void render() {
