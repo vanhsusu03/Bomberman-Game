@@ -1,18 +1,12 @@
 package uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding;
 
-//import sun.jvm.hotspot.runtime.ppc64.PPC64CurrentFrameGuess;
-
-import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
-import uet.oop.bomberman.entities.MovingEntity.Enemy.Balloon;
-import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
-import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
-import uet.oop.bomberman.entities.StillEntity.StillEntity;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.entities.StillEntity.*;
-import uet.oop.bomberman.map.MapLoadFile;
+import uet.oop.bomberman.entities.StillEntity.Bomb;
+import uet.oop.bomberman.entities.StillEntity.Brick;
+import uet.oop.bomberman.entities.StillEntity.Wall;
+import uet.oop.bomberman.entities.StillEntity.Grass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +19,7 @@ public class RandomMove {
     protected boolean wallPass;
     protected boolean brickPass;
     protected boolean bombPass;
+    protected int direction = 0;
     boolean canMove = false;
     private List<Bomb> bombList = new ArrayList<>();
 
@@ -45,11 +40,11 @@ public class RandomMove {
         return this.y;
     }
 
-    public int getGridX() {
+    public int getXUnit() {
         return this.x / Sprite.SCALED_SIZE;
     }
 
-    public int getGridY() {
+    public int getYUnit() {
         return this.y / Sprite.SCALED_SIZE;
     }
 
@@ -65,25 +60,13 @@ public class RandomMove {
         return ThreadLocalRandom.current().nextInt(min, max);
     }
 
-    private int randomMoveChanges(int x, int y, int z) {
-        int changes = randomInt(0, 3);
-        if (changes == 0) {
-            return x;
-        } else if (changes == 1) {
-            return y;
-        } else {
-            return z;
-        }
-    }
 
-    int direction = 0;
-
-    public boolean canMoveleft() {
+    public boolean canMoveLeft() {
         Entity tmpStill = BombermanGame.map[y / Sprite.SCALED_SIZE][(x - speed) / Sprite.SCALED_SIZE];
-        if(!bombPass) {
-            for(int i=0;i<bombList.size();i++) {
-                if(bombList.get(i).getGridX() == (x - speed) / Sprite.SCALED_SIZE
-                        && bombList.get(i).getGridY() == y / Sprite.SCALED_SIZE ) {
+        if (!bombPass) {
+            for (int i = 0; i < bombList.size(); i++) {
+                if (bombList.get(i).getXUnit() == (x - speed) / Sprite.SCALED_SIZE
+                        && bombList.get(i).getYUnit() == y / Sprite.SCALED_SIZE) {
                     return false;
                 }
             }
@@ -98,12 +81,12 @@ public class RandomMove {
         return true;
     }
 
-    public boolean canMoveright() {
-        Entity tmpStill = BombermanGame.map[y / Sprite.SCALED_SIZE][(x / Sprite.SCALED_SIZE) +1 ];
-        if(!bombPass) {
-            for(int i=0;i<bombList.size();i++) {
-                if(bombList.get(i).getGridX() == (x / Sprite.SCALED_SIZE) + 1
-                        && bombList.get(i).getGridY() == y / Sprite.SCALED_SIZE ) {
+    public boolean canMoveRight() {
+        Entity tmpStill = BombermanGame.map[y / Sprite.SCALED_SIZE][(x / Sprite.SCALED_SIZE) + 1];
+        if (!bombPass) {
+            for (int i = 0; i < bombList.size(); i++) {
+                if (bombList.get(i).getXUnit() == (x / Sprite.SCALED_SIZE) + 1
+                        && bombList.get(i).getYUnit() == y / Sprite.SCALED_SIZE) {
                     return false;
                 }
             }
@@ -118,12 +101,12 @@ public class RandomMove {
         return true;
     }
 
-    public boolean canMoveup() {
+    public boolean canMoveUp() {
         Entity tmpStill = BombermanGame.map[(y - speed) / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE];
-        if(!bombPass) {
-            for(int i=0;i<bombList.size();i++) {
-                if(bombList.get(i).getGridX() == x / Sprite.SCALED_SIZE
-                        && bombList.get(i).getGridY() == (y-speed) / Sprite.SCALED_SIZE ) {
+        if (!bombPass) {
+            for (int i = 0; i < bombList.size(); i++) {
+                if (bombList.get(i).getXUnit() == x / Sprite.SCALED_SIZE
+                        && bombList.get(i).getYUnit() == (y - speed) / Sprite.SCALED_SIZE) {
                     return false;
                 }
             }
@@ -138,13 +121,13 @@ public class RandomMove {
         return true;
     }
 
-    public boolean canMovedown() {
+    public boolean canMoveDown() {
         Entity tmpStill = BombermanGame.map[(y / Sprite.SCALED_SIZE) + 1][x / Sprite.SCALED_SIZE];
-        if(!bombPass) {
-            for(int i=0;i<bombList.size();i++) {
-                if(bombList.get(i).getGridX() == x/ Sprite.SCALED_SIZE
-                        && bombList.get(i).getGridY() == (y / Sprite.SCALED_SIZE) + 1 ) {
-                    System.out.println(bombList.get(i).getGridX() + " " + bombList.get(i).getGridY());
+        if (!bombPass) {
+            for (int i = 0; i < bombList.size(); i++) {
+                if (bombList.get(i).getXUnit() == x / Sprite.SCALED_SIZE
+                        && bombList.get(i).getYUnit() == (y / Sprite.SCALED_SIZE) + 1) {
+                    System.out.println(bombList.get(i).getXUnit() + " " + bombList.get(i).getYUnit());
                     return false;
                 }
             }
@@ -158,6 +141,7 @@ public class RandomMove {
         }
         return true;
     }
+
     /**
      * 0 - canMoveLeft
      * 1 - canMoveRight
@@ -171,25 +155,25 @@ public class RandomMove {
         }
         switch (direction) {
             case 0:
-                canMove = canMoveleft();
+                canMove = canMoveLeft();
                 if (canMove) {
                     x -= speed;
                 }
                 break;
             case 1:
-                canMove = canMoveright();
+                canMove = canMoveRight();
                 if (canMove) {
                     x += speed;
                 }
                 break;
             case 2:
-                canMove = canMoveup();
+                canMove = canMoveUp();
                 if (canMove) {
                     y -= speed;
                 }
                 break;
             case 3:
-                canMove = canMovedown();
+                canMove = canMoveDown();
                 if (canMove) {
                     y += speed;
                 }

@@ -5,7 +5,6 @@ import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.RandomMove;
 import uet.oop.bomberman.graphics.Sprite;
 
-// Speed 3 (Normal) - Smart: 1 (Lowest)
 public class Doll extends Enemy {
 
     public Doll(int xUnit, int yUnit, int speed, Sprite sprite, boolean wallPass, boolean brickPass, boolean bombPass) {

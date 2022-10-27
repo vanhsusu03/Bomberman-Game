@@ -4,9 +4,7 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.StillEntity.*;
-import uet.oop.bomberman.entities.StillEntity.Item.Item;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.map.MapLoadFile;
 
 import java.util.List;
 
@@ -17,11 +15,7 @@ public abstract class MovingEntity extends Entity {
     protected boolean isCanPassFlames;
     protected boolean isCanPassBombs;
     protected boolean isCanPassBrick;
-
-    public MovingEntity() {
-        super();
-    }
-
+    public MovingEntity() {}
     public MovingEntity(int xUnit, int yUnit, int speed, Sprite sprite) {
         super(xUnit, yUnit, speed, sprite);
     }

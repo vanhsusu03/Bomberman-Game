@@ -23,10 +23,6 @@ public class SpriteSheet {
         load();
     }
 
-//    public static SpriteSheet setTiles(int level ) {
-//        this.tiles = new SpriteSheet("/textures/classic" + level + ".png", 256);
-//    }
-
     private void load() {
         try {
             URL a = SpriteSheet.class.getResource(_path);

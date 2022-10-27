@@ -43,15 +43,6 @@ public class Sound {
         isPlaying = false;
     }
 
-    public void stopSoundTrack() {
-        BombermanGame.gameOverSound.stop();
-        BombermanGame.menuStartSound.stop();
-        BombermanGame.levelCompleteSound.stop();
-        BombermanGame.stageSound.stop();
-        BombermanGame.stageSound2.stop();
-        BombermanGame.moveUpDownSound.stop();
-        BombermanGame.moveLeftRightSound.stop();
-    }
 
     public static void stopStageSound() {
         BombermanGame.stageSound.stop();

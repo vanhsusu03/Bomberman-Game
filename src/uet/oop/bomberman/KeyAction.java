@@ -1,7 +1,6 @@
 package uet.oop.bomberman;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public class KeyAction {
     // Max(VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT, VK_SPACE, VK_D) = 68.

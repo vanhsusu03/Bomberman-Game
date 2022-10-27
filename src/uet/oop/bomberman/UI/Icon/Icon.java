@@ -3,7 +3,6 @@ package uet.oop.bomberman.UI.Icon;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.MouseAction;
-import uet.oop.bomberman.map.MapLoadFile;
 
 public abstract class Icon {
     protected int x;
@@ -24,11 +23,8 @@ public abstract class Icon {
         this.y = y;
     }
     public boolean checkActive() {
-        if (MouseAction.x >= x && MouseAction.x <= x + img.getWidth() - margin
-                && MouseAction.y >= y && MouseAction.y <= y + img.getHeight()) {
-            return true;
-        }
-        return false;
+        return MouseAction.x >= x && MouseAction.x <= x + img.getWidth() - margin
+                && MouseAction.y >= y && MouseAction.y <= y + img.getHeight();
     }
 
     public abstract void update();

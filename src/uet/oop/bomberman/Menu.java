@@ -20,8 +20,8 @@ import java.util.Scanner;
 
 public class Menu {
 
-    private final int xButton = 600;
-    private final int yButton = 135;
+    private int xButton = 600;
+    private int yButton = 135;
 
     private MenuStatus status;
     private Image menuBackGr;
@@ -237,6 +237,6 @@ public class Menu {
 
     }
     public enum MenuStatus{
-        MENU_STATUS,START_GAME,INSTRUCTION,HIGHSC,OPTIONS,QUIT;
+        MENU_STATUS,START_GAME,INSTRUCTION,HIGHSC,OPTIONS,QUIT
     }
 }

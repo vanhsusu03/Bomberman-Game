@@ -1,13 +1,12 @@
 package uet.oop.bomberman.map;
 
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
-import uet.oop.bomberman.entities.MovingEntity.Enemy.Balloon;
-import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
-import uet.oop.bomberman.entities.MovingEntity.Enemy.Oneal;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.*;
 import uet.oop.bomberman.entities.StillEntity.*;
 import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.*;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.graphics.SpriteSheet;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,9 +14,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-/**
- * ERROR
- */
+
+
 public class MapLoadFile extends LoadLevel {
     private int width, height;
 
@@ -31,10 +29,10 @@ public class MapLoadFile extends LoadLevel {
     @Override
     public void inputLevel(int level) {
         try {
-            File file = new File("res/levels/Level" + Integer.toString(level) + ".txt");
+            File file = new File("res/levels/Level" + level + ".txt");
             BufferedReader in = new BufferedReader(new FileReader(file));
             String data = in.readLine();
-            level = Integer.parseInt(data.substring(0, 1));
+            this.level = Integer.parseInt(data.substring(0, 1));
             height = Integer.parseInt(data.substring(2, 4));
             width = Integer.parseInt(data.substring(5, 7));
             readMap = new char[height][width];
@@ -45,15 +43,25 @@ public class MapLoadFile extends LoadLevel {
                 }
             }
             in.close();
+        } catch(FileNotFoundException e) {
+            throw new FileNotFoundException("Can't find map file");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    private void createNewMap() {
+        Sprite.grass = new Sprite(Sprite.DEFAULT_SIZE, 6, 0, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 16, 16);
+        Sprite.brick = new Sprite(Sprite.DEFAULT_SIZE, 7, 0, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 16, 16);
+        Sprite.wall = new Sprite(Sprite.DEFAULT_SIZE, 5, 0, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 16, 16);
+        Sprite.bomb = new Sprite(Sprite.DEFAULT_SIZE, 0, 3, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 15, 15);
+        Sprite.bomb_1 = new Sprite(Sprite.DEFAULT_SIZE, 1, 3, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 13, 15);
+        Sprite.bomb_2 = new Sprite(Sprite.DEFAULT_SIZE, 2, 3, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 12, 14);
     }
 
     @Override
     public void createMap() {
         Grass.grassImg = Sprite.grass.getFxImage();
-//            bonusItem = new BonusTarget(Sprite.bonus_item_bonus_target);
+//            BonusItem = new BonusTarget(Sprite.bonus_item_bonus_target);
 //             bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
 //            bonusItem = new DezenimanSan(Sprite.bonus_item_dezeniman_san);
 //            bonusItem = new Famicom(Sprite.bonus_item_famicom);
@@ -62,7 +70,7 @@ public class MapLoadFile extends LoadLevel {
             for (int j = 0; j < width; j++) {
                 switch (readMap[i][j]) {
                     case 'p':
-                        BombermanGame.bomber = new Bomber(j, i, 2, Sprite.player_right);
+                        BombermanGame.bomber = new Bomber(j, i, 1, Sprite.player_right);
                         BombermanGame.movingEntities.add(BombermanGame.bomber);
                         BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                         break;
@@ -73,6 +81,30 @@ public class MapLoadFile extends LoadLevel {
                     case '2':
                         BombermanGame.movingEntities.add(new Oneal(j, i, 1, Sprite.oneal_right1, false, false, false));
                         BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
+                        break;
+                    case '3':
+                        BombermanGame.movingEntities.add(new Doll(j, i, 2,Sprite.doll_right1,false,false,false));
+                        BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
+                        break;
+                    case '4':
+                        BombermanGame.movingEntities.add(new Minvo(j, i, 1,Sprite.minvo_right1,false,false,true));
+                        BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
+                        break;
+                    case '5':
+                        BombermanGame.movingEntities.add(new Kondoria(j, i, 1,Sprite.kondoria_right1,true, true,false));
+                        BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
+                        break;
+                    case '6':
+                        BombermanGame.movingEntities.add(new Ovapi(j, i, 1,Sprite.ovapi_right1,false,true,false));
+                        BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
+                        break;
+                    case '7':
+                        BombermanGame.movingEntities.add(new Pass(j, i, 1,Sprite.pass_right1,true, true, true));
+                        BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
+                        break;
+                    case '8':
+                        BombermanGame.movingEntities.add(new Pontan(j, i, 2,Sprite.pontan_right1,true,false,false));
+                        BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
                         break;
                     case 'b':
                         BombermanGame.hiddenEntities[i][j] = new BombItem(j, i, Sprite.powerup_bombs);
@@ -132,10 +164,13 @@ public class MapLoadFile extends LoadLevel {
         BombermanGame.movingEntities.clear();
         Brick.isAnythingDestroyed = false;
         Enemy.isAnyoneKilled = false;
+
         if (level == 1) {
             BombermanGame.score = 0;
         }
-        this.createMap();
+        createNewMap();
+        createMap();
         BombermanGame.bomber.setHeart(3);
+
     }
 }

@@ -5,7 +5,6 @@ import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.ChasingBomberAStar;
 import uet.oop.bomberman.graphics.Sprite;
 
-//Speed 4 (fatest) - Smart 4 (highest)?
 public class Pass extends Enemy {
     public Pass(int xUnit, int yUnit, int speed, Sprite sprite, boolean wallPass, boolean brickPass, boolean bombPass) {
         super(xUnit, yUnit, speed, sprite, wallPass, brickPass, bombPass);
@@ -44,7 +43,6 @@ public class Pass extends Enemy {
                     Sprite.mob_dead2, Sprite.mob_dead3,
                     frameCount, TIME_MOVING_DEAD_SPRITE);
             img = sprite.getFxImage();
-            updateFrameCount();
         }
         gc.drawImage(img,chasingBomberAStar.getX(),chasingBomberAStar.getY());
         removeEnemyIfDeathAnimationEnds();

@@ -39,27 +39,19 @@ public class Bomber extends MovingEntity {
     public static int xGridBomber;
     public static int yGridBomber;
     private int flameLength = 1;
-    private List<Bomb> bombs = new ArrayList<>();
+    private final List<Bomb> bombs = new ArrayList<>();
     private int maxNumberOfBombs = 1;
     private boolean isCanDetonateOldestBomb;
     private boolean isUsedPortal;
-    private Set<String> outerCirclePositions = new HashSet<>();
+    private final Set<String> outerCirclePositions = new HashSet<>();
 
-    public Bomber() {
-        super();
-    }
-
-    public Bomber(Bomber other) {
-        super(other.gridX, other.gridY, other.speed, other.sprite);
-        xGridBomber = other.gridX;
-        yGridBomber = other.gridY;
-    }
 
     public Bomber(int xUnit, int yUnit, int speed, Sprite sprite) {
         super(xUnit, yUnit, speed, sprite);
         xGridBomber = xUnit;
         yGridBomber = yUnit;
     }
+
 
     public int getHeart() {
         return heart;
@@ -89,7 +81,7 @@ public class Bomber extends MovingEntity {
         return xGridBomber;
     }
 
-    public static int getyGridBomber() {
+    public static int getYGridBomber() {
         return yGridBomber;
     }
 
@@ -144,11 +136,11 @@ public class Bomber extends MovingEntity {
                 break;
             case 3:
                 isCanPassFlames = true;
-                System.out.println("passflame");
+                System.out.println("PassFlame");
                 break;
             case 4:
                 isCanPassBombs = true;
-                System.out.println("passbomb");
+                System.out.println("PassBomb");
                 break;
             case 5:
                 isCanPassBrick = true;

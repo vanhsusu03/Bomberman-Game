@@ -4,7 +4,6 @@ import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.ChasingBomberlv1;
 import uet.oop.bomberman.graphics.Sprite;
 
-//Speed 2 (Low) - Smart 3 (Low) - Brick Pass (consider Wall Pass)
 public class Ovapi extends Enemy {
     public Ovapi(int xUnit, int yUnit, int speed, Sprite sprite, boolean wallPass, boolean brickPass, boolean bombPass) {
         super(xUnit, yUnit, speed, sprite, wallPass, brickPass, bombPass);
@@ -42,7 +41,6 @@ public class Ovapi extends Enemy {
                     Sprite.mob_dead2, Sprite.mob_dead3,
                     frameCount, TIME_MOVING_DEAD_SPRITE);
             img = sprite.getFxImage();
-            updateFrameCount();
         }
         gc.drawImage(img, ChasingBomberlv1.getX(), ChasingBomberlv1.getY());
         removeEnemyIfDeathAnimationEnds();

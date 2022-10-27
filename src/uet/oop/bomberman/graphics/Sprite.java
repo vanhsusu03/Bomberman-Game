@@ -5,7 +5,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
-import uet.oop.bomberman.UI.Button.Instruction;
 
 import java.io.File;
 

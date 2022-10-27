@@ -23,27 +23,24 @@ import java.io.FilterWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+
 public class StartGame {
 
     private Time timeKeeper;
 
-    private int DEFAULT_FONT_SIZE = 25;
     private MapLoadFile map;
     private Control control_panel;
     private CompletedLevel completed_level_panel;
     private Lose lose_panel;
     private Paused paused_panel;
     private WinGame winGame_panel;
-    private Back ic_back;
     private Home ic_home;
-    private MuteSound ic_muteSound;
     private NextLevel ic_nextLevel;
-    private OnSound ic_onSound;
     private Pause ic_pause;
     private Resume ic_resume;
 
     private int level;
-    private int maxTime = 210;
+    private final int maxTime = 210;
 
     public static Font font;
 
@@ -62,6 +59,7 @@ public class StartGame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private void updateMoveSound() {
@@ -190,8 +188,6 @@ public class StartGame {
         ic_home = new Home(500, 260, Sprite.ic_home_first);
         ic_pause = new Pause(900, 430, Sprite.ic_pause_first);
         ic_resume = new Resume(390, 260, Sprite.ic_resume_first);
-        ic_muteSound = new MuteSound(0, 0, Sprite.ic_mutesound_first);
-        ic_onSound = new OnSound(0, 0, Sprite.ic_onsound_first);
         ic_nextLevel = new NextLevel(440, 240, Sprite.ic_nextlevel_first);
     }
 
@@ -227,7 +223,6 @@ public class StartGame {
             completed_level_panel.setRunning(false);
             this.level++;
             BombermanGame.getStartGame().createNewGame(this.level);
-            return;
         }
     }
 

@@ -4,7 +4,6 @@ import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.ChasingBomberlv1;
 import uet.oop.bomberman.graphics.Sprite;
 
-//Speed 4 (Fastest) - Smart 3 (Normal)
 public class Minvo extends Enemy {
     public Minvo(int xUnit, int yUnit, int speed, Sprite sprite, boolean wallPass, boolean brickPass, boolean bombPass) {
         super(xUnit, yUnit, speed, sprite, wallPass, brickPass, bombPass);
