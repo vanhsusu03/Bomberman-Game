@@ -1,7 +1,7 @@
 package uet.oop.bomberman.entities.MovingEntity.Enemy;
 
 import javafx.scene.canvas.GraphicsContext;
-import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.ChasingBomberlv2;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.ChasingBomberlv1;
 import uet.oop.bomberman.graphics.Sprite;
 
 
@@ -14,13 +14,13 @@ public class Oneal extends Enemy {
         img = sprite.getFxImage();
     }
 
-    ChasingBomberlv2 chasingBomberlv2 = new ChasingBomberlv2(x,y,speed,wallPass, brickPass, bombPass);
+    ChasingBomberlv1 ChasingBomberlv1 = new ChasingBomberlv1(x,y,speed,wallPass, brickPass, bombPass);
     @Override
     public void update() {
-        chasingBomberlv2.updateChasingMoveLv2();
-        setX(chasingBomberlv2.getX());
-        setY(chasingBomberlv2.getY());
-        switch (chasingBomberlv2.getDirection()) {
+        ChasingBomberlv1.updateChasingMoveLv1();
+        setX(ChasingBomberlv1.getX());
+        setY(ChasingBomberlv1.getY());
+        switch (ChasingBomberlv1.getDirection()) {
             case 0:
                 img = Sprite.movingSprite(Sprite.oneal_left1,Sprite.oneal_left2,Sprite.oneal_left3,frameCount,80).getFxImage();
                 break;
@@ -45,7 +45,7 @@ public class Oneal extends Enemy {
                     frameCount, TIME_MOVING_DEAD_SPRITE);
             img = sprite.getFxImage();
         }
-        gc.drawImage(img, chasingBomberlv2.getX(), chasingBomberlv2.getY());
+        gc.drawImage(img, ChasingBomberlv1.getX(), ChasingBomberlv1.getY());
         removeEnemyIfDeathAnimationEnds();
     }
 
