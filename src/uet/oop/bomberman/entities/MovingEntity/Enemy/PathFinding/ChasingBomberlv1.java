@@ -6,9 +6,6 @@ import uet.oop.bomberman.graphics.Sprite;
 
 import javax.sql.XADataSource;
 
-/**
- * Chasing bomberman lv1 - Smart: Low- a bit of Normal.
- */
 public class ChasingBomberlv1 extends RandomMove {
 
     public ChasingBomberlv1(int x, int y, int speed, boolean wallPass, boolean brickPass, boolean bombPass) {

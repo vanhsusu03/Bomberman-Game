@@ -8,12 +8,15 @@ import uet.oop.bomberman.entities.StillEntity.*;
 import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.*;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.graphics.SpriteSheet;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+
+import static uet.oop.bomberman.graphics.Sprite.DEFAULT_SIZE;
 
 /**
  * ERROR
@@ -31,10 +34,10 @@ public class MapLoadFile extends LoadLevel {
     @Override
     public void inputLevel(int level) throws FileNotFoundException {
         try {
-            File file = new File("res/levels/Level" + Integer.toString(level) + ".txt");
+            File file = new File("res/levels/Level" + level + ".txt");
             BufferedReader in = new BufferedReader(new FileReader(file));
             String data = in.readLine();
-            level = Integer.parseInt(data.substring(0, 1));
+            this.level = Integer.parseInt(data.substring(0, 1));
             height = Integer.parseInt(data.substring(2, 4));
             width = Integer.parseInt(data.substring(5, 7));
             readMap = new char[height][width];
@@ -45,9 +48,19 @@ public class MapLoadFile extends LoadLevel {
                 }
             }
             in.close();
+        } catch(FileNotFoundException e) {
+            throw new FileNotFoundException("Can't find map file");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    private void createNewMap() {
+        Sprite.grass = new Sprite(DEFAULT_SIZE, 6, 0, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 16, 16);
+        Sprite.brick = new Sprite(DEFAULT_SIZE, 7, 0, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 16, 16);
+        Sprite.wall = new Sprite(DEFAULT_SIZE, 5, 0, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 16, 16);
+        Sprite.bomb = new Sprite(DEFAULT_SIZE, 0, 3, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 15, 15);
+        Sprite.bomb_1 = new Sprite(Sprite.DEFAULT_SIZE, 1, 3, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 13, 15);
+        Sprite.bomb_2 = new Sprite(Sprite.DEFAULT_SIZE, 2, 3, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 12, 14);
     }
 
     @Override
@@ -62,7 +75,7 @@ public class MapLoadFile extends LoadLevel {
             for (int j = 0; j < width; j++) {
                 switch (readMap[i][j]) {
                     case 'p':
-                        BombermanGame.bomber = new Bomber(j, i, 2, Sprite.player_right);
+                        BombermanGame.bomber = new Bomber(j, i, 1, Sprite.player_right);
                         BombermanGame.movingEntities.add(BombermanGame.bomber);
                         BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                         break;
@@ -132,6 +145,7 @@ public class MapLoadFile extends LoadLevel {
         BombermanGame.movingEntities.clear();
         Brick.isAnythingDestroyed = false;
         Enemy.isAnyoneKilled = false;
-        this.createMap();
+        createNewMap();
+        createMap();
     }
 }
