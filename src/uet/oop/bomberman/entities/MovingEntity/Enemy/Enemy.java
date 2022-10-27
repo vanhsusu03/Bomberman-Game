@@ -5,7 +5,7 @@ import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.NakamotoSan;
 import uet.oop.bomberman.graphics.Sprite;
 public abstract class Enemy extends MovingEntity {
-
+    protected long score;
     protected boolean wallPass;
     protected boolean brickPass;
     protected boolean bombPass;
@@ -22,6 +22,10 @@ public abstract class Enemy extends MovingEntity {
                 && BombermanGame.bonusItem.checkConditionToSpawn()) {
             BombermanGame.bonusItem.spawn();
         }
+    }
+
+    public long getScore() {
+        return score;
     }
 
     protected void removeEnemyIfDeathAnimationEnds() {

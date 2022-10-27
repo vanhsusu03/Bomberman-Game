@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bomb extends StillEntity {
-    private static final int DURATION_BOMB_EXPLOSION = (int) 2e9;
+    private static final long DURATION_BOMB_EXPLOSION = (long) 2e9;
     private long startTime;
     private boolean isBomberCanPass = true;
     private boolean isExplodedByChainReaction;

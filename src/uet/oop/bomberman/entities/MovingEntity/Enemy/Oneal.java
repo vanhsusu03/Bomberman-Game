@@ -8,6 +8,7 @@ public class Oneal extends Enemy {
     public Oneal(int xUnit, int yUnit, int speed, Sprite sprite, boolean wallPass, boolean brickPass, boolean bombPass) {
         super(xUnit, yUnit, speed, sprite, wallPass, brickPass, bombPass);
         img = sprite.getFxImage();
+        score = 2;
     }
 
     ChasingBomberlv1 chasingBomberlv1 = new ChasingBomberlv1(x,y,speed,wallPass,brickPass,bombPass);

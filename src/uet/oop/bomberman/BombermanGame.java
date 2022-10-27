@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import uet.oop.bomberman.Sound.Sound;
@@ -18,13 +19,17 @@ import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
 
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Scanner;
 
 
 public class BombermanGame extends Application {
+    public static final String SCORES_PATH = "res/top3_highest_score.log";
     public static final int WIDTH = 31;
     public static final int HEIGHT = 13;
     public static final int MAX_LEVEL = 5;
@@ -49,11 +54,12 @@ public class BombermanGame extends Application {
     public static Sound menuStartSound = new Sound("menu_start");
     public static Sound gameOverSound = new Sound("game_over");
     public static Sound winGameSound = new Sound("win_game");
+    public static String[] top3HighestScores = new String[3];
 
 
     public static int numOfEnemies = 0;
 
-    private static StartGame startGame;
+    public static StartGame startGame;
 
     static {
         try {
@@ -74,12 +80,17 @@ public class BombermanGame extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws FileNotFoundException {
+
+    public void start(Stage stage) {
+        // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT + 96);
         gc = canvas.getGraphicsContext2D();
-        startGame.createNewGame(1);
+        // Tao root container
         Group root = new Group();
         root.getChildren().add(canvas);
+
+
+        // Tao scene
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -116,6 +127,8 @@ public class BombermanGame extends Application {
     public void update() throws FileNotFoundException {
         if (status == 0) {
             menu.updateMenu();
+            gc.setFont(Menu.font);
+            gc.setFill(Color.BEIGE);
             menuStartSound.play(-1, false);
         } else {
             menuStartSound.stop();
@@ -123,11 +136,25 @@ public class BombermanGame extends Application {
 
         if (status == 1) {
             startGame.updateGamePlay();
+            gc.setFont(StartGame.font);
+            gc.setFill(Color.GOLD);
             stageSound.play(-1, false);
         } else {
             Sound.stopStageSound();
         }
 
+    }
+
+    public static void read3HighestScores() {
+        try {
+            FileInputStream fileInputStream = new FileInputStream(SCORES_PATH);
+            Scanner scanner = new Scanner(fileInputStream);
+            for (int i = 0; i < top3HighestScores.length; i++) {
+                top3HighestScores[i] = scanner.nextLine();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void render() throws FileNotFoundException {

@@ -7,6 +7,7 @@ import uet.oop.bomberman.graphics.Sprite;
 public class Pontan extends Enemy{
     public Pontan(int xUnit, int yUnit, int speed, Sprite sprite, boolean wallPass, boolean brickPass, boolean bombPass) {
         super(xUnit, yUnit, speed, sprite, wallPass, brickPass, bombPass);
+        score = 80;
     }
     ChasingBomberAStar chasingBomberAStar = new ChasingBomberAStar(x,y,speed, wallPass,brickPass,bombPass);
 

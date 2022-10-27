@@ -10,7 +10,7 @@ public class Famicom extends BonusItem {
     public Famicom(Sprite sprite) {
         super(sprite);
         numberRemainBombsToGetItem = NUMBER_BOMBS_CHAIN_REACTION_NEED;
-        point = (int) 5e5;
+        point = (int) 1e3;
     }
 
     public Famicom(int xUnit, int yUnit, Sprite sprite) {

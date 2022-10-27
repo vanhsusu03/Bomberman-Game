@@ -12,7 +12,6 @@ public class Sound {
     private static final String AUDIO_EXTENSION = "wav";
     private Clip clip;
     private boolean isPlaying;
-
     public static boolean isMuted;
 
     public Sound(String fileName) {

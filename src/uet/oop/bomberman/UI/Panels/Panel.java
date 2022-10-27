@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Sound.Sound;
 
-public abstract class Panel{
+public abstract class Panel {
 
     protected int x;
     protected int y;
@@ -51,7 +51,7 @@ public abstract class Panel{
     }
 
     public void render() {
-        BombermanGame.gc.drawImage(img, x,y);
+        BombermanGame.gc.drawImage(img, x, y);
     }
 
 }
