@@ -43,10 +43,10 @@ public class MapLoadFile extends LoadLevel {
                 }
             }
             in.close();
-        } catch(FileNotFoundException e) {
-            throw new FileNotFoundException("Can't find map file");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
     private void createNewMap() {
