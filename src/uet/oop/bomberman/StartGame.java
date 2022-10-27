@@ -109,6 +109,12 @@ public class StartGame {
             completed_level_panel.setRunning(true);
         } else if (KeyAction.keys[KeyEvent.VK_ESCAPE] || (ic_pause.checkActive() && MouseAction.isClicked)) {
             paused_panel.setRunning(true);
+        } else if (BombermanGame.numOfEnemies == 0
+                && BombermanGame.bomber.isUsedPortal() && level == 5) {
+            if (!winGame_panel.getRunning()) {
+                writeScoreToFile();
+            }
+            winGame_panel.setRunning(true);
         }
         if (lose_panel.getRunning()) {
             updateLoseGame();
@@ -116,6 +122,8 @@ public class StartGame {
             updateCompletedLevel();
         } else if (paused_panel.getRunning()) {
             updatePausedGame();
+        } else if (winGame_panel.getRunning()) {
+            updateWinGame();
         } else {
             ic_pause.update();
             BombermanGame.movingEntities.forEach(Entity::update);
@@ -138,6 +146,8 @@ public class StartGame {
             renderCompletedLevel();
         } else if (paused_panel.getRunning()) {
             renderPausedGame();
+        } else if (winGame_panel.getRunning()) {
+            renderWinGame();
         } else {
             BombermanGame.gc.clearRect(0, 0, BombermanGame.canvas.getWidth(), BombermanGame.canvas.getHeight());
             for (int i = 0; i < BombermanGame.HEIGHT; i++) {
@@ -173,7 +183,7 @@ public class StartGame {
         completed_level_panel = new CompletedLevel(320, 160, Sprite.completedlevel_panel);
         lose_panel = new Lose(320, 110, Sprite.lose_panel);
         paused_panel = new Paused(280, 120, Sprite.paused_panel);
-        winGame_panel = new WinGame(320, 160, Sprite.wingame_panel);
+        winGame_panel = new WinGame(320, 110, Sprite.wingame_panel);
     }
 
     private void createIcons() {
@@ -248,9 +258,11 @@ public class StartGame {
     private void renderWinGame() {
         winGame_panel.render();
         ic_home.render();
+        BombermanGame.gc.fillText(Long.toString(BombermanGame.score), 445, 225);
         if (MouseAction.isClicked && ic_home.checkActive()) {
             BombermanGame.status = 0;
             winGame_panel.setRunning(false);
+            BombermanGame.menu.setStatus(Menu.MenuStatus.MENU_STATUS);
             BombermanGame.getStartGame().createNewGame(1);
         }
     }
