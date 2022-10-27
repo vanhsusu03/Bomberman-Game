@@ -66,7 +66,8 @@ public class StartGame {
     public void updateGamePlay() throws FileNotFoundException {
         if (BombermanGame.bomber.isDead()) {
             lose_panel.setRunning(true);
-        } else if (BombermanGame.numOfEnemies == 0 && BombermanGame.bomber.usePortal() && level < 5 && level > 1) {
+        } else if (BombermanGame.numOfEnemies == 0
+                && BombermanGame.bomber.isUsedPortal() && level < 5) {       
             completed_level_panel.setRunning(true);
         } else if (KeyAction.keys[KeyEvent.VK_ESCAPE] || (ic_pause.checkActive() && MouseAction.isClicked)) {
             paused_panel.setRunning(true);
