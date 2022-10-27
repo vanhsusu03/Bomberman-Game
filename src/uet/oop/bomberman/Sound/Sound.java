@@ -10,6 +10,7 @@ import java.io.File;
 public class Sound {
     private static final String DATA_PATH = "res/sound/";
     private static final String AUDIO_EXTENSION = "wav";
+    public static boolean isMuted;
     private Clip clip;
     private boolean isPlaying;
 
@@ -27,7 +28,7 @@ public class Sound {
     }
 
     public void play(int numberOfLoops, boolean isForced) {
-        if(isMuted) {
+        if (isMuted) {
             return;
         }
         if (!isPlaying || isForced
