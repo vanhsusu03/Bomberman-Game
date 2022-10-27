@@ -1,8 +1,9 @@
-package uet.oop.bomberman;
+package uet.oop.bomberman.GameStatus;
 
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.EventAction.MouseAction;
 import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.UI.Button.StartGame;
 import uet.oop.bomberman.UI.Button.*;
@@ -10,13 +11,10 @@ import uet.oop.bomberman.UI.Icon.Back;
 import uet.oop.bomberman.UI.Icon.MuteSound;
 import uet.oop.bomberman.UI.Icon.OnSound;
 import uet.oop.bomberman.UI.Panels.HighSc;
-import uet.oop.bomberman.entities.StillEntity.Bomb;
 import uet.oop.bomberman.graphics.Sprite;
 import javafx.application.Platform;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 public class Menu {
 

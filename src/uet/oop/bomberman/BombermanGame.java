@@ -9,6 +9,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import uet.oop.bomberman.EventAction.KeyAction;
+import uet.oop.bomberman.EventAction.MouseAction;
+import uet.oop.bomberman.GameStatus.Menu;
+import uet.oop.bomberman.GameStatus.StartGame;
 import uet.oop.bomberman.Sound.Sound;
 
 import uet.oop.bomberman.entities.Entity;
@@ -19,10 +23,8 @@ import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
 
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

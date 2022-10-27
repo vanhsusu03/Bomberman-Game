@@ -2,7 +2,7 @@ package uet.oop.bomberman.entities.MovingEntity.Bomber;
 
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.KeyAction;
+import uet.oop.bomberman.EventAction.KeyAction;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Bomb;

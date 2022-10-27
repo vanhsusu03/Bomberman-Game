@@ -2,7 +2,7 @@ package uet.oop.bomberman.UI.Icon;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.MouseAction;
+import uet.oop.bomberman.EventAction.MouseAction;
 
 public abstract class Icon {
     protected int x;

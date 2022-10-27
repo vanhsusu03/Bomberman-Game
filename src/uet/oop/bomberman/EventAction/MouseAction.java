@@ -1,4 +1,4 @@
-package uet.oop.bomberman;
+package uet.oop.bomberman.EventAction;
 
 public class MouseAction  {
     public static double x;
