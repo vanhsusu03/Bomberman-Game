@@ -6,6 +6,12 @@ public class KeyAction {
     // Max(VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT, VK_SPACE, VK_D) = 68.
     public static boolean[] keys = new boolean[69];
 
+    /**
+     * Set keys when keeps.
+     *
+     * @param key     - type of key
+     * @param isUsing - using or not
+     */
     public static void setKeptKey(String key, boolean isUsing) {
         switch (key) {
             case "UP":
@@ -26,6 +32,12 @@ public class KeyAction {
         }
     }
 
+    /**
+     * Set key's type.
+     *
+     * @param key     - type of key
+     * @param isTyped - is typed or not
+     */
     public static void setTypedKey(String key, boolean isTyped) {
         switch (key) {
             case " ":
