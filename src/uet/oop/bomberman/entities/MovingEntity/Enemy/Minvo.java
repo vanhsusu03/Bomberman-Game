@@ -2,7 +2,6 @@ package uet.oop.bomberman.entities.MovingEntity.Enemy;
 
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.ChasingBomberlv1;
-import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.ChasingBomberlv2;
 import uet.oop.bomberman.graphics.Sprite;
 
 //Speed 4 (Fastest) - Smart 3 (Normal)
@@ -12,13 +11,13 @@ public class Minvo extends Enemy {
         img = sprite.getFxImage();
     }
 
-    ChasingBomberlv2 chasingBomberlv2 = new ChasingBomberlv2(x,y,speed,wallPass,brickPass,bombPass);
+    ChasingBomberlv1 chasingBomberlv1 = new ChasingBomberlv1(x,y,speed,wallPass,brickPass,bombPass);
     @Override
     public void update() {
-        chasingBomberlv2.updateChasingMoveLv2();
-        setX(chasingBomberlv2.getX());
-        setY(chasingBomberlv2.getY());
-        switch (chasingBomberlv2.getDirection()) {
+        chasingBomberlv1.updateChasingMoveLv1();
+        setX(chasingBomberlv1.getX());
+        setY(chasingBomberlv1.getY());
+        switch (chasingBomberlv1.getDirection()) {
             case 0:
                 img = Sprite.movingSprite(Sprite.minvo_left1,Sprite.minvo_left2,Sprite.minvo_left3,frameCount,80).getFxImage();
                 break;
@@ -43,7 +42,7 @@ public class Minvo extends Enemy {
                     frameCount, TIME_MOVING_DEAD_SPRITE);
             img = sprite.getFxImage();
         }
-        gc.drawImage(img, chasingBomberlv2.getX(), chasingBomberlv2.getY());
+        gc.drawImage(img, chasingBomberlv1.getX(), chasingBomberlv1.getY());
         removeEnemyIfDeathAnimationEnds();
     }
 

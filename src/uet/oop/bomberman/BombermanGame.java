@@ -9,7 +9,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 
 import uet.oop.bomberman.Sound.Sound;
-import uet.oop.bomberman.UI.Panels.Control;
 
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
@@ -19,24 +18,10 @@ import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
 
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.awt.event.KeyEvent;
-import java.io.File;
-
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import javafx.event.EventHandler;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.image.Image;
-
-import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.map.MapLoadFile;
 
 
 public class BombermanGame extends Application {
@@ -52,8 +37,6 @@ public class BombermanGame extends Application {
     public static int status = 0;
     public static GraphicsContext gc;
     public static Canvas canvas;
-    public static Time timeKeeper;
-    public static MouseEvent e;
     public static Sound moveLeftRightSound = new Sound("move_left_right");
     public static Sound moveUpDownSound = new Sound("move_up_down");
     public static Sound putBombSound = new Sound("put_bomb");
@@ -81,8 +64,6 @@ public class BombermanGame extends Application {
     }
 
     public static Menu menu = new Menu();
-
-    public static int maxTime = 210;
 
     public static StartGame getStartGame() {
         return startGame;
@@ -160,18 +141,6 @@ public class BombermanGame extends Application {
             Sound.stopStageSound();
         }
 
-//        switch (status) {
-//            case 1:
-//                startGame.updateGamePlay();
-//                stageSound.play(-1, false);
-//                break;
-//            case 2:
-//
-//            default:
-//                menu.updateMenu();
-//                menuStartSound.play(-1, false);
-//                break;
-//        }
     }
 
     public void render() throws FileNotFoundException {
