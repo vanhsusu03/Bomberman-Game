@@ -42,6 +42,7 @@ import uet.oop.bomberman.map.MapLoadFile;
 public class BombermanGame extends Application {
     public static final int WIDTH = 31;
     public static final int HEIGHT = 13;
+    public static final int MAX_LEVEL = 5;
     public static long score = 0;
     public static Entity[][] map = new Entity[HEIGHT][WIDTH];
     public static Entity[][] hiddenEntities = new Entity[HEIGHT][WIDTH];

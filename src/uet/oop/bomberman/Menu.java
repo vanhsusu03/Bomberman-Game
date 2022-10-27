@@ -1,6 +1,7 @@
 package uet.oop.bomberman;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.UI.Button.*;
 import uet.oop.bomberman.UI.Button.StartGame;
 import uet.oop.bomberman.UI.Icon.Back;
@@ -154,10 +155,14 @@ public class Menu {
             opts_panel.setRunning(false);
         }
         if(MouseAction.isClicked && muteSoundIcon.checkActive()) {
-            ins_panel.setRunning(false);
+//            ins_panel.setRunning(false);
+            Sound.isMuted = true;
+            BombermanGame.menuStartSound.stop();
         }
         if(MouseAction.isClicked && onSoundIcon.checkActive()) {
-            ins_panel.setRunning(false);
+//            ins_panel.setRunning(false);
+            Sound.isMuted = false;
+            BombermanGame.menuStartSound.play(-1, false);
         }
     }
 

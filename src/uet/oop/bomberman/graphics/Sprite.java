@@ -32,7 +32,11 @@ public class Sprite {
     public static Image completedlevel_panel = new Image(new File("res/panel/winlevel/levelwin.png").toURI().toString());
     public static Image wingame_panel = new Image(new File("res/panel/wingame/wingame.png").toURI().toString());
     public static Image lose_panel = new Image(new File("res/panel/lose/lose.png").toURI().toString());
-
+    public static Image startLevelPanel1 = new Image(new File("res/stage/stage1.png").toURI().toString());
+    public static Image startLevelPanel2 = new Image(new File("res/stage/stage2.png").toURI().toString());
+    public static Image startLevelPanel3 = new Image(new File("res/stage/stage3.png").toURI().toString());
+    public static Image startLevelPanel4 = new Image(new File("res/stage/stage4.png").toURI().toString());
+    public static Image startLevelPanel5 = new Image(new File("res/stage/stage5.png").toURI().toString());
 
     //BUTTON
     public static Image cre_first = new Image(new File("res/cre/cre_first.png").toURI().toString());
