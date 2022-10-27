@@ -2,6 +2,7 @@ package uet.oop.bomberman.map;
 
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.*;
+import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.*;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusTarget;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.DezenimanSan;
@@ -189,6 +190,13 @@ public class MapLoadFile extends LoadLevel {
         createNewMap();
         createMap(level);
         BombermanGame.bomber.setHeart(3);
+    }
 
+    public void updateWhenTimeIsUp() {
+        for(int i=0;i<BombermanGame.movingEntities.size();i++) {
+            if(BombermanGame.movingEntities.get(i) instanceof Enemy) {
+                BombermanGame.movingEntities.set(i,new Pontan(BombermanGame.movingEntities.get(i).getXUnit(), BombermanGame.movingEntities.get(i).getYUnit(), 2,Sprite.pontan_right1,true,false,false));
+            }
+        }
     }
 }
