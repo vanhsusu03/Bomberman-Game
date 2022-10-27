@@ -1,4 +1,4 @@
-package uet.oop.bomberman;
+package uet.oop.bomberman.EventAction;
 
 import java.awt.event.KeyEvent;
 
