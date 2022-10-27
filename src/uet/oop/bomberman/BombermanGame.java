@@ -63,7 +63,7 @@ public class BombermanGame extends Application {
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT + 96);
         gc = canvas.getGraphicsContext2D();
-        startGame.createNewGame(1);
+        startGame.createNewGame(5);
         // Tao root container
         Group root = new Group();
         root.getChildren().add(canvas);

@@ -5,8 +5,7 @@ import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.ChasingBomberlv
 import uet.oop.bomberman.graphics.Sprite;
 
 
-//Speed: 3 (Normal) - Smart 2 (Low)
-
+//Speed: 1 (Normal) - Smart 2 (Low)
 
 public class Oneal extends Enemy {
     public Oneal(int xUnit, int yUnit, int speed, Sprite sprite, boolean wallPass, boolean brickPass, boolean bombPass) {

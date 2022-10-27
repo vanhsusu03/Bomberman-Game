@@ -1,9 +1,7 @@
 package uet.oop.bomberman.map;
 
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
-import uet.oop.bomberman.entities.MovingEntity.Enemy.Balloon;
-import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
-import uet.oop.bomberman.entities.MovingEntity.Enemy.Oneal;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.*;
 import uet.oop.bomberman.entities.StillEntity.*;
 import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.*;
 import uet.oop.bomberman.graphics.Sprite;
@@ -70,6 +68,30 @@ public class MapLoadFile extends LoadLevel {
                     case '2':
                         BombermanGame.movingEntities.add(new Oneal(j, i, 1, Sprite.oneal_right1, false, false, false));
                         BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
+                        break;
+                    case '3':
+                        BombermanGame.movingEntities.add(new Doll(j, i, 2,Sprite.doll_right1,false,false,false));
+                        BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
+                        break;
+                    case '4':
+                        BombermanGame.movingEntities.add(new Minvo(j, i, 2,Sprite.minvo_right1,false,false,false));
+                        BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
+                        break;
+                    case '5':
+                        BombermanGame.movingEntities.add(new Kondoria(j, i, 1,Sprite.kondoria_right1,true, true,false));
+                        BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
+                        break;
+                    case '6':
+                        BombermanGame.movingEntities.add(new Ovapi(j, i, 2,Sprite.ovapi_right1,false,true,false));
+                        BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
+                        break;
+                    case '7':
+                        BombermanGame.movingEntities.add(new Pass(j, i, 1,Sprite.pass_right1,true, true, true));
+                        BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
+                        break;
+                    case '8':
+                        BombermanGame.movingEntities.add(new Pontan(j, i, 2,Sprite.pontan_right1,true,false,false));
+                        BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
                         break;
                     case 'b':
                         BombermanGame.hiddenEntities[i][j] = new BombItem(j, i, Sprite.powerup_bombs);
