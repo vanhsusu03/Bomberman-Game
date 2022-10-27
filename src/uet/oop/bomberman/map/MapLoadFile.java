@@ -2,7 +2,6 @@ package uet.oop.bomberman.map;
 
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.*;
-import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.*;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusTarget;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.DezenimanSan;
@@ -21,17 +20,25 @@ import java.io.FileReader;
 import java.io.IOException;
 
 
-
 public class MapLoadFile extends LoadLevel {
     private int width, height;
 
     private char[][] readMap;
 
+    /**
+     * Load level from file.
+     *
+     * @param level update level
+     */
     public MapLoadFile(int level) throws FileNotFoundException {
         super(level);
     }
 
-
+    /**
+     * Initialize map level.
+     *
+     * @param level update level
+     */
     @Override
     public void inputLevel(int level) {
         try {
@@ -55,6 +62,10 @@ public class MapLoadFile extends LoadLevel {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Create new map.
+     */
     private void createNewMap() {
         Sprite.grass = new Sprite(Sprite.DEFAULT_SIZE, 6, 0, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 16, 16);
         Sprite.brick = new Sprite(Sprite.DEFAULT_SIZE, 7, 0, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 16, 16);
@@ -64,6 +75,11 @@ public class MapLoadFile extends LoadLevel {
         Sprite.bomb_2 = new Sprite(Sprite.DEFAULT_SIZE, 2, 3, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 12, 14);
     }
 
+    /**
+     * Create map level and entities.
+     *
+     * @param level update level
+     */
     @Override
     public void createMap(int level) {
         Grass.grassImg = Sprite.grass.getFxImage();
@@ -102,28 +118,28 @@ public class MapLoadFile extends LoadLevel {
                         BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                         break;
                     case '3':
-                        BombermanGame.movingEntities.add(new Doll(j, i, 2,Sprite.doll_right1,false,false,false));
-                        BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
+                        BombermanGame.movingEntities.add(new Doll(j, i, 2, Sprite.doll_right1, false, false, false));
+                        BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                         break;
                     case '4':
-                        BombermanGame.movingEntities.add(new Minvo(j, i, 1,Sprite.minvo_right1,false,false,true));
-                        BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
+                        BombermanGame.movingEntities.add(new Minvo(j, i, 1, Sprite.minvo_right1, false, false, true));
+                        BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                         break;
                     case '5':
-                        BombermanGame.movingEntities.add(new Kondoria(j, i, 1,Sprite.kondoria_right1,true, true,false));
-                        BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
+                        BombermanGame.movingEntities.add(new Kondoria(j, i, 1, Sprite.kondoria_right1, true, true, false));
+                        BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                         break;
                     case '6':
-                        BombermanGame.movingEntities.add(new Ovapi(j, i, 1,Sprite.ovapi_right1,false,true,false));
-                        BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
+                        BombermanGame.movingEntities.add(new Ovapi(j, i, 1, Sprite.ovapi_right1, false, true, false));
+                        BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                         break;
                     case '7':
-                        BombermanGame.movingEntities.add(new Pass(j, i, 1,Sprite.pass_right1,true, true, true));
-                        BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
+                        BombermanGame.movingEntities.add(new Pass(j, i, 1, Sprite.pass_right1, true, true, true));
+                        BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                         break;
                     case '8':
-                        BombermanGame.movingEntities.add(new Pontan(j, i, 2,Sprite.pontan_right1,true,false,false));
-                        BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
+                        BombermanGame.movingEntities.add(new Pontan(j, i, 2, Sprite.pontan_right1, true, false, false));
+                        BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                         break;
                     case 'b':
                         BombermanGame.hiddenEntities[i][j] = new BombItem(j, i, Sprite.powerup_bombs);
@@ -174,6 +190,11 @@ public class MapLoadFile extends LoadLevel {
         }
     }
 
+    /**
+     * Initialize new map for each level.
+     *
+     * @param level update new level
+     */
     public void goNewMap(int level) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -192,10 +213,13 @@ public class MapLoadFile extends LoadLevel {
         BombermanGame.bomber.setHeart(3);
     }
 
+    /**
+     * Update when time is up.
+     */
     public void updateWhenTimeIsUp() {
-        for(int i=0;i<BombermanGame.movingEntities.size();i++) {
-            if(BombermanGame.movingEntities.get(i) instanceof Enemy) {
-                BombermanGame.movingEntities.set(i,new Pontan(BombermanGame.movingEntities.get(i).getXUnit(), BombermanGame.movingEntities.get(i).getYUnit(), 2,Sprite.pontan_right1,true,false,false));
+        for (int i = 0; i < BombermanGame.movingEntities.size(); i++) {
+            if (BombermanGame.movingEntities.get(i) instanceof Enemy) {
+                BombermanGame.movingEntities.set(i, new Pontan(BombermanGame.movingEntities.get(i).getXUnit(), BombermanGame.movingEntities.get(i).getYUnit(), 2, Sprite.pontan_right1, true, false, false));
             }
         }
     }

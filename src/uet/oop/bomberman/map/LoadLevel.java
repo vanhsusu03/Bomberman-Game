@@ -5,6 +5,11 @@ import java.io.FileNotFoundException;
 public abstract class LoadLevel {
     protected int level;
 
+    /**
+     * Load level from file.
+     *
+     * @param level update level
+     */
     public LoadLevel(int level) throws FileNotFoundException {
 
         inputLevel(level);
