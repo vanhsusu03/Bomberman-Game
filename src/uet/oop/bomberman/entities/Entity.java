@@ -5,13 +5,11 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.graphics.Sprite;
 
 public abstract class Entity {
+    private final static int MAX_FRAME_COUNT = (int) 1e9;
     //Tọa độ X tính từ góc trái trên trong Canvas
     protected int x;
     //Tọa độ Y tính từ góc trái trên trong Canvas
     protected int y;
-
-    //Tọa độ theo tọa độ lưới - MAP
-    private final static int MAX_FRAME_COUNT = (int) 1e9;
     protected int speed;
     protected int frameCount;
     protected Sprite sprite;
@@ -81,6 +79,9 @@ public abstract class Entity {
         gc.drawImage(img, x, y);
     }
 
+    /**
+     * Update frame counter.
+     */
     public void updateFrameCount() {
         if (frameCount >= MAX_FRAME_COUNT) {
             frameCount = 0;
