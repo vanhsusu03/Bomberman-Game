@@ -110,6 +110,7 @@ public class StartGame {
             completed_level_panel.setRunning(true);
         } else if (KeyAction.keys[KeyEvent.VK_ESCAPE] || (ic_pause.checkActive() && MouseAction.isClicked)) {
             paused_panel.setRunning(true);
+            timeKeeper.stop();
         } else if (BombermanGame.numOfEnemies == 0
                 && BombermanGame.bomber.isUsedPortal() && level == 5) {
             if (!winGame_panel.getRunning()) {
@@ -202,8 +203,8 @@ public class StartGame {
         ic_resume.update();
         ic_home.update();
         if (MouseAction.isClicked && ic_resume.checkActive()) {
-            //|| KeyAction.keys[KeyEvent.VK_ESCAPE]) {
             paused_panel.setRunning(false);
+            timeKeeper.present();
         }
         if (MouseAction.isClicked && ic_home.checkActive()) {
             paused_panel.setRunning(false);
