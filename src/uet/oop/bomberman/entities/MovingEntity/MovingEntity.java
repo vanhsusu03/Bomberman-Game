@@ -17,10 +17,11 @@ public abstract class MovingEntity extends Entity {
     protected boolean isCanPassFlames;
     protected boolean isCanPassBombs;
     protected boolean isCanPassBrick;
+
     public MovingEntity() {
         super();
-
     }
+
     public MovingEntity(int xUnit, int yUnit, int speed, Sprite sprite) {
         super(xUnit, yUnit, speed, sprite);
     }
@@ -31,6 +32,9 @@ public abstract class MovingEntity extends Entity {
 
     public void setDead(boolean dead) {
         isDead = dead;
+        if (dead && this instanceof Bomber) {
+            ((Bomber) this).death();
+        }
     }
 
     public boolean isCanPassFlames() {
