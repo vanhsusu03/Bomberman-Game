@@ -64,6 +64,8 @@ Các *Item* cũng được giấu phía sau Brick và chỉ hiện ra khi Brick 
 
 ## **Cây thừa kế cho các đối tượng trong game**
 
+![DiagramBomberman](https://user-images.githubusercontent.com/113848415/198342137-3130ec9c-5179-4cab-bf39-198689f05b20.png)
+### ***Link gg drive cây thừa kế: https://drive.google.com/drive/folders/1JoruGmgpcM4d-ICrN5VWyDk0Oz6MFntq?usp=sharing***
 ## **Điểm cải tiến của dự án**
 - Ngôn ngữ lập trình Java, thư viện đồ họa Javafx
 - Kĩ thuật lập trình hướng đối tượng
