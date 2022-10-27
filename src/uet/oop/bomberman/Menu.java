@@ -168,7 +168,9 @@ public class Menu {
         backIconOpts.update();
         muteSoundIcon.update();
         onSoundIcon.update();
+
         if(backIconOpts.checkActive() && MouseAction.isClicked) {
+
             opts_panel.setRunning(false);
             status = MenuStatus.MENU_STATUS;
         }
