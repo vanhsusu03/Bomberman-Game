@@ -11,7 +11,8 @@ public class Minvo extends Enemy {
         score = 8;
     }
 
-    ChasingBomberlv1 chasingBomberlv1 = new ChasingBomberlv1(x,y,speed,wallPass,brickPass,bombPass);
+    ChasingBomberlv1 chasingBomberlv1 = new ChasingBomberlv1(x, y, speed, wallPass, brickPass, bombPass);
+
     @Override
     public void update() {
         chasingBomberlv1.updateChasingMoveLv1();
@@ -19,16 +20,16 @@ public class Minvo extends Enemy {
         setY(chasingBomberlv1.getY());
         switch (chasingBomberlv1.getDirection()) {
             case 0:
-                img = Sprite.movingSprite(Sprite.minvo_left1,Sprite.minvo_left2,Sprite.minvo_left3,frameCount,80).getFxImage();
+                img = Sprite.movingSprite(Sprite.minvo_left1, Sprite.minvo_left2, Sprite.minvo_left3, frameCount, 80).getFxImage();
                 break;
             case 1:
-                img = Sprite.movingSprite(Sprite.minvo_right1,Sprite.minvo_right2,Sprite.minvo_right3,frameCount,80).getFxImage();
+                img = Sprite.movingSprite(Sprite.minvo_right1, Sprite.minvo_right2, Sprite.minvo_right3, frameCount, 80).getFxImage();
                 break;
             case 2:
-                img = Sprite.movingSprite(Sprite.minvo_right1,Sprite.minvo_left1,Sprite.minvo_right1,frameCount,80).getFxImage();
+                img = Sprite.movingSprite(Sprite.minvo_right1, Sprite.minvo_left1, Sprite.minvo_right1, frameCount, 80).getFxImage();
                 break;
             case 3:
-                img = Sprite.movingSprite(Sprite.minvo_left1,Sprite.minvo_right1,Sprite.minvo_left1,frameCount,80).getFxImage();
+                img = Sprite.movingSprite(Sprite.minvo_left1, Sprite.minvo_right1, Sprite.minvo_left1, frameCount, 80).getFxImage();
                 break;
         }
         updateFrameCount();

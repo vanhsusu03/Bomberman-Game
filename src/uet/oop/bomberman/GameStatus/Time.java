@@ -5,6 +5,7 @@ public class Time {
     private long timeEnd;
     private long timeStop;
     private boolean stop = false;
+
     public Time() {
         timeStart = System.currentTimeMillis();
     }

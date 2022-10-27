@@ -90,8 +90,6 @@ public class BombermanGame extends Application {
         // Tao root container
         Group root = new Group();
         root.getChildren().add(canvas);
-
-
         // Tao scene
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -147,6 +145,9 @@ public class BombermanGame extends Application {
 
     }
 
+    /**
+     * Read file of top 3.
+     */
     public static void read3HighestScores() {
         try {
             FileInputStream fileInputStream = new FileInputStream(SCORES_PATH);

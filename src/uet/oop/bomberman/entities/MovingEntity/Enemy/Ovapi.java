@@ -11,7 +11,8 @@ public class Ovapi extends Enemy {
         score = 20;
     }
 
-    ChasingBomberlv1 ChasingBomberlv1 = new ChasingBomberlv1(x,y,speed,wallPass,brickPass,bombPass);
+    ChasingBomberlv1 ChasingBomberlv1 = new ChasingBomberlv1(x, y, speed, wallPass, brickPass, bombPass);
+
     @Override
     public void update() {
         ChasingBomberlv1.updateChasingMoveLv1();
@@ -19,16 +20,16 @@ public class Ovapi extends Enemy {
         setY(ChasingBomberlv1.getY());
         switch (ChasingBomberlv1.getDirection()) {
             case 0:
-                img = Sprite.movingSprite(Sprite.ovapi_left1,Sprite.ovapi_left2,Sprite.ovapi_left3,frameCount,80).getFxImage();
+                img = Sprite.movingSprite(Sprite.ovapi_left1, Sprite.ovapi_left2, Sprite.ovapi_left3, frameCount, 80).getFxImage();
                 break;
             case 1:
-                img = Sprite.movingSprite(Sprite.ovapi_right1,Sprite.ovapi_right2,Sprite.ovapi_right3,frameCount,80).getFxImage();
+                img = Sprite.movingSprite(Sprite.ovapi_right1, Sprite.ovapi_right2, Sprite.ovapi_right3, frameCount, 80).getFxImage();
                 break;
             case 2:
-                img = Sprite.movingSprite(Sprite.ovapi_right1,Sprite.ovapi_left1,Sprite.ovapi_right1,frameCount,80).getFxImage();
+                img = Sprite.movingSprite(Sprite.ovapi_right1, Sprite.ovapi_left1, Sprite.ovapi_right1, frameCount, 80).getFxImage();
                 break;
             case 3:
-                img = Sprite.movingSprite(Sprite.ovapi_left1,Sprite.ovapi_right1,Sprite.ovapi_left1,frameCount,80).getFxImage();
+                img = Sprite.movingSprite(Sprite.ovapi_left1, Sprite.ovapi_right1, Sprite.ovapi_left1, frameCount, 80).getFxImage();
                 break;
         }
         updateFrameCount();

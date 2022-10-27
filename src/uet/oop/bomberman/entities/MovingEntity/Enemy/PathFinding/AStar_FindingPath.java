@@ -31,6 +31,12 @@ public class AStar_FindingPath {
     }
 
     //Parsed map: 1 - CANT GO, 0 - CAN GO
+
+    /**
+     * Parse map to grid 0,1.
+     *
+     * @return map parsed
+     */
     public int[][] mapParsed() {
         int[][] mapParsed = new int[BombermanGame.HEIGHT][BombermanGame.WIDTH];
         Entity[][] entity = BombermanGame.map;
@@ -82,9 +88,11 @@ public class AStar_FindingPath {
         return mapParsed;
     }
 
-    //DONE parsed map
-    //Next: come to A*
-
+    /**
+     * Trace path.
+     *
+     * @param endNode last node
+     */
     public void pathBackTrace(Node endNode) {
         pathList.clear();
         while (endNode != null) {
@@ -93,6 +101,13 @@ public class AStar_FindingPath {
         }
     }
 
+    /**
+     * A* algorithm.
+     *
+     * @param startNode firstNode
+     * @param endNode   targetNode
+     * @return list node of way
+     */
     public List<Node> AStar_PathFinding(Node startNode, Node endNode) {
         int[][] mapParsed = mapParsed();
         PriorityQueue<Node> futureNode = new PriorityQueue<>();

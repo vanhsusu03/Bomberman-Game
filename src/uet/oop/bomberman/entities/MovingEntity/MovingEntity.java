@@ -15,7 +15,10 @@ public abstract class MovingEntity extends Entity {
     protected boolean isCanPassFlames;
     protected boolean isCanPassBombs;
     protected boolean isCanPassBrick;
-    public MovingEntity() {}
+
+    public MovingEntity() {
+    }
+
     public MovingEntity(int xUnit, int yUnit, int speed, Sprite sprite) {
         super(xUnit, yUnit, speed, sprite);
     }

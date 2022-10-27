@@ -46,6 +46,11 @@ public class StartGame {
         font = Font.loadFont(new FileInputStream("res/font/alarm_clock.ttf"), 30);
     }
 
+    /**
+     * Create new game at level.
+     *
+     * @param level level of the game
+     */
     public void createNewGame(int level) {
         try {
             this.level = level;
@@ -70,6 +75,9 @@ public class StartGame {
         }
     }
 
+    /**
+     * Write top 3 highest scores.
+     */
     private void writeScoreToFile() {
         BombermanGame.read3HighestScores();
         for (int i = 0; i < BombermanGame.top3HighestScores.length; i++) {
@@ -95,8 +103,11 @@ public class StartGame {
         }
     }
 
+    /**
+     * Update game when playing.
+     */
     public void updateGamePlay() {
-        if(timeKeeper.countSecond() >= maxTime && !checkIfHasChanged) {
+        if (timeKeeper.countSecond() >= maxTime && !checkIfHasChanged) {
             map.updateWhenTimeIsUp();
             checkIfHasChanged = true;
         }
@@ -106,13 +117,13 @@ public class StartGame {
             }
             lose_panel.setRunning(true);
         } else if (BombermanGame.numOfEnemies == 0
-                && BombermanGame.bomber.isUsedPortal() && level < 5) {
+                && BombermanGame.bomber.isUsedPortal() && level < BombermanGame.MAX_LEVEL) {
             completed_level_panel.setRunning(true);
         } else if (KeyAction.keys[KeyEvent.VK_ESCAPE] || (ic_pause.checkActive() && MouseAction.isClicked)) {
             paused_panel.setRunning(true);
             timeKeeper.stop();
         } else if (BombermanGame.numOfEnemies == 0
-                && BombermanGame.bomber.isUsedPortal() && level == 5) {
+                && BombermanGame.bomber.isUsedPortal() && level == BombermanGame.MAX_LEVEL) {
             if (!winGame_panel.getRunning()) {
                 writeScoreToFile();
             }
@@ -141,7 +152,10 @@ public class StartGame {
         updateMoveSound();
     }
 
-    public void renderGamePlay() throws FileNotFoundException {
+    /**
+     * Render game when playing.
+     */
+    public void renderGamePlay() {
         if (lose_panel.getRunning()) {
             renderLoseGame();
         } else if (completed_level_panel.getRunning()) {
@@ -164,8 +178,8 @@ public class StartGame {
             }
             control_panel.render();
             ic_pause.render();
-            if(timeKeeper.countSecond() >= maxTime) {
-                BombermanGame.gc.fillText(Integer.toString(0),340,477);
+            if (timeKeeper.countSecond() >= maxTime) {
+                BombermanGame.gc.fillText(Integer.toString(0), 340, 477);
             } else {
                 BombermanGame.gc.fillText(Integer.toString(maxTime - timeKeeper.countSecond()), 340, 477);
             }
@@ -224,7 +238,7 @@ public class StartGame {
         ic_nextLevel.update();
     }
 
-    private void renderCompletedLevel() throws FileNotFoundException {
+    private void renderCompletedLevel() {
         completed_level_panel.render();
         ic_nextLevel.render();
         if (MouseAction.isClicked && ic_nextLevel.checkActive()) {

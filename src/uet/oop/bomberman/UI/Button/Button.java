@@ -16,16 +16,23 @@ public abstract class Button {
         this.y = y;
         this.img = img;
     }
-    public void setImage (Image img) {
+
+    public void setImage(Image img) {
         this.img = img;
     }
 
-    public boolean checkActive () {
+    /**
+     * Check if mouse is in the range of this button.
+     *
+     * @return true if it is in
+     */
+    public boolean checkActive() {
         return (MouseAction.x >= x && MouseAction.x <= x + img.getWidth() - margin
                 && MouseAction.y >= y && MouseAction.y <= y + img.getHeight());
     }
+
     public void render() {
-        BombermanGame.gc.drawImage(img,x,y);
+        BombermanGame.gc.drawImage(img, x, y);
     }
 
 }

@@ -67,6 +67,7 @@ public abstract class Entity {
     public Sprite getSprite() {
         return sprite;
     }
+
     protected boolean checkBothInACell(int xUnit, int yUnit) {
         return xUnit == getXUnit() && yUnit == getYUnit();
     }
@@ -87,5 +88,6 @@ public abstract class Entity {
             frameCount++;
         }
     }
+
     public abstract void update();
 }

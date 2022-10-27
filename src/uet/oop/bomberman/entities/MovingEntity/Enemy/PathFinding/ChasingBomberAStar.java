@@ -12,15 +12,21 @@ public class ChasingBomberAStar extends RandomMove {
         super(x, y, speed, wallPass, brickPass, bombPass);
     }
 
-    AStar_FindingPath astar_findingPath = new AStar_FindingPath(BombermanGame.HEIGHT, BombermanGame.WIDTH,wallPass,brickPass,bombPass);
+    AStar_FindingPath astar_findingPath = new AStar_FindingPath(BombermanGame.HEIGHT, BombermanGame.WIDTH, wallPass, brickPass, bombPass);
     List<Node> path = new ArrayList<>();
 
+    /**
+     * Call A*.
+     */
     public void generatePath() {
         Node startNode = new Node(getXUnit(), getYUnit());
         Node endNode = new Node(Bomber.getXGridBomber(), Bomber.getYGridBomber());
         path = astar_findingPath.AStar_PathFinding(startNode, endNode);
     }
 
+    /**
+     * Trace path A*.
+     */
     public void tracePath() {
         for (int i = 0; i < path.size(); i++) {
             if (getX() != path.get(i).getX() * Sprite.SCALED_SIZE
@@ -52,6 +58,9 @@ public class ChasingBomberAStar extends RandomMove {
         }
     }
 
+    /**
+     * Find path.
+     */
     public void moveChasingChangesAStar() {
         if (getX() % Sprite.SCALED_SIZE == 0 && getY() % Sprite.SCALED_SIZE == 0) {
             generatePath();
