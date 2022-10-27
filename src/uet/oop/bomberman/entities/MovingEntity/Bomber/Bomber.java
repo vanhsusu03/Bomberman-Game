@@ -77,7 +77,7 @@ public class Bomber extends MovingEntity {
         this.heart = heart;
     }
 
-    public static int getxGridBomber() {
+    public static int getXGridBomber() {
         return xGridBomber;
     }
 
