@@ -13,6 +13,8 @@ public class Sound {
     private Clip clip;
     private boolean isPlaying;
 
+    public static boolean isMuted;
+
     public Sound(String fileName) {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
@@ -25,6 +27,9 @@ public class Sound {
     }
 
     public void play(int numberOfLoops, boolean isForced) {
+        if(isMuted) {
+            return;
+        }
         if (!isPlaying || isForced
                 || clip.getFramePosition() >= clip.getFrameLength()) {
             isPlaying = true;

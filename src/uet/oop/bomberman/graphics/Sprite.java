@@ -25,7 +25,7 @@ public class Sprite {
     //Another images
     public static Image backgr_menu = new Image(new File("res/backgrmenu/bomberman.png").toURI().toString());
     public static Image opts_panel = new Image(new File("res/panel/options/options.png").toURI().toString());
-
+    public static Image highsc_panel = new Image(new File("res/highsc/highsc_panel.png").toURI().toString());
     public static Image ins_panel = new Image(new File("res/instruction/ins.png").toURI().toString());
     public static Image control_panel = new Image(new File("res/control_panel/control_panel.png").toURI().toString());
     public static Image paused_panel = new Image(new File("res/panel/pause/paused.png").toURI().toString());

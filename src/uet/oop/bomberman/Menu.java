@@ -1,6 +1,7 @@
 package uet.oop.bomberman;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.UI.Button.*;
 import uet.oop.bomberman.UI.Button.StartGame;
 import uet.oop.bomberman.UI.Icon.Back;
@@ -13,6 +14,8 @@ public class Menu {
 
     private final int xButton = 600;
     private final int yButton = 135;
+
+    private MenuStatus status;
     private Image menuBackGr;
     private StartGame startButton;
     private Instruction insButton;
@@ -21,7 +24,8 @@ public class Menu {
     private Quit quitButton;
     private Credits creButton;
 
-    private Back backIcon;
+    private Back backIconOpts, backIconIns;
+    private Back backIconHighSc;
 
     private uet.oop.bomberman.UI.Panels.Options opts_panel;
     private uet.oop.bomberman.UI.Panels.Instruction ins_panel;
@@ -41,25 +45,39 @@ public class Menu {
         creButton = new Credits(xButton, yButton + 68 * 5, Sprite.cre_first);
         ins_panel = new uet.oop.bomberman.UI.Panels.Instruction(0, 0, Sprite.ins_panel);
         opts_panel = new uet.oop.bomberman.UI.Panels.Options(240, 120, Sprite.opts_panel);
-        highsc_panel = new HighSc(0,0,Sprite.ins_panel);
+        highsc_panel = new HighSc(0,0,Sprite.highsc_panel);
         cre_panel = new uet.oop.bomberman.UI.Panels.Credits(0,0,Sprite.ins_panel);
-        backIcon = new Back(0,0, Sprite.ic_back_first);
+        backIconOpts = new Back(0,0, Sprite.ic_back_first);
+        backIconIns = new Back(0,0, Sprite.ic_back_first);
+        backIconHighSc = new Back(0,0, Sprite.ic_back_first);
         muteSoundIcon = new MuteSound(530, 290, Sprite.ic_mutesound_first);
         onSoundIcon = new OnSound(600, 290, Sprite.ic_onsound_first);
+        status = MenuStatus.MENU_STATUS;
+    }
+
+    public void setStatus(MenuStatus status) {
+        this.status = status;
     }
 
     public void updateMenu() {
-        if (startButton.checkActive() && MouseAction.isClicked) {
-            BombermanGame.status = 1;
-            return;
-        } else if (insButton.checkActive() && MouseAction.isClicked) {
-            ins_panel.setRunning(true);
-        } else if (highscButton.checkActive() && MouseAction.isClicked) {
-            highsc_panel.setRunning(true);
-        } else if (optsButton.checkActive() && MouseAction.isClicked) {
-            opts_panel.setRunning(true);
-        } else if (creButton.checkActive() && MouseAction.isClicked) {
-            cre_panel.setRunning(true);
+        if(status == MenuStatus.MENU_STATUS) {
+            if (startButton.checkActive() && MouseAction.isClicked) {
+                status = MenuStatus.START_GAME;
+                BombermanGame.status = 1;
+                return;
+            } else if (insButton.checkActive() && MouseAction.isClicked) {
+                status = MenuStatus.INSTRUCTION;
+                ins_panel.setRunning(true);
+            } else if (highscButton.checkActive() && MouseAction.isClicked) {
+                status = MenuStatus.HIGHSC;
+                highsc_panel.setRunning(true);
+            } else if (optsButton.checkActive() && MouseAction.isClicked) {
+                status = MenuStatus.OPTIONS;
+                opts_panel.setRunning(true);
+            } else if (creButton.checkActive() && MouseAction.isClicked) {
+                status = MenuStatus.QUIT;
+                cre_panel.setRunning(true);
+            }
         }
         if (ins_panel.getRunning()) {
             updateInstruction();
@@ -128,52 +146,62 @@ public class Menu {
         }
     }
 
-
     private void updateInstruction() {
-        backIcon.setX(30);
-        backIcon.setY(10);
-        backIcon.update();
-        if(MouseAction.isClicked && backIcon.checkActive()) {
+        backIconIns.setX(30);
+        backIconIns.setY(10);
+        backIconIns.update();
+        if(MouseAction.isClicked && backIconIns.checkActive()) {
             ins_panel.setRunning(false);
+            status = MenuStatus.MENU_STATUS;
         }
 
     }
 
     private void renderInstruction() {
         ins_panel.render();
-        backIcon.render();
+        backIconIns.render();
     }
 
     private void updateOptions() {
-        backIcon.setX(260);
-        backIcon.setY(150);
-        backIcon.update();
+        backIconOpts.setX(260);
+        backIconOpts.setY(150);
+        backIconOpts.update();
         muteSoundIcon.update();
         onSoundIcon.update();
-        if(backIcon.checkActive() && MouseAction.isClicked) {
+        if(backIconOpts.checkActive() && MouseAction.isClicked) {
             opts_panel.setRunning(false);
+            status = MenuStatus.MENU_STATUS;
         }
-        if(MouseAction.isClicked && muteSoundIcon.checkActive()) {
-            ins_panel.setRunning(false);
+        if( muteSoundIcon.checkActive() && MouseAction.isClicked ) {
+            Sound.isMuted = true;
+            BombermanGame.menuStartSound.stop();
         }
-        if(MouseAction.isClicked && onSoundIcon.checkActive()) {
-            ins_panel.setRunning(false);
+        if(onSoundIcon.checkActive() && MouseAction.isClicked) {
+            Sound.isMuted = true;
+            BombermanGame.menuStartSound.play(-1,false);
         }
     }
 
     private void renderOptions() {
         opts_panel.render();
-        backIcon.render();
+        backIconOpts.render();
         muteSoundIcon.render();
         onSoundIcon.render();
     }
 
     private void updateHighSc() {
-
+        backIconHighSc.setX(30);
+        backIconHighSc.setY(10);
+        backIconHighSc.update();
+        if(MouseAction.isClicked && backIconHighSc.checkActive()) {
+            highsc_panel.setRunning(false);
+            status = MenuStatus.MENU_STATUS;
+        }
     }
 
     private void renderHighSc() {
-
+        highsc_panel.render();
+        backIconHighSc.render();
     }
 
     private void updateCredits() {
@@ -182,5 +210,8 @@ public class Menu {
 
     private void renderCredits() {
 
+    }
+    public enum MenuStatus{
+        MENU_STATUS,START_GAME,INSTRUCTION,HIGHSC,OPTIONS,QUIT;
     }
 }
