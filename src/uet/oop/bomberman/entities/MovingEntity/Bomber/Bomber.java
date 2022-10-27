@@ -39,6 +39,7 @@ public class Bomber extends MovingEntity {
     private List<Bomb> bombs = new ArrayList<>();
     private int maxNumberOfBombs = 1;
     private boolean isCanDetonateOldestBomb;
+    private boolean isUsedPortal;
     private Set<String> outerCirclePositions = new HashSet<>();
 
     public Bomber() {
@@ -169,17 +170,20 @@ public class Bomber extends MovingEntity {
         }
     }
 
-    public boolean usePortal() {
+    private void usePortal() {
         handleIfBonusTargetIsActivated();
 
         for (MovingEntity movingEntity : BombermanGame.movingEntities) {
             if (movingEntity instanceof Enemy) {
-                return false;
+                return;
             }
         }
 
-        return true;
+        isUsedPortal = true;
+    }
 
+    public boolean isUsedPortal() {
+        return isUsedPortal;
     }
 
     @Override
@@ -216,18 +220,12 @@ public class Bomber extends MovingEntity {
         handleCollisionWithItemIn1Cell(yUnit2, xUnit2);
     }
 
-    private void handleCollisionWithPortalIn1Cell(int i, int j) {
-        if (BombermanGame.map[i][j] instanceof Portal) {
-              usePortal();
+    private void handleCollisionWithPortal(int centerX, int centerY) {
+        int centerXUnit = centerX / Sprite.SCALED_SIZE;
+        int centerYUnit = centerY / Sprite.SCALED_SIZE;
+        if (BombermanGame.map[centerYUnit][centerXUnit] instanceof Portal) {
+            usePortal();
         }
-    }
-
-    private void handleCollisionWithPortalIn4Cells(int xUnit1, int yUnit1,
-                                                   int xUnit2, int yUnit2) {
-        handleCollisionWithPortalIn1Cell(yUnit1, xUnit1);
-        handleCollisionWithPortalIn1Cell(yUnit1, xUnit2);
-        handleCollisionWithPortalIn1Cell(yUnit2, xUnit1);
-        handleCollisionWithPortalIn1Cell(yUnit2, xUnit2);
     }
 
     public void death() {
@@ -350,9 +348,10 @@ public class Bomber extends MovingEntity {
             int yUnit1 = y / Sprite.SCALED_SIZE;
             int xUnit2 = (x + sprite.get_realWidth()) / Sprite.SCALED_SIZE;
             int yUnit2 = (y + sprite.get_realHeight()) / Sprite.SCALED_SIZE;
+            updateCenterPosition();
 
             handleCollisionWithItemIn4Cells(xUnit1, yUnit1, xUnit2, yUnit2);
-            handleCollisionWithPortalIn4Cells(xUnit1, yUnit1, xUnit2, yUnit2);
+            handleCollisionWithPortal(centerX, centerY);
             handleCollisionWithEnemy();
             handleBombPass(xUnit1, yUnit1, xUnit2, yUnit2);
             handleIfGoddessMaskIsActivated();
