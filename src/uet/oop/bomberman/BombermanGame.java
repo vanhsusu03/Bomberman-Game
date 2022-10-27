@@ -80,7 +80,7 @@ public class BombermanGame extends Application {
         }
     }
 
-    private Menu menu = new Menu();
+    public static Menu menu = new Menu();
 
     public static int maxTime = 210;
 

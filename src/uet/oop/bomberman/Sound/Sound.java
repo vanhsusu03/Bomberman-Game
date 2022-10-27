@@ -14,6 +14,8 @@ public class Sound {
     private Clip clip;
     private boolean isPlaying;
 
+    public static boolean isMuted;
+
     public Sound(String fileName) {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(

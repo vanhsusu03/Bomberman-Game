@@ -154,6 +154,7 @@ public class StartGame {
         if (MouseAction.isClicked && ic_home.checkActive()) {
             paused_panel.setRunning(false);
             BombermanGame.status = 0;
+            BombermanGame.menu.setStatus(Menu.MenuStatus.MENU_STATUS);
             BombermanGame.getStartGame().createNewGame(1);
             return;
         }
