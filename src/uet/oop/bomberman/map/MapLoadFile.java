@@ -3,6 +3,11 @@ package uet.oop.bomberman.map;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.*;
 import uet.oop.bomberman.entities.StillEntity.*;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusTarget;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.DezenimanSan;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.Famicom;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.GoddessMask;
+import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.NakamotoSan;
 import uet.oop.bomberman.entities.StillEntity.Item.PowerUpItem.*;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.BombermanGame;
@@ -59,13 +64,26 @@ public class MapLoadFile extends LoadLevel {
     }
 
     @Override
-    public void createMap() {
+    public void createMap(int level) {
         Grass.grassImg = Sprite.grass.getFxImage();
-//            BonusItem = new BonusTarget(Sprite.bonus_item_bonus_target);
-//             bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
-//            bonusItem = new DezenimanSan(Sprite.bonus_item_dezeniman_san);
-//            bonusItem = new Famicom(Sprite.bonus_item_famicom);
-//            bonusItem = new GoddessMask(Sprite.bonus_item_goddess_mask);
+        switch (level) {
+            case 1:
+                BombermanGame.bonusItem = new BonusTarget(Sprite.bonus_item_bonus_target);
+                break;
+            case 2:
+                BombermanGame.bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
+                break;
+            case 3:
+                BombermanGame.bonusItem = new DezenimanSan(Sprite.bonus_item_dezeniman_san);
+                break;
+            case 4:
+                BombermanGame.bonusItem = new Famicom(Sprite.bonus_item_famicom);
+                break;
+            case 5:
+                BombermanGame.bonusItem = new GoddessMask(Sprite.bonus_item_goddess_mask);
+                break;
+        }
+
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 switch (readMap[i][j]) {
@@ -169,7 +187,7 @@ public class MapLoadFile extends LoadLevel {
             BombermanGame.score = 0;
         }
         createNewMap();
-        createMap();
+        createMap(level);
         BombermanGame.bomber.setHeart(3);
 
     }
