@@ -151,16 +151,15 @@ public class Menu {
         backIcon.update();
         muteSoundIcon.update();
         onSoundIcon.update();
-        if(backIcon.checkActive() && MouseAction.isClicked) {
+        if (backIcon.checkActive() && MouseAction.isClicked) {
             opts_panel.setRunning(false);
         }
-        if(MouseAction.isClicked && muteSoundIcon.checkActive()) {
-//            ins_panel.setRunning(false);
+        if (MouseAction.isClicked && muteSoundIcon.checkActive()) {
             Sound.isMuted = true;
             BombermanGame.menuStartSound.stop();
         }
-        if(MouseAction.isClicked && onSoundIcon.checkActive()) {
-//            ins_panel.setRunning(false);
+        if (MouseAction.isClicked && onSoundIcon.checkActive()) {
+            System.out.println(11);
             Sound.isMuted = false;
             BombermanGame.menuStartSound.play(-1, false);
         }
