@@ -1,20 +1,8 @@
 package uet.oop.bomberman.entities.MovingEntity.Enemy;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.RandomMove;
-import uet.oop.bomberman.graphics.SpriteSheet;
-
-import java.awt.*;
-import java.sql.Time;
-import java.util.Timer;
-import java.util.TimerTask;
-
-
-//Speed 1 (Low) - Smart 1 (Lowest)
 
 public class Balloon extends Enemy {
     public Balloon(int xUnit, int yUnit, int speed, Sprite sprite, boolean wallPass, boolean brickPass, boolean bombPass) {

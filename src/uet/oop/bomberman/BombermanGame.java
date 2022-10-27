@@ -75,17 +75,12 @@ public class BombermanGame extends Application {
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
-        // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT + 96);
         gc = canvas.getGraphicsContext2D();
-        startGame.createNewGame(5);
-        // Tao root container
+        startGame.createNewGame(1);
         Group root = new Group();
         root.getChildren().add(canvas);
-
-        // Tao scene
         Scene scene = new Scene(root);
-        // Them scene vao stage
         stage.setScene(scene);
         stage.show();
         AnimationTimer timer = new AnimationTimer() {
@@ -108,22 +103,14 @@ public class BombermanGame extends Application {
             MouseAction.setMouseCoordinates(event.getX(), event.getY());
             MouseAction.setIsClicked(false);
         });
-        scene.setOnMouseClicked(event -> {
-            MouseAction.setIsClicked(true);
-        });
+        scene.setOnMouseClicked(event -> MouseAction.setIsClicked(true));
 
 
-        scene.setOnKeyPressed(event -> {
-            KeyAction.setKeptKey(String.valueOf(event.getCode()), true);
-        });
+        scene.setOnKeyPressed(event -> KeyAction.setKeptKey(String.valueOf(event.getCode()), true));
 
-        scene.setOnKeyReleased(event -> {
-            KeyAction.setKeptKey(String.valueOf(event.getCode()), false);
-        });
+        scene.setOnKeyReleased(event -> KeyAction.setKeptKey(String.valueOf(event.getCode()), false));
 
-        scene.setOnKeyTyped(event -> {
-            KeyAction.setTypedKey(event.getCharacter(), true);
-        });
+        scene.setOnKeyTyped(event -> KeyAction.setTypedKey(event.getCharacter(), true));
     }
 
     public void update() throws FileNotFoundException {
@@ -144,13 +131,10 @@ public class BombermanGame extends Application {
     }
 
     public void render() throws FileNotFoundException {
-        switch (status) {
-            case 1:
-                startGame.renderGamePlay();
-                break;
-            default:
-                menu.renderMenu();
-                break;
+        if (status == 1) {
+            startGame.renderGamePlay();
+        } else {
+            menu.renderMenu();
         }
     }
 }

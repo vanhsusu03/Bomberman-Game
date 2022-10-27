@@ -14,11 +14,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import static uet.oop.bomberman.graphics.Sprite.DEFAULT_SIZE;
 
-/**
- * ERROR
- */
+
 public class MapLoadFile extends LoadLevel {
     private int width, height;
 
@@ -53,10 +50,10 @@ public class MapLoadFile extends LoadLevel {
         }
     }
     private void createNewMap() {
-        Sprite.grass = new Sprite(DEFAULT_SIZE, 6, 0, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 16, 16);
-        Sprite.brick = new Sprite(DEFAULT_SIZE, 7, 0, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 16, 16);
-        Sprite.wall = new Sprite(DEFAULT_SIZE, 5, 0, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 16, 16);
-        Sprite.bomb = new Sprite(DEFAULT_SIZE, 0, 3, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 15, 15);
+        Sprite.grass = new Sprite(Sprite.DEFAULT_SIZE, 6, 0, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 16, 16);
+        Sprite.brick = new Sprite(Sprite.DEFAULT_SIZE, 7, 0, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 16, 16);
+        Sprite.wall = new Sprite(Sprite.DEFAULT_SIZE, 5, 0, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 16, 16);
+        Sprite.bomb = new Sprite(Sprite.DEFAULT_SIZE, 0, 3, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 15, 15);
         Sprite.bomb_1 = new Sprite(Sprite.DEFAULT_SIZE, 1, 3, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 13, 15);
         Sprite.bomb_2 = new Sprite(Sprite.DEFAULT_SIZE, 2, 3, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 12, 14);
     }
@@ -64,7 +61,7 @@ public class MapLoadFile extends LoadLevel {
     @Override
     public void createMap() {
         Grass.grassImg = Sprite.grass.getFxImage();
-//            bonusItem = new BonusTarget(Sprite.bonus_item_bonus_target);
+//            BonusItem = new BonusTarget(Sprite.bonus_item_bonus_target);
 //             bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
 //            bonusItem = new DezenimanSan(Sprite.bonus_item_dezeniman_san);
 //            bonusItem = new Famicom(Sprite.bonus_item_famicom);
@@ -90,7 +87,7 @@ public class MapLoadFile extends LoadLevel {
                         BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
                         break;
                     case '4':
-                        BombermanGame.movingEntities.add(new Minvo(j, i, 2,Sprite.minvo_right1,false,false,false));
+                        BombermanGame.movingEntities.add(new Minvo(j, i, 1,Sprite.minvo_right1,false,false,true));
                         BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
                         break;
                     case '5':
@@ -98,7 +95,7 @@ public class MapLoadFile extends LoadLevel {
                         BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
                         break;
                     case '6':
-                        BombermanGame.movingEntities.add(new Ovapi(j, i, 2,Sprite.ovapi_right1,false,true,false));
+                        BombermanGame.movingEntities.add(new Ovapi(j, i, 1,Sprite.ovapi_right1,false,true,false));
                         BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
                         break;
                     case '7':

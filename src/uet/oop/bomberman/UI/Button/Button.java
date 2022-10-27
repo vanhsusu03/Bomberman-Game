@@ -3,7 +3,6 @@ package uet.oop.bomberman.UI.Button;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.MouseAction;
-import uet.oop.bomberman.map.MapLoadFile;
 
 public abstract class Button {
     protected int x;
