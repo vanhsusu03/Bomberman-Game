@@ -62,7 +62,7 @@ public class Bomber extends MovingEntity {
             return;
         }
         heart--;
-        if (heart == 0) {
+        if (heart <= 0) {
             isDead = true;
         } else {
             x = Sprite.SCALED_SIZE;

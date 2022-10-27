@@ -12,5 +12,5 @@ public abstract class LoadLevel {
 
     public abstract void inputLevel(int level) throws FileNotFoundException;
 
-    public abstract void createMap();
+    public abstract void createMap(int level);
 }
