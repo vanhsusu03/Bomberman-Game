@@ -4,7 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.ChasingBomberlv1;
 import uet.oop.bomberman.graphics.Sprite;
 
-//Speed 2 (Low) - Smart 3 (Low) - Brick Pass (consider Wall Pass)
+//Speed 2 (Low) - Smart 2 (Low) - Brick Pass
 public class Ovapi extends Enemy {
     public Ovapi(int xUnit, int yUnit, int speed, Sprite sprite, boolean wallPass, boolean brickPass, boolean bombPass) {
         super(xUnit, yUnit, speed, sprite, wallPass, brickPass, bombPass);

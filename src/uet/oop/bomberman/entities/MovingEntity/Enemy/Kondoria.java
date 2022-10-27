@@ -9,7 +9,7 @@ import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.graphics.Sprite;
 
 
-//Speed: 1 (Lowest) - Smart 4 (Highest) - Brick Pass
+//Speed: 1 (Lowest) - Smart 3 (Highest) - Brick Pass, Wall pass
 
 public class Kondoria extends Enemy {
     public Kondoria(int xUnit, int yUnit, int speed, Sprite sprite, boolean wallPass, boolean brickPass, boolean bombPass) {

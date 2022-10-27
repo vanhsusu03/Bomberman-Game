@@ -14,7 +14,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-//Speed 2 (Low) - Smart 1 (Lowest)
+//Speed 1 (Low) - Smart 1 (Lowest)
 
 public class Balloon extends Enemy {
     public Balloon(int xUnit, int yUnit, int speed, Sprite sprite, boolean wallPass, boolean brickPass, boolean bombPass) {
