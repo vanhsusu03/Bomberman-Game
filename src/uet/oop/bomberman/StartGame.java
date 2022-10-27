@@ -5,7 +5,6 @@ import javafx.scene.text.Font;
 import uet.oop.bomberman.UI.Icon.*;
 import uet.oop.bomberman.UI.Panels.*;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.StillEntity.Bomb;
 import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
@@ -15,14 +14,9 @@ import uet.oop.bomberman.map.MapLoadFile;
 
 import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.FilterWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 
 public class StartGame {
 
@@ -42,6 +36,8 @@ public class StartGame {
     private int level;
     private final int maxTime = 210;
 
+    private boolean checkIfHasChanged = false;
+
     public static Font font;
 
     public StartGame() throws FileNotFoundException {
@@ -56,6 +52,7 @@ public class StartGame {
             createPanels();
             createIcons();
             timeKeeper = new Time();
+            checkIfHasChanged = false;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -97,6 +94,10 @@ public class StartGame {
     }
 
     public void updateGamePlay() {
+        if(timeKeeper.countSecond() >= maxTime && !checkIfHasChanged) {
+            map.updateWhenTimeIsUp();
+            checkIfHasChanged = true;
+        }
         if (BombermanGame.bomber.isDead()) {
             if (!lose_panel.getRunning()) {
                 writeScoreToFile();
@@ -160,7 +161,11 @@ public class StartGame {
             }
             control_panel.render();
             ic_pause.render();
-            BombermanGame.gc.fillText(Integer.toString(maxTime - timeKeeper.countSecond()),340,477);
+            if(timeKeeper.countSecond() >= maxTime) {
+                BombermanGame.gc.fillText(Integer.toString(0),340,477);
+            } else {
+                BombermanGame.gc.fillText(Integer.toString(maxTime - timeKeeper.countSecond()), 340, 477);
+            }
             BombermanGame.gc.fillText(Long.toString(BombermanGame.score), 570, 477);
             BombermanGame.gc.fillText(Integer.toString(level), 160, 477);
             BombermanGame.gc.fillText(Integer.toString(BombermanGame.bomber.getHeart()), 790, 477);
