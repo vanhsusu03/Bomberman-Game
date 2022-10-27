@@ -1,5 +1,7 @@
 package uet.oop.bomberman.Sound;
 
+import uet.oop.bomberman.BombermanGame;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -35,5 +37,20 @@ public class Sound {
     public void stop() {
         clip.stop();
         isPlaying = false;
+    }
+
+    public void stopSoundTrack() {
+        BombermanGame.gameOverSound.stop();
+        BombermanGame.menuStartSound.stop();
+        BombermanGame.levelCompleteSound.stop();
+        BombermanGame.stageSound.stop();
+        BombermanGame.stageSound2.stop();
+        BombermanGame.moveUpDownSound.stop();
+        BombermanGame.moveLeftRightSound.stop();
+    }
+
+    public static void stopStageSound() {
+        BombermanGame.stageSound.stop();
+        BombermanGame.stageSound2.stop();
     }
 }

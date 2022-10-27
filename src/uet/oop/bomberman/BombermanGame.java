@@ -64,6 +64,7 @@ public class BombermanGame extends Application {
     public static Sound levelCompleteSound = new Sound("level_complete");
     public static Sound menuStartSound = new Sound("menu_start");
     public static Sound gameOverSound = new Sound("game_over");
+    public static Sound winGameSound = new Sound("win_game");
 
 
     public static int numOfEnemies = 0;
@@ -155,8 +156,7 @@ public class BombermanGame extends Application {
             startGame.updateGamePlay();
             stageSound.play(-1, false);
         } else {
-            stageSound.stop();
-            stageSound2.stop();
+            Sound.stopStageSound();
         }
 
 //        switch (status) {
