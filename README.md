@@ -58,9 +58,9 @@ Các *Item* cũng được giấu phía sau Brick và chỉ hiện ra khi Brick 
 - Khi các Flame xuất hiện, nếu có một đối tượng thuộc loại Brick/Wall nằm trên vị trí một trong các Flame thì độ dài Flame đó sẽ được giảm đi để sao cho Flame chỉ xuất hiện đến vị trí đối tượng Brick/Wall theo hướng xuất hiện. Lúc đó chỉ có đối tượng Brick/Wall bị ảnh hưởng bởi Flame, các đối tượng tiếp theo không bị ảnh hưởng. Còn nếu vật cản Flame là một đối tượng Bomb khác thì đối tượng Bomb đó cũng sẽ nổ ngay lập tức.
 
 ## ***Preview***
-![img.png](img.png)
-![img_2.png](img_2.png)
-![img_1.png](img_1.png)
+![image](https://user-images.githubusercontent.com/113848415/198330196-6d8ba847-fcae-4717-8940-9b2d9b2f2c97.png)
+![image](https://user-images.githubusercontent.com/113848415/198330254-18e54da6-cffd-422d-a9fe-a6e374349b48.png)
+![image](https://user-images.githubusercontent.com/113848415/198330459-5a47bda9-9f0f-4ce9-8369-c76bbbbcc152.png)
 
 ## **Cây thừa kế cho các đối tượng trong game**
 
