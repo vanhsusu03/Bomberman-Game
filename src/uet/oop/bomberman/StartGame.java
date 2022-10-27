@@ -10,11 +10,14 @@ import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
 import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.graphics.SpriteSheet;
 import uet.oop.bomberman.map.MapLoadFile;
 
 import java.awt.event.KeyEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+
+import static uet.oop.bomberman.graphics.Sprite.DEFAULT_SIZE;
 
 public class StartGame {
 
@@ -38,7 +41,7 @@ public class StartGame {
     private int level;
     private int maxTime = 210;
 
-    private Font font = Font.loadFont(new FileInputStream("res/font/alarm_clock.ttf"), 30);
+    private Font font = Font.loadFont(new FileInputStream("res/font/ComicSansMS3.ttf"), 30);
 
     public StartGame() throws FileNotFoundException {
     }
@@ -50,7 +53,7 @@ public class StartGame {
         createPanels();
         createIcons();
         BombermanGame.gc.setFont(font);
-        BombermanGame.gc.setFill(Color.INDIGO);
+        BombermanGame.gc.setFill(Color.GOLD);
         timeKeeper = new Time();
     }
 
