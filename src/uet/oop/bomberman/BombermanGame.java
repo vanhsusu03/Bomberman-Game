@@ -77,7 +77,7 @@ public class BombermanGame extends Application {
     public void start(Stage stage) throws FileNotFoundException {
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT + 96);
         gc = canvas.getGraphicsContext2D();
-        startGame.createNewGame(1);
+        startGame.createNewGame(3);
         Group root = new Group();
         root.getChildren().add(canvas);
         Scene scene = new Scene(root);

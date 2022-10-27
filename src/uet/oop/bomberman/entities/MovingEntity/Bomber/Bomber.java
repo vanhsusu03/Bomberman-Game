@@ -42,7 +42,6 @@ public class Bomber extends MovingEntity {
     private boolean isUsedPortal;
     private final Set<String> outerCirclePositions = new HashSet<>();
 
-
     public Bomber(int xUnit, int yUnit, int speed, Sprite sprite) {
         super(xUnit, yUnit, speed, sprite);
         xGridBomber = xUnit;
