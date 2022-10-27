@@ -5,15 +5,13 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Brick;
-import uet.oop.bomberman.entities.StillEntity.StillEntity;
 import uet.oop.bomberman.entities.StillEntity.Wall;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public class Astar_FindingPath {
+public class AStar_FindingPath {
 
     private int heightRange;
     private int widthRange;
@@ -24,7 +22,7 @@ public class Astar_FindingPath {
 
     private List<Node> pathList = new ArrayList<>();
 
-    public Astar_FindingPath(int heightRange, int widthRange, boolean wallPass, boolean brickPass, boolean bombPass) {
+    public AStar_FindingPath(int heightRange, int widthRange, boolean wallPass, boolean brickPass, boolean bombPass) {
         this.heightRange = heightRange;
         this.widthRange = widthRange;
         this.wallPass = wallPass;
@@ -37,8 +35,8 @@ public class Astar_FindingPath {
         int[][] mapParsed = new int[BombermanGame.HEIGHT][BombermanGame.WIDTH];
         Entity[][] entity = BombermanGame.map;
         List<MovingEntity> moveList = BombermanGame.movingEntities;
-        for (int i = 0; i < moveList.size(); i++) {
-            mapParsed[moveList.get(i).getGridY()][moveList.get(i).getGridX()] = 1;
+        for (MovingEntity movingEntity : moveList) {
+            mapParsed[movingEntity.getYUnit()][movingEntity.getXUnit()] = 1;
         }
         for (int i = 0; i < heightRange; i++) { //height
             for (int j = 0; j < widthRange; j++) { //width
@@ -51,36 +49,36 @@ public class Astar_FindingPath {
             }
         }
         if (wallPass) {
-            for(int i=0;i<heightRange;i++) {
-                for(int j=0;j<widthRange;j++) {
-                    if(entity[i][j] instanceof Wall) {
+            for (int i = 0; i < heightRange; i++) {
+                for (int j = 0; j < widthRange; j++) {
+                    if (entity[i][j] instanceof Wall) {
                         mapParsed[i][j] = 0;
                     }
                 }
             }
         }
         if (brickPass) {
-            for(int i=0;i<heightRange;i++) {
-                for(int j=0;j<widthRange;j++) {
-                    if(entity[i][j] instanceof Brick) {
+            for (int i = 0; i < heightRange; i++) {
+                for (int j = 0; j < widthRange; j++) {
+                    if (entity[i][j] instanceof Brick) {
                         mapParsed[i][j] = 0;
                     }
                 }
             }
         }
         if (!bombPass) {
-            for(int i=0;i<heightRange;i++) {
-                for(int j=0;j<widthRange;j++) {
-                    for(int k = 0 ; k < BombermanGame.bomber.getBombs().size();k++) {
-                        if(BombermanGame.bomber.getBombs().get(k).getGridX() == j
-                        && BombermanGame.bomber.getBombs().get(k).getGridY() == i) {
+            for (int i = 0; i < heightRange; i++) {
+                for (int j = 0; j < widthRange; j++) {
+                    for (int k = 0; k < BombermanGame.bomber.getBombs().size(); k++) {
+                        if (BombermanGame.bomber.getBombs().get(k).getXUnit() == j
+                                && BombermanGame.bomber.getBombs().get(k).getYUnit() == i) {
                             mapParsed[i][j] = 1;
                         }
                     }
                 }
             }
         }
-        mapParsed[Bomber.getyGridBomber()][Bomber.getxGridBomber()] = 0;
+        mapParsed[Bomber.getYGridBomber()][Bomber.getXGridBomber()] = 0;
         return mapParsed;
     }
 
@@ -129,10 +127,10 @@ public class Astar_FindingPath {
                         continue;
                     }
 
-                    //Have a accepted node - still open
+                    //Have accepted node - still open
                     boolean notPassed = true;
-                    for (int i = 0; i < passedNode.size(); i++) {
-                        if (curNode.equals(passedNode.get(i))) {
+                    for (Node node : passedNode) {
+                        if (curNode.equals(node)) {
                             notPassed = false;
                             break;
                         }
@@ -162,8 +160,6 @@ public class Astar_FindingPath {
                                 }
                             }
                             futureNode.clear();
-                            //Must be this - not accept futureNode = new Prq<>(); futureNode.addAll(tmpFuture) why?
-                            //Accepted
                             futureNode = new PriorityQueue<>(tmpFuture);
                             if (!isExist) {
                                 futureNode.offer(newNode);

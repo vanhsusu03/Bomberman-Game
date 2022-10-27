@@ -4,7 +4,6 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
 
-import javax.sql.XADataSource;
 
 public class ChasingBomberlv1 extends RandomMove {
 
@@ -12,7 +11,7 @@ public class ChasingBomberlv1 extends RandomMove {
         super(x, y, speed, wallPass, brickPass, bombPass);
     }
 
-    private final int rangetoChase = 85;
+    private final int rangetoChase = 5;
     private int chaseDirection = 0;
 
     /**
@@ -23,22 +22,22 @@ public class ChasingBomberlv1 extends RandomMove {
      * RETURN 4: Player down.
      */
     private int directFollowChasing() {
-        int Xdistance = x - Bomber.getxGridBomber() * Sprite.SCALED_SIZE;
-        int Ydistance = y - Bomber.getyGridBomber() * Sprite.SCALED_SIZE;
+        int xDistance = x/32 - BombermanGame.bomber.getX()/32;
+        int yDistance = y/32 - BombermanGame.bomber.getY()/32;
         //Player on the left
-        if (Xdistance > 0 && Xdistance < rangetoChase && Ydistance == 0) {
+        if (xDistance > 0 && xDistance < rangetoChase && yDistance == 0) {
             return 1;
         }
         //PLayer on the right
-        if (-Xdistance > 0 && -Xdistance < rangetoChase && Ydistance == 0) {
+        if (-xDistance > 0 && -xDistance < rangetoChase && yDistance == 0) {
             return 2;
         }
         //Player is up
-        if (Xdistance == 0 && Ydistance > 0 && Ydistance < rangetoChase) {
+        if (xDistance == 0 && yDistance > 0 && yDistance < rangetoChase) {
             return 3;
         }
         //Player is down
-        if (Xdistance == 0 && -Ydistance > 0 && -Ydistance < rangetoChase) {
+        if (xDistance == 0 && -yDistance > 0 && -yDistance < rangetoChase) {
             return 4;
         }
         return 0;
@@ -50,22 +49,22 @@ public class ChasingBomberlv1 extends RandomMove {
         }
         switch (chaseDirection) {
             case 1: //Left
-                if (canMoveleft()) {
+                if (canMoveLeft()) {
                     x -= speed;
                     break;
                 }
             case 2: //Right
-                if (canMoveright()) {
+                if (canMoveRight()) {
                     x += speed;
                     break;
                 }
             case 3: //Up
-                if (canMoveup()) {
+                if (canMoveUp()) {
                     y -= speed;
                     break;
                 }
             case 4: //Down
-                if (canMovedown()) {
+                if (canMoveDown()) {
                     y += speed;
                     break;
                 }

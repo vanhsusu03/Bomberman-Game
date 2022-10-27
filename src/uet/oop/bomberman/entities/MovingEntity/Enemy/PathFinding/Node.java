@@ -38,10 +38,6 @@ public class Node implements Comparable<Node> {
         return gCost;
     }
 
-    public int getHcost() {
-        return hCost;
-    }
-
     public int getFcost() {
         return fCost;
     }

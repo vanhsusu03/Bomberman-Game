@@ -4,7 +4,6 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.NakamotoSan;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.entities.Entity;
 public abstract class Enemy extends MovingEntity {
 
     protected boolean wallPass;

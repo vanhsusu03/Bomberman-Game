@@ -1,7 +1,6 @@
 package uet.oop.bomberman.UI.Icon;
 
 import javafx.scene.image.Image;
-import uet.oop.bomberman.MouseAction;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class NextLevel extends Icon{
