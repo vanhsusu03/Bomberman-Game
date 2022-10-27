@@ -20,6 +20,7 @@ public class Balloon extends Enemy {
     public Balloon(int xUnit, int yUnit, int speed, Sprite sprite, boolean wallPass, boolean brickPass, boolean bombPass) {
         super(xUnit, yUnit, speed, sprite, wallPass, brickPass, bombPass);
         img = sprite.getFxImage();
+        score = 1;
     }
 
     RandomMove moveRandom = new RandomMove(x,y,speed, wallPass, brickPass, bombPass);

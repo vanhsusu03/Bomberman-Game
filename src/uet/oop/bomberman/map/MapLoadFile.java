@@ -29,7 +29,7 @@ public class MapLoadFile extends LoadLevel {
 
 
     @Override
-    public void inputLevel(int level) throws FileNotFoundException {
+    public void inputLevel(int level) {
         try {
             File file = new File("res/levels/Level" + Integer.toString(level) + ".txt");
             BufferedReader in = new BufferedReader(new FileReader(file));
@@ -123,7 +123,7 @@ public class MapLoadFile extends LoadLevel {
         }
     }
 
-    public void goNewMap() {
+    public void goNewMap(int level) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 BombermanGame.hiddenEntities[i][j] = null;
@@ -132,6 +132,10 @@ public class MapLoadFile extends LoadLevel {
         BombermanGame.movingEntities.clear();
         Brick.isAnythingDestroyed = false;
         Enemy.isAnyoneKilled = false;
+        if (level == 1) {
+            BombermanGame.score = 0;
+        }
         this.createMap();
+        BombermanGame.bomber.setHeart(3);
     }
 }

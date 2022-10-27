@@ -6,7 +6,7 @@ import uet.oop.bomberman.graphics.Sprite;
 public class BonusTarget extends BonusItem {
     public BonusTarget(Sprite sprite) {
         super(sprite);
-        point = (int) 1e4;
+        point = 100;
     }
 
     public BonusTarget(int xUnit, int yUnit, Sprite sprite) {

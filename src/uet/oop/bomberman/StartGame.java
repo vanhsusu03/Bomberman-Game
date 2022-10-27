@@ -5,6 +5,7 @@ import javafx.scene.text.Font;
 import uet.oop.bomberman.UI.Icon.*;
 import uet.oop.bomberman.UI.Panels.*;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.StillEntity.Bomb;
 import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Item.BonusItem.BonusItem;
@@ -13,8 +14,14 @@ import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.map.MapLoadFile;
 
 import java.awt.event.KeyEvent;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.FilterWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class StartGame {
 
@@ -38,20 +45,23 @@ public class StartGame {
     private int level;
     private int maxTime = 210;
 
-    private Font font = Font.loadFont(new FileInputStream("res/font/alarm_clock.ttf"), 30);
+    public static Font font;
 
     public StartGame() throws FileNotFoundException {
+        font = Font.loadFont(new FileInputStream("res/font/alarm_clock.ttf"), 30);
     }
 
-    public void createNewGame(int level) throws FileNotFoundException {
-        this.level = level;
-        map = new MapLoadFile(level);
-        map.goNewMap();
-        createPanels();
-        createIcons();
-        BombermanGame.gc.setFont(font);
-        BombermanGame.gc.setFill(Color.INDIGO);
-        timeKeeper = new Time();
+    public void createNewGame(int level) {
+        try {
+            this.level = level;
+            map = new MapLoadFile(level);
+            map.goNewMap(level);
+            createPanels();
+            createIcons();
+            timeKeeper = new Time();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateMoveSound() {
@@ -63,8 +73,36 @@ public class StartGame {
         }
     }
 
-    public void updateGamePlay() throws FileNotFoundException {
+    private void writeScoreToFile() {
+        BombermanGame.read3HighestScores();
+        for (int i = 0; i < BombermanGame.top3HighestScores.length; i++) {
+            if (Long.parseLong(BombermanGame.top3HighestScores[i]) < BombermanGame.score) {
+                for (int j = i + 1; j < BombermanGame.top3HighestScores.length; j++) {
+                    BombermanGame.top3HighestScores[j] = BombermanGame.top3HighestScores[j - 1];
+                }
+                BombermanGame.top3HighestScores[i] = String.valueOf(BombermanGame.score);
+                break;
+            }
+        }
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(
+                    new FileWriter(BombermanGame.SCORES_PATH));
+
+            for (int i = 0; i < BombermanGame.top3HighestScores.length; i++) {
+                bufferedWriter.write(BombermanGame.top3HighestScores[i]);
+                bufferedWriter.write("\n");
+            }
+            bufferedWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateGamePlay() {
         if (BombermanGame.bomber.isDead()) {
+            if (!lose_panel.getRunning()) {
+                writeScoreToFile();
+            }
             lose_panel.setRunning(true);
         } else if (BombermanGame.numOfEnemies == 0
                 && BombermanGame.bomber.isUsedPortal() && level < 5) {
@@ -114,7 +152,10 @@ public class StartGame {
             }
             control_panel.render();
             ic_pause.render();
-            BombermanGame.gc.fillText(Integer.toString(maxTime - timeKeeper.countSecond()),365,475);
+            BombermanGame.gc.fillText(Integer.toString(maxTime - timeKeeper.countSecond()),340,477);
+            BombermanGame.gc.fillText(Long.toString(BombermanGame.score), 570, 477);
+            BombermanGame.gc.fillText(Integer.toString(level), 160, 477);
+            BombermanGame.gc.fillText(Integer.toString(BombermanGame.bomber.getHeart()), 790, 477);
             BombermanGame.bomber.getBombs().forEach(bomb -> bomb.render(BombermanGame.gc));
             int n = BombermanGame.movingEntities.size();
             for (int i = 0; i < BombermanGame.movingEntities.size(); i++) {
@@ -144,7 +185,7 @@ public class StartGame {
         ic_nextLevel = new NextLevel(440, 240, Sprite.ic_nextlevel_first);
     }
 
-    private void updatePausedGame() throws FileNotFoundException {
+    private void updatePausedGame() {
         ic_resume.update();
         ic_home.update();
         if (MouseAction.isClicked && ic_resume.checkActive()) {
@@ -156,7 +197,6 @@ public class StartGame {
             BombermanGame.status = 0;
             BombermanGame.menu.setStatus(Menu.MenuStatus.MENU_STATUS);
             BombermanGame.getStartGame().createNewGame(1);
-            return;
         }
     }
 
@@ -187,15 +227,15 @@ public class StartGame {
         ic_home.update();
     }
 
-    private void renderLoseGame() throws FileNotFoundException {
+    private void renderLoseGame() {
         lose_panel.render();
         ic_home.render();
+        BombermanGame.gc.fillText(Long.toString(BombermanGame.score), 445, 225);
         if (MouseAction.isClicked && ic_home.checkActive()) {
             BombermanGame.status = 0;
             lose_panel.setRunning(false);
             BombermanGame.menu.setStatus(Menu.MenuStatus.MENU_STATUS);
             BombermanGame.getStartGame().createNewGame(1);
-            return;
         }
     }
 
@@ -205,14 +245,13 @@ public class StartGame {
         ic_home.update();
     }
 
-    private void renderWinGame() throws FileNotFoundException {
+    private void renderWinGame() {
         winGame_panel.render();
         ic_home.render();
         if (MouseAction.isClicked && ic_home.checkActive()) {
             BombermanGame.status = 0;
             winGame_panel.setRunning(false);
             BombermanGame.getStartGame().createNewGame(1);
-            return;
         }
     }
 }

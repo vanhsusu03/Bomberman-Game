@@ -32,7 +32,10 @@ import java.util.Random;
 import java.util.Set;
 
 public class Bomber extends MovingEntity {
-
+    private int heart;
+    private boolean isImmortal;
+    private static final long DURATION_IMMORTAL = (long) 2e9;
+    private long startTimeImmortal;
     public static int xGridBomber;
     public static int yGridBomber;
     private int flameLength = 1;
@@ -56,6 +59,30 @@ public class Bomber extends MovingEntity {
         super(xUnit, yUnit, speed, sprite);
         xGridBomber = xUnit;
         yGridBomber = yUnit;
+    }
+
+    public int getHeart() {
+        return heart;
+    }
+
+    public void decreaseHeart() {
+        if (isImmortal) {
+            return;
+        }
+        heart--;
+        if (heart == 0) {
+            isDead = true;
+        } else {
+            x = Sprite.SCALED_SIZE;
+            y = Sprite.SCALED_SIZE;
+            isImmortal = true;
+            startTimeImmortal = System.nanoTime();
+            System.out.println(startTimeImmortal);
+        }
+    }
+
+    public void setHeart(int heart) {
+        this.heart = heart;
     }
 
     public static int getxGridBomber() {
@@ -240,7 +267,7 @@ public class Bomber extends MovingEntity {
             if (checkIntersectionWithOtherMovingEntity(movingEntity.getX(), movingEntity.getY(),
                     movingEntity.getX() + movingEntity.getSprite().get_realWidth(),
                     movingEntity.getY() + movingEntity.getSprite().get_realHeight())) {
-                setDead(true);
+                decreaseHeart();
                 return;
             }
         }
@@ -331,6 +358,11 @@ public class Bomber extends MovingEntity {
     public void update() {
         if (isDead) {
             return;
+        }
+
+        if (isImmortal
+                && System.nanoTime() - startTimeImmortal >= DURATION_IMMORTAL) {
+            isImmortal = false;
         }
 
         if (KeyAction.keys[KeyEvent.VK_D]) {

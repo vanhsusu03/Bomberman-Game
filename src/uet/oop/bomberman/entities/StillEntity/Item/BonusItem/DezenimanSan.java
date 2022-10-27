@@ -7,7 +7,7 @@ import uet.oop.bomberman.graphics.Sprite;
 public class DezenimanSan extends BonusItem {
     public DezenimanSan(Sprite sprite) {
         super(sprite);
-        point = (int) 1e6;
+        point = (int) 1e4;
     }
 
     public DezenimanSan(int xUnit, int yUnit, Sprite sprite) {

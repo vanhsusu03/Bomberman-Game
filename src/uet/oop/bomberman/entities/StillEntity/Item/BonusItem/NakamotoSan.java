@@ -7,7 +7,7 @@ import uet.oop.bomberman.graphics.Sprite;
 public class NakamotoSan extends BonusItem {
     public NakamotoSan(Sprite sprite) {
         super(sprite);
-        point = (int) 1e7;
+        point = (int) 2e4;
     }
 
     public NakamotoSan(int xUnit, int yUnit, Sprite sprite) {

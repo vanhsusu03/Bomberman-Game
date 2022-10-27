@@ -6,7 +6,7 @@ import uet.oop.bomberman.graphics.Sprite;
 public class GoddessMask extends BonusItem {
     public GoddessMask(Sprite sprite) {
         super(sprite);
-        point = (int) 2e4;
+        point = (int) 200;
     }
 
     public GoddessMask(int xUnit, int yUnit, Sprite sprite) {

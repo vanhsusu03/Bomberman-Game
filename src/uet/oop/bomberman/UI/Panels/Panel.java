@@ -6,7 +6,7 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.map.MapLoadFile;
 
-public abstract class Panel{
+public abstract class Panel {
 
     protected int x;
     protected int y;
@@ -52,7 +52,7 @@ public abstract class Panel{
     }
 
     public void render() {
-        BombermanGame.gc.drawImage(img, x,y);
+        BombermanGame.gc.drawImage(img, x, y);
     }
 
 }

@@ -2,6 +2,8 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.MovingEntity.Bomber.Bomber;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.Enemy;
 import uet.oop.bomberman.entities.MovingEntity.MovingEntity;
 import uet.oop.bomberman.entities.StillEntity.Bomb;
 import uet.oop.bomberman.entities.StillEntity.Brick;
@@ -51,7 +53,12 @@ public class Flame extends Entity {
         for (MovingEntity movingEntity : BombermanGame.movingEntities) {
             if (checkIntersectionWithMovingEntity(movingEntity)
                     && !movingEntity.isCanPassFlames()) {
-                movingEntity.setDead(true);
+                if (movingEntity instanceof Enemy) {
+                    BombermanGame.score += ((Enemy) movingEntity).getScore();
+                    movingEntity.setDead(true);
+                } else {
+                    ((Bomber) movingEntity).decreaseHeart();
+                }
             }
         }
     }

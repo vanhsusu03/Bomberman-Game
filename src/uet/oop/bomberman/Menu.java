@@ -1,6 +1,8 @@
 package uet.oop.bomberman;
 
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.UI.Button.StartGame;
 import uet.oop.bomberman.UI.Button.*;
@@ -8,8 +10,13 @@ import uet.oop.bomberman.UI.Icon.Back;
 import uet.oop.bomberman.UI.Icon.MuteSound;
 import uet.oop.bomberman.UI.Icon.OnSound;
 import uet.oop.bomberman.UI.Panels.HighSc;
+import uet.oop.bomberman.entities.StillEntity.Bomb;
 import uet.oop.bomberman.graphics.Sprite;
 import javafx.application.Platform;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class Menu {
 
@@ -35,6 +42,7 @@ public class Menu {
 
     private MuteSound muteSoundIcon;
     private OnSound onSoundIcon;
+    public static Font font;
 
     public Menu() {
         menuBackGr = Sprite.backgr_menu;
@@ -54,16 +62,24 @@ public class Menu {
         muteSoundIcon = new MuteSound(530, 290, Sprite.ic_mutesound_first);
         onSoundIcon = new OnSound(600, 290, Sprite.ic_onsound_first);
         status = MenuStatus.MENU_STATUS;
+        try {
+            font = Font.loadFont(new FileInputStream("res/font/score.ttf"), 50);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setStatus(MenuStatus status) {
         this.status = status;
     }
 
+
+
     public void updateMenu() {
         if(status == MenuStatus.MENU_STATUS) {
             if (startButton.checkActive() && MouseAction.isClicked) {
                 status = MenuStatus.START_GAME;
+                BombermanGame.startGame.createNewGame(1);
                 BombermanGame.status = 1;
                 return;
             } else if (insButton.checkActive() && MouseAction.isClicked) {
@@ -72,6 +88,7 @@ public class Menu {
             } else if (highscButton.checkActive() && MouseAction.isClicked) {
                 status = MenuStatus.HIGHSC;
                 highsc_panel.setRunning(true);
+                BombermanGame.read3HighestScores();
             } else if (optsButton.checkActive() && MouseAction.isClicked) {
                 status = MenuStatus.OPTIONS;
                 opts_panel.setRunning(true);
@@ -207,6 +224,9 @@ public class Menu {
     private void renderHighSc() {
         highsc_panel.render();
         backIconHighSc.render();
+        for (int i = 0; i < BombermanGame.top3HighestScores.length; i++) {
+            BombermanGame.gc.fillText(BombermanGame.top3HighestScores[i], 400, 231 + 87 * i);
+        }
     }
 
     private void updateCredits() {
