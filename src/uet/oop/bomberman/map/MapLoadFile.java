@@ -72,10 +72,10 @@ public class MapLoadFile extends LoadLevel {
                 BombermanGame.bonusItem = new BonusTarget(Sprite.bonus_item_bonus_target);
                 break;
             case 2:
-                BombermanGame.bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
+                BombermanGame.bonusItem = new DezenimanSan(Sprite.bonus_item_dezeniman_san);
                 break;
             case 3:
-                BombermanGame.bonusItem = new DezenimanSan(Sprite.bonus_item_dezeniman_san);
+                BombermanGame.bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
                 break;
             case 4:
                 BombermanGame.bonusItem = new Famicom(Sprite.bonus_item_famicom);
