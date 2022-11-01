@@ -22,13 +22,13 @@ public class ChasingBomberlv1 extends RandomMove {
      * RETURN 4: Player down.
      */
     private int directFollowChasing() {
-        int xDistance = x / 32 - BombermanGame.bomber.getX() / 32;
-        int yDistance = y / 32 - BombermanGame.bomber.getY() / 32;
+        int xDistance = x/Sprite.SCALED_SIZE - BombermanGame.bomber.getXUnit();
+        int yDistance = y/Sprite.SCALED_SIZE - BombermanGame.bomber.getYUnit();
         //Player on the left
         if (xDistance > 0 && xDistance < rangetoChase && yDistance == 0) {
             return 1;
         }
-        //PLayer on the right
+        //Player on the right
         if (-xDistance > 0 && -xDistance < rangetoChase && yDistance == 0) {
             return 2;
         }
@@ -47,36 +47,40 @@ public class ChasingBomberlv1 extends RandomMove {
      * Find path.
      */
     public void moveChasingChangeslv1() {
-        if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
-            chaseDirection = directFollowChasing();
-        }
         switch (chaseDirection) {
             case 1: //Left
                 if (canMoveLeft()) {
                     x -= speed;
                     break;
                 }
+                break;
             case 2: //Right
                 if (canMoveRight()) {
                     x += speed;
                     break;
                 }
+                break;
             case 3: //Up
                 if (canMoveUp()) {
                     y -= speed;
                     break;
                 }
+                break;
             case 4: //Down
                 if (canMoveDown()) {
                     y += speed;
                     break;
                 }
+                break;
             default:
                 updateRandomMove();
         }
     }
 
     public void updateChasingMoveLv1() {
+        if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
+            chaseDirection = directFollowChasing();
+        }
         moveChasingChangeslv1();
     }
 }

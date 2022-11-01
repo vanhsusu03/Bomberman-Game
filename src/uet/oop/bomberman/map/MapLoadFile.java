@@ -110,7 +110,7 @@ public class MapLoadFile extends LoadLevel {
                         BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
                         break;
                     case '5':
-                        BombermanGame.movingEntities.add(new Kondoria(j, i, 1,Sprite.kondoria_right1,true, true,false));
+                        BombermanGame.movingEntities.add(new Kondoria(j, i, 1,Sprite.kondoria_right1,false, true,false));
                         BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
                         break;
                     case '6':
@@ -118,11 +118,11 @@ public class MapLoadFile extends LoadLevel {
                         BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
                         break;
                     case '7':
-                        BombermanGame.movingEntities.add(new Pass(j, i, 1,Sprite.pass_right1,true, true, true));
+                        BombermanGame.movingEntities.add(new Pass(j, i, 1,Sprite.pass_right1,false, true, true));
                         BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
                         break;
                     case '8':
-                        BombermanGame.movingEntities.add(new Pontan(j, i, 2,Sprite.pontan_right1,true,false,false));
+                        BombermanGame.movingEntities.add(new Pontan(j, i, 1,Sprite.pontan_right1,false,false,false));
                         BombermanGame.map[i][j] = new Grass(j,i,Sprite.grass);
                         break;
                     case 'b':
@@ -190,6 +190,7 @@ public class MapLoadFile extends LoadLevel {
         createNewMap();
         createMap(level);
         BombermanGame.bomber.setHeart(3);
+        //BombermanGame.bomber.setDead(false);
     }
 
     public void updateWhenTimeIsUp() {

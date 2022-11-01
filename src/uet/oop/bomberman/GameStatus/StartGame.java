@@ -116,6 +116,7 @@ public class StartGame {
                 writeScoreToFile();
             }
             lose_panel.setRunning(true);
+            System.out.println(lose_panel.getRunning());
         } else if (BombermanGame.numOfEnemies == 0
                 && BombermanGame.bomber.isUsedPortal() && level < BombermanGame.MAX_LEVEL) {
             completed_level_panel.setRunning(true);

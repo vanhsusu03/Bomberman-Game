@@ -14,6 +14,7 @@ public abstract class Entity {
     private final static int MAX_FRAME_COUNT = (int) 1e9;
     protected int speed;
     protected int frameCount;
+    protected boolean hasChangedFrame = false;
     protected Sprite sprite;
     protected Image img;
 

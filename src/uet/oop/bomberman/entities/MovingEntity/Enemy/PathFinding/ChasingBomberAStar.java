@@ -15,6 +15,7 @@ public class ChasingBomberAStar extends RandomMove {
     AStar_FindingPath astar_findingPath = new AStar_FindingPath(BombermanGame.HEIGHT, BombermanGame.WIDTH, wallPass, brickPass, bombPass);
     List<Node> path = new ArrayList<>();
 
+
     /**
      * Call A*.
      */
