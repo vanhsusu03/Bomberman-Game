@@ -1,5 +1,7 @@
 # ***Bomberman Game - Kì 22-23I, INT2204 20, Nhóm TH 3, nhóm 9***
 
+## ***Link video demo: https://youtu.be/NicebgR15PU***
+
 ## **Thông tin thành viên**
 + Dương Nguyễn Việt Anh - K66CD - 21020273 - Trưởng nhóm
 + Trương Quang Đạt - K66CD - 21020758
@@ -56,8 +58,6 @@ Các *Item* cũng được giấu phía sau Brick và chỉ hiện ra khi Brick 
 
 - Khi Bomb nổ, một Flame trung tâm![](res/sprites/bomb_exploded.png) tại vị trí Bomb nổ và bốn Flame tại bốn vị trí ô đơn vị xung quanh vị trí của Bomb xuất hiện theo bốn hướng trên![](res/sprites/explosion_vertical.png)/dưới![](res/sprites/explosion_vertical.png)/trái![](res/sprites/explosion_horizontal.png)/phải![](res/sprites/explosion_horizontal.png). Độ dài bốn Flame xung quanh mặc định là 1 đơn vị, được tăng lên khi Bomber sử dụng các FlameItem.
 - Khi các Flame xuất hiện, nếu có một đối tượng thuộc loại Brick/Wall nằm trên vị trí một trong các Flame thì độ dài Flame đó sẽ được giảm đi để sao cho Flame chỉ xuất hiện đến vị trí đối tượng Brick/Wall theo hướng xuất hiện. Lúc đó chỉ có đối tượng Brick/Wall bị ảnh hưởng bởi Flame, các đối tượng tiếp theo không bị ảnh hưởng. Còn nếu vật cản Flame là một đối tượng Bomb khác thì đối tượng Bomb đó cũng sẽ nổ ngay lập tức.
-
-## ***Link video demo: https://youtu.be/NicebgR15PU***
 
 ## ***Preview***
 ![image](https://user-images.githubusercontent.com/113848415/198330196-6d8ba847-fcae-4717-8940-9b2d9b2f2c97.png)
