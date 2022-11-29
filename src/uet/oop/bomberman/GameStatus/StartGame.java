@@ -82,7 +82,7 @@ public class StartGame {
         BombermanGame.read3HighestScores();
         for (int i = 0; i < BombermanGame.top3HighestScores.length; i++) {
             if (Long.parseLong(BombermanGame.top3HighestScores[i]) < BombermanGame.score) {
-                for (int j = i + 1; j < BombermanGame.top3HighestScores.length; j++) {
+                for (int j = BombermanGame.top3HighestScores.length - 1; j > i; j--) {
                     BombermanGame.top3HighestScores[j] = BombermanGame.top3HighestScores[j - 1];
                 }
                 BombermanGame.top3HighestScores[i] = String.valueOf(BombermanGame.score);

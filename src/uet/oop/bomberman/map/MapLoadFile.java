@@ -62,10 +62,11 @@ public class MapLoadFile extends LoadLevel {
             e.printStackTrace();
         }
     }
-
+    
     /**
      * Create new map.
      */
+
     private void createNewMap() {
         Sprite.grass = new Sprite(Sprite.DEFAULT_SIZE, 6, 0, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 16, 16);
         Sprite.brick = new Sprite(Sprite.DEFAULT_SIZE, 7, 0, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 16, 16);
@@ -88,10 +89,10 @@ public class MapLoadFile extends LoadLevel {
                 BombermanGame.bonusItem = new BonusTarget(Sprite.bonus_item_bonus_target);
                 break;
             case 2:
-                BombermanGame.bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
+                BombermanGame.bonusItem = new DezenimanSan(Sprite.bonus_item_dezeniman_san);
                 break;
             case 3:
-                BombermanGame.bonusItem = new DezenimanSan(Sprite.bonus_item_dezeniman_san);
+                BombermanGame.bonusItem = new NakamotoSan(Sprite.bonus_item_nakamoto_san);
                 break;
             case 4:
                 BombermanGame.bonusItem = new Famicom(Sprite.bonus_item_famicom);
@@ -126,7 +127,7 @@ public class MapLoadFile extends LoadLevel {
                         BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                         break;
                     case '5':
-                        BombermanGame.movingEntities.add(new Kondoria(j, i, 1, Sprite.kondoria_right1, true, true, false));
+                        BombermanGame.movingEntities.add(new Kondoria(j, i, 1, Sprite.kondoria_right1, false, true, false));
                         BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                         break;
                     case '6':
@@ -134,11 +135,11 @@ public class MapLoadFile extends LoadLevel {
                         BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                         break;
                     case '7':
-                        BombermanGame.movingEntities.add(new Pass(j, i, 1, Sprite.pass_right1, true, true, true));
+                        BombermanGame.movingEntities.add(new Pass(j, i, 1, Sprite.pass_right1, false, true, true));
                         BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                         break;
                     case '8':
-                        BombermanGame.movingEntities.add(new Pontan(j, i, 2, Sprite.pontan_right1, true, false, false));
+                        BombermanGame.movingEntities.add(new Pontan(j, i, 1, Sprite.pontan_right1, false, false, false));
                         BombermanGame.map[i][j] = new Grass(j, i, Sprite.grass);
                         break;
                     case 'b':
@@ -211,6 +212,7 @@ public class MapLoadFile extends LoadLevel {
         createNewMap();
         createMap(level);
         BombermanGame.bomber.setHeart(3);
+        //BombermanGame.bomber.setDead(false);
     }
 
     /**
@@ -219,7 +221,7 @@ public class MapLoadFile extends LoadLevel {
     public void updateWhenTimeIsUp() {
         for (int i = 0; i < BombermanGame.movingEntities.size(); i++) {
             if (BombermanGame.movingEntities.get(i) instanceof Enemy) {
-                BombermanGame.movingEntities.set(i, new Pontan(BombermanGame.movingEntities.get(i).getXUnit(), BombermanGame.movingEntities.get(i).getYUnit(), 2, Sprite.pontan_right1, true, false, false));
+                BombermanGame.movingEntities.set(i, new Pontan(BombermanGame.movingEntities.get(i).getXUnit(), BombermanGame.movingEntities.get(i).getYUnit(), 1, Sprite.pontan_right1, false, true, false));
             }
         }
     }

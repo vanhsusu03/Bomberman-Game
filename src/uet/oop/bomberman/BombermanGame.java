@@ -139,10 +139,10 @@ public class BombermanGame extends Application {
             gc.setFont(StartGame.font);
             gc.setFill(Color.GOLD);
             stageSound.play(-1, false);
+            //System.out.println(bomber.isDead());
         } else {
             Sound.stopStageSound();
         }
-
     }
 
     /**
@@ -161,6 +161,7 @@ public class BombermanGame extends Application {
     }
 
     public void render() throws FileNotFoundException {
+
         if (status == 1) {
             startGame.renderGamePlay();
         } else {

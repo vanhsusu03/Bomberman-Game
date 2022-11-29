@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.MovingEntity.Enemy;
 
 import javafx.scene.canvas.GraphicsContext;
+import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.ChasingBomberAStar;
 import uet.oop.bomberman.entities.MovingEntity.Enemy.PathFinding.ChasingBomberlv1;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -38,10 +39,15 @@ public class Ovapi extends Enemy {
     @Override
     public void render(GraphicsContext gc) {
         if (isDead) {
+            if(!hasChangedFrame) {
+                frameCount = 0;
+            }
+            hasChangedFrame = true;
             sprite = Sprite.movingSprite(Sprite.ovapi_dead, Sprite.mob_dead1,
                     Sprite.mob_dead2, Sprite.mob_dead3,
                     frameCount, TIME_MOVING_DEAD_SPRITE);
             img = sprite.getFxImage();
+            ChasingBomberlv1.setSpeed(0);
         }
         gc.drawImage(img, ChasingBomberlv1.getX(), ChasingBomberlv1.getY());
         removeEnemyIfDeathAnimationEnds();

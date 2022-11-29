@@ -39,10 +39,15 @@ public class Pass extends Enemy {
     @Override
     public void render(GraphicsContext gc) {
         if (isDead) {
+            if(!hasChangedFrame) {
+                frameCount = 0;
+            }
+            hasChangedFrame = true;
             sprite = Sprite.movingSprite(Sprite.pass_dead, Sprite.mob_dead1,
                     Sprite.mob_dead2, Sprite.mob_dead3,
                     frameCount, TIME_MOVING_DEAD_SPRITE);
             img = sprite.getFxImage();
+            chasingBomberAStar.setSpeed(0);
         }
         gc.drawImage(img, chasingBomberAStar.getX(), chasingBomberAStar.getY());
         removeEnemyIfDeathAnimationEnds();

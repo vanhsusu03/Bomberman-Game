@@ -12,6 +12,7 @@ public abstract class Entity {
     protected int y;
     protected int speed;
     protected int frameCount;
+    protected boolean hasChangedFrame = false;
     protected Sprite sprite;
     protected Image img;
 

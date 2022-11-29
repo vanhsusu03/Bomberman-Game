@@ -102,7 +102,6 @@ public class Bomber extends MovingEntity {
             y = Sprite.SCALED_SIZE;
             isImmortal = true;
             startTimeImmortal = System.nanoTime();
-            System.out.println(startTimeImmortal);
         }
     }
 
