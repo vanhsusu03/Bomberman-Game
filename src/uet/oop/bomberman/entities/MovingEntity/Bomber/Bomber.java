@@ -32,31 +32,64 @@ import java.util.Random;
 import java.util.Set;
 
 public class Bomber extends MovingEntity {
-    private int heart;
-    private boolean isImmortal;
     private static final long DURATION_IMMORTAL = (long) 2e9;
-    private long startTimeImmortal;
     public static int xGridBomber;
     public static int yGridBomber;
-    private int flameLength = 1;
     private final List<Bomb> bombs = new ArrayList<>();
+    private final Set<String> outerCirclePositions = new HashSet<>();
+    // Number of lifes.
+    private int heart;
+    private boolean isImmortal;
+    private long startTimeImmortal;
+    private int flameLength = 1;
     private int maxNumberOfBombs = 1;
     private boolean isCanDetonateOldestBomb;
     private boolean isUsedPortal;
-    private final Set<String> outerCirclePositions = new HashSet<>();
 
-
+    /**
+     * Initialize bomber.
+     */
     public Bomber(int xUnit, int yUnit, int speed, Sprite sprite) {
         super(xUnit, yUnit, speed, sprite);
         xGridBomber = xUnit;
         yGridBomber = yUnit;
     }
 
+    /**
+     * Get x grid of bomber.
+     */
+    public static int getXGridBomber() {
+        return xGridBomber;
+    }
 
+    /**
+     * Get y grid of bomber.
+     */
+    public static int getYGridBomber() {
+        return yGridBomber;
+    }
+
+    /**
+     * Get number of hearts of bomber.
+     *
+     * @return number of hearts
+     */
     public int getHeart() {
         return heart;
     }
 
+    /**
+     * Set number of hearts of bomber.
+     *
+     * @param heart number of hearts need to set
+     */
+    public void setHeart(int heart) {
+        this.heart = heart;
+    }
+
+    /**
+     * Hearts decrease 1.
+     */
     public void decreaseHeart() {
         if (isImmortal) {
             return;
@@ -72,27 +105,29 @@ public class Bomber extends MovingEntity {
         }
     }
 
-    public void setHeart(int heart) {
-        this.heart = heart;
-    }
-
-    public static int getXGridBomber() {
-        return xGridBomber;
-    }
-
-    public static int getYGridBomber() {
-        return yGridBomber;
-    }
-
-
+    /**
+     * Get bombs list.
+     *
+     * @return a unmodifiable bombs list
+     */
     public List<Bomb> getBombs() {
         return Collections.unmodifiableList(bombs);
     }
 
+    /**
+     * Remove a element bomb in bomb list.
+     *
+     * @param bomb bomb need to be removed
+     */
     public void removeAElementInBombs(Bomb bomb) {
         bombs.remove(bomb);
     }
 
+    /**
+     * Get the length of flame.
+     *
+     * @return length of flame
+     */
     public int getFlameLength() {
         return flameLength;
     }
@@ -152,6 +187,11 @@ public class Bomber extends MovingEntity {
         }
     }
 
+    /**
+     * Bomber is alone or not.
+     *
+     * @return true if bomber is alone otherwise false
+     */
     public boolean isAloneInMap() {
         return BombermanGame.movingEntities.size() == 1
                 && BombermanGame.movingEntities.get(0) instanceof Bomber;
@@ -200,10 +240,18 @@ public class Bomber extends MovingEntity {
         isUsedPortal = true;
     }
 
+    /**
+     * Bomber used portal or not.
+     *
+     * @return status use portal
+     */
     public boolean isUsedPortal() {
         return isUsedPortal;
     }
 
+    /**
+     * Update movement and put bomb.
+     */
     @Override
     public void move() {
         if (KeyAction.keys[KeyEvent.VK_UP]) {
@@ -246,6 +294,7 @@ public class Bomber extends MovingEntity {
         }
     }
 
+    /** Death of bomber, play sound. */
     public void death() {
         BombermanGame.bomberDeathSound.play(0, false);
     }
@@ -345,6 +394,7 @@ public class Bomber extends MovingEntity {
         }
     }
 
+    /** Update status of bomber. */
     @Override
     public void update() {
         if (isDead) {
@@ -383,6 +433,11 @@ public class Bomber extends MovingEntity {
         yGridBomber = y / Sprite.SCALED_SIZE;
     }
 
+    /**
+     * Render bomber.
+     *
+     * @param gc graphics context
+     */
     @Override
     public void render(GraphicsContext gc) {
         if (isDead) {

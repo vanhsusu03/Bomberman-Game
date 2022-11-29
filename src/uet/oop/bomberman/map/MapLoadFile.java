@@ -25,11 +25,20 @@ public class MapLoadFile extends LoadLevel {
 
     private char[][] readMap;
 
+    /**
+     * Load level from file.
+     *
+     * @param level update level
+     */
     public MapLoadFile(int level) throws FileNotFoundException {
         super(level);
     }
 
-
+    /**
+     * Initialize map level.
+     *
+     * @param level update level
+     */
     @Override
     public void inputLevel(int level) {
         try {
@@ -53,6 +62,10 @@ public class MapLoadFile extends LoadLevel {
             e.printStackTrace();
         }
     }
+    
+    /**
+     * Create new map.
+     */
 
     private void createNewMap() {
         Sprite.grass = new Sprite(Sprite.DEFAULT_SIZE, 6, 0, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 16, 16);
@@ -63,6 +76,11 @@ public class MapLoadFile extends LoadLevel {
         Sprite.bomb_2 = new Sprite(Sprite.DEFAULT_SIZE, 2, 3, new SpriteSheet("/textures/classic" + this.level + ".png", 256), 12, 14);
     }
 
+    /**
+     * Create map level and entities.
+     *
+     * @param level update level
+     */
     @Override
     public void createMap(int level) {
         Grass.grassImg = Sprite.grass.getFxImage();
@@ -173,6 +191,11 @@ public class MapLoadFile extends LoadLevel {
         }
     }
 
+    /**
+     * Initialize new map for each level.
+     *
+     * @param level update new level
+     */
     public void goNewMap(int level) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -192,6 +215,9 @@ public class MapLoadFile extends LoadLevel {
         //BombermanGame.bomber.setDead(false);
     }
 
+    /**
+     * Update when time is up.
+     */
     public void updateWhenTimeIsUp() {
         for (int i = 0; i < BombermanGame.movingEntities.size(); i++) {
             if (BombermanGame.movingEntities.get(i) instanceof Enemy) {

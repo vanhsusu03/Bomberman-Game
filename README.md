@@ -1,9 +1,11 @@
 # ***Bomberman Game - Kì 22-23I, INT2204 20, Nhóm TH 3, nhóm 9***
 
+## ***Link video demo: https://youtu.be/NicebgR15PU***
+
 ## **Thông tin thành viên**
-+ Dương Nguyễn Việt Anh - K66CD
-+ Trương Quang Đạt - K66CD
-+ Hoàng Văn Nguyên - K66CD
++ Dương Nguyễn Việt Anh - K66CD - 21020273 - Trưởng nhóm
++ Trương Quang Đạt - K66CD - 21020758
++ Hoàng Văn Nguyên - K66CD - 21020370
 
 ## **Mô tả dự án**
 ### ***Giới thiệu dự án***
